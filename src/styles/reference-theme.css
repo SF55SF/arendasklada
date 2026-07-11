@@ -1505,3 +1505,736 @@ select {
   pointer-events: auto !important;
 }
 /* ARENDASKLADA_MAP_STATUS_PALETTE_END */
+
+/* ARENDASKLADA_MAP_CARD_HOVER_START */
+.catalog-map-panel .hero-yandex-point .hero-point-number {
+  width: 34px !important;
+  height: 34px !important;
+  border: 3px solid rgba(255,255,255,.9) !important;
+  border-radius: 50% !important;
+}
+
+.catalog-map-panel .hero-yandex-point.is-ready .hero-point-number {
+  background: #4f8a68 !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 7px rgba(79,138,104,.20), 0 8px 20px rgba(17,45,50,.22) !important;
+}
+
+.catalog-map-panel .hero-yandex-point.is-building .hero-point-number {
+  background: #e5b84b !important;
+  color: #112d32 !important;
+  box-shadow: 0 0 0 7px rgba(229,184,75,.23), 0 8px 20px rgba(17,45,50,.20) !important;
+}
+
+.catalog-map-panel .hero-yandex-point:not(:hover):not(:focus):not(:focus-within) .hero-point-card {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(6px) scale(.98) !important;
+}
+
+.catalog-map-panel .hero-yandex-point:hover .hero-point-card,
+.catalog-map-panel .hero-yandex-point:focus .hero-point-card,
+.catalog-map-panel .hero-yandex-point:focus-within .hero-point-card {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+.catalog-map-panel .hero-point-card {
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease !important;
+}
+
+.catalog-results-panel .warehouse-card.is-map-hovered {
+  position: relative;
+  z-index: 8;
+  transform: translateY(-5px) scale(1.012) !important;
+  border-color: rgba(127,32,40,.45) !important;
+  box-shadow: 0 26px 48px rgba(19,25,54,.22), 0 0 0 3px rgba(127,32,40,.12) !important;
+}
+/* ARENDASKLADA_MAP_CARD_HOVER_END */
+
+/* ARENDASKLADA_REAL_MAP_MINI_CARD_START */
+.hero-yandex-map.is-yandex-ready .hero-map-fallback,
+.hero-yandex-map.is-leaflet-ready .hero-map-fallback {
+  display: none !important;
+}
+
+.map-mini-card {
+  display: grid;
+  gap: 2px;
+  width: max-content;
+  max-width: 165px;
+  padding: 7px 9px;
+  color: #112d32;
+  font-family: Roboto, Arial, sans-serif;
+  line-height: 1.16;
+}
+
+.map-mini-card strong {
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.map-mini-card span {
+  color: #5b6d70;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.map-mini-card b {
+  color: #254e58;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.ymaps-2-1-79-hint,
+.ymaps-2-1-79-hint__text {
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+  box-shadow: 0 8px 22px rgba(17, 45, 50, 0.18) !important;
+}
+
+.ymaps-2-1-79-hint__text {
+  padding: 0 !important;
+}
+
+.leaflet-object-icon {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.leaflet-status-dot {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 3px solid rgba(255,255,255,.92);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 0 0 6px rgba(79,138,104,.18), 0 7px 16px rgba(17,45,50,.24);
+}
+
+.leaflet-status-dot.is-ready {
+  background: #4f8a68;
+}
+
+.leaflet-status-dot.is-building {
+  background: #e5b84b;
+  color: #112d32;
+  box-shadow: 0 0 0 6px rgba(229,184,75,.22), 0 7px 16px rgba(17,45,50,.22);
+}
+
+.leaflet-tooltip.leaflet-mini-tooltip {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+  box-shadow: 0 8px 22px rgba(17,45,50,.18) !important;
+}
+
+.leaflet-tooltip.leaflet-mini-tooltip::before {
+  border-top-color: #fff !important;
+}
+
+.catalog-map-panel .hero-point-card {
+  width: max-content !important;
+  min-width: 125px !important;
+  max-width: 165px !important;
+  padding: 7px 9px !important;
+  border-radius: 9px !important;
+  box-shadow: 0 8px 22px rgba(17,45,50,.18) !important;
+}
+
+.catalog-map-panel .hero-point-card strong {
+  overflow: hidden;
+  font-size: 11px !important;
+  line-height: 1.15 !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.catalog-map-panel .hero-point-card small,
+.catalog-map-panel .hero-point-card b {
+  font-size: 9px !important;
+  line-height: 1.15 !important;
+}
+
+.catalog-results-panel .warehouse-card.is-map-hovered {
+  position: relative;
+  z-index: 9;
+  transform: translateY(-4px) scale(1.012) !important;
+  border-color: rgba(79,138,104,.55) !important;
+  box-shadow: 0 24px 46px rgba(17,45,50,.20), 0 0 0 3px rgba(79,138,104,.14) !important;
+}
+/* ARENDASKLADA_REAL_MAP_MINI_CARD_END */
+
+
+
+/* ARENDASKLADA_FOOTER_COMPACT_ALIGN_START */
+.site-footer,
+footer.site-footer,
+body footer {
+  padding: 22px 0 !important;
+}
+
+.site-footer > .container,
+footer.site-footer > .container,
+body footer > .container {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: var(--site-side-gutter, clamp(20px, 4vw, 64px)) !important;
+  padding-right: var(--site-side-gutter, clamp(20px, 4vw, 64px)) !important;
+}
+
+.site-footer .footer-grid,
+.site-footer .footer-layout,
+.site-footer .three-col,
+footer .footer-grid,
+footer .footer-layout,
+footer .three-col {
+  display: grid !important;
+  grid-template-columns: minmax(300px, 1.45fr) minmax(170px, 0.75fr) minmax(220px, 0.95fr) !important;
+  gap: 18px 42px !important;
+  align-items: start !important;
+}
+
+.site-footer .footer-grid > *,
+.site-footer .footer-layout > *,
+.site-footer .three-col > *,
+footer .footer-grid > *,
+footer .footer-layout > *,
+footer .three-col > * {
+  align-self: start !important;
+  justify-self: start !important;
+}
+
+.site-footer p,
+.site-footer a,
+.site-footer li,
+.site-footer span,
+.site-footer small,
+footer p,
+footer a,
+footer li,
+footer span,
+footer small {
+  font-size: clamp(11px, 0.78vw, 13px) !important;
+  line-height: 1.42 !important;
+}
+
+.site-footer h2,
+.site-footer h3,
+.site-footer h4,
+.site-footer .footer-title,
+footer h2,
+footer h3,
+footer h4,
+footer .footer-title {
+  font-size: clamp(12px, 0.88vw, 14px) !important;
+  line-height: 1.22 !important;
+  margin-bottom: 10px !important;
+}
+
+.site-footer .brand-row,
+.site-footer .footer-brand,
+footer .brand-row,
+footer .footer-brand {
+  margin-bottom: 10px !important;
+}
+
+.site-footer .brand-row a,
+.site-footer .footer-brand a,
+footer .brand-row a,
+footer .footer-brand a {
+  font-size: clamp(13px, 0.96vw, 16px) !important;
+  font-weight: 700 !important;
+}
+
+.site-footer .footer-nav,
+.site-footer nav ul,
+footer .footer-nav,
+footer nav ul {
+  display: grid !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.site-footer .footer-contacts,
+.site-footer .contact-list,
+footer .footer-contacts,
+footer .contact-list {
+  display: grid !important;
+  gap: 12px !important;
+  justify-items: start !important;
+}
+
+.site-footer .footer-contacts a,
+.site-footer .contact-list a,
+footer .footer-contacts a,
+footer .contact-list a {
+  text-align: left !important;
+}
+
+.site-footer .social-floating,
+.site-footer .social-dock,
+footer .social-floating,
+footer .social-dock {
+  transform: scale(0.82) !important;
+  transform-origin: left top !important;
+  margin-top: 6px !important;
+}
+
+@media (max-width: 980px) {
+  .site-footer .footer-grid,
+  .site-footer .footer-layout,
+  .site-footer .three-col,
+  footer .footer-grid,
+  footer .footer-layout,
+  footer .three-col {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .site-footer,
+  footer.site-footer,
+  body footer {
+    padding: 18px 0 !important;
+  }
+}
+/* ARENDASKLADA_FOOTER_COMPACT_ALIGN_END */
+
+
+
+
+
+
+
+/* ARENDASKLADA_NAV_CONTACTS_ALIGN_START */
+html { scroll-behavior: smooth; }
+
+:root {
+  --catalog-scroll-offset: 18px;
+}
+
+#catalog-section,
+.catalog-section,
+.catalog-layout,
+.catalog-shell,
+[data-catalog-section] {
+  scroll-margin-top: var(--catalog-scroll-offset) !important;
+}
+
+#contacts,
+.contact-section,
+.contacts-section,
+[data-contact-section] {
+  scroll-margin-top: 18px !important;
+}
+
+footer .container,
+.site-footer .container,
+footer > .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding-left: var(--site-side-gutter, clamp(20px, 4vw, 64px)) !important;
+  padding-right: 24px !important;
+  box-sizing: border-box !important;
+}
+
+footer p,
+.site-footer p {
+  text-wrap: pretty;
+}
+
+footer .footer-description,
+footer .footer-copy,
+footer .footer-about,
+.site-footer .footer-description,
+.site-footer .footer-copy,
+.site-footer .footer-about,
+footer .container > div:first-child p,
+.site-footer .container > div:first-child p {
+  max-width: 640px !important;
+  text-align: justify !important;
+}
+
+@media (max-width: 1100px) {
+  footer .container,
+  .site-footer .container,
+  footer > .container {
+    padding-right: var(--site-side-gutter, 20px) !important;
+  }
+}
+/* ARENDASKLADA_NAV_CONTACTS_ALIGN_END */
+
+/* ARENDASKLADA_EXACT_NAV_FOOTER_START */
+html {
+  scroll-behavior: smooth !important;
+}
+
+#warehouses {
+  scroll-margin-top: 72px !important;
+}
+
+#contacts {
+  scroll-margin-top: 72px !important;
+}
+
+/* Одинаковые внешние границы у формы контактов и футера */
+body .contact-section > .container.two-col,
+body .site-footer > .container.footer-grid {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: var(--site-side-gutter, clamp(20px, 4vw, 64px)) !important;
+  padding-right: 24px !important;
+  box-sizing: border-box !important;
+}
+
+body .site-footer > .container.footer-grid {
+  display: grid !important;
+  grid-template-columns: minmax(360px, 1.45fr) minmax(180px, .65fr) minmax(250px, .8fr) !important;
+  column-gap: clamp(36px, 5vw, 90px) !important;
+  align-items: start !important;
+}
+
+body .site-footer > .container.footer-grid > div:first-child {
+  width: 100% !important;
+  max-width: 720px !important;
+}
+
+body .site-footer > .container.footer-grid > div:first-child p {
+  width: 100% !important;
+  max-width: none !important;
+  margin-right: 0 !important;
+  text-align: justify !important;
+  text-align-last: left !important;
+}
+
+body .site-footer .footer-nav {
+  justify-self: start !important;
+}
+
+body .site-footer .footer-contact {
+  justify-self: end !important;
+  width: max-content !important;
+  text-align: left !important;
+}
+
+@media (max-width: 900px) {
+  #warehouses,
+  #contacts {
+    scroll-margin-top: 64px !important;
+  }
+
+  body .contact-section > .container.two-col,
+  body .site-footer > .container.footer-grid {
+    padding-left: var(--site-side-gutter, 16px) !important;
+    padding-right: var(--site-side-gutter, 16px) !important;
+  }
+
+  body .site-footer > .container.footer-grid {
+    grid-template-columns: 1fr !important;
+    row-gap: 18px !important;
+  }
+
+  body .site-footer .footer-contact {
+    justify-self: start !important;
+  }
+}
+/* ARENDASKLADA_EXACT_NAV_FOOTER_END */
+
+/* ARENDASKLADA_CARD_FINAL_V2_START */
+.catalog-results-panel .warehouse-card.warehouse-card--final {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  aspect-ratio: 3 / 4 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(17,45,50,.12) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 14px 32px rgba(17,45,50,.14) !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-media {
+  display: block !important;
+  flex: 0 0 50% !important;
+  width: 100% !important;
+  height: 50% !important;
+  min-height: 0 !important;
+  max-height: 50% !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  background: #dce9e7 !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-media img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-content {
+  display: flex !important;
+  flex: 1 1 50% !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 50% !important;
+  min-height: 0 !important;
+  max-height: 50% !important;
+  padding: 14px 18px 14px !important;
+  overflow: hidden !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final h3 {
+  flex: 0 0 auto !important;
+  min-height: 2.08em !important;
+  margin: 0 0 9px !important;
+  color: #131936 !important;
+  font-size: clamp(19px, 1.55vw, 25px) !important;
+  font-weight: 800 !important;
+  line-height: 1.04 !important;
+  letter-spacing: -.025em !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final h3 a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 6px 13px !important;
+  border: 1px solid rgba(17,45,50,.12) !important;
+  border-radius: 15px !important;
+  background: linear-gradient(180deg,#f7f7f8 0%,#f0f1f3 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85) !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final > div {
+  display: grid !important;
+  grid-template-columns: max-content minmax(0,1fr) !important;
+  align-items: baseline !important;
+  column-gap: 9px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 7px 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final > div + div {
+  border-top: 1px solid rgba(17,45,50,.10) !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final dt,
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final dd {
+  display: block !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #131936 !important;
+  font-size: clamp(12px,.92vw,15px) !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final dt {
+  font-weight: 800 !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final dd {
+  font-weight: 400 !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final small {
+  display: block !important;
+  margin-top: 2px !important;
+  color: rgba(19,25,54,.62) !important;
+  font-size: 10px !important;
+  line-height: 1.15 !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-actions {
+  display: block !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  padding-top: 9px !important;
+}
+
+.catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-actions .button {
+  width: 100% !important;
+  min-height: 40px !important;
+  padding: 9px 12px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+}
+
+@media (max-width: 640px) {
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-content {
+    padding: 12px 14px 12px !important;
+  }
+
+  .catalog-results-panel .warehouse-card.warehouse-card--final h3 {
+    margin-bottom: 7px !important;
+    font-size: 18px !important;
+  }
+
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final {
+    padding: 4px 11px !important;
+    border-radius: 13px !important;
+  }
+
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final > div {
+    column-gap: 7px !important;
+    padding: 6px 0 !important;
+  }
+
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final dt,
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final dd {
+    font-size: 12px !important;
+  }
+
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-specs--final small {
+    font-size: 9px !important;
+  }
+
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-actions {
+    padding-top: 7px !important;
+  }
+
+  .catalog-results-panel .warehouse-card.warehouse-card--final .warehouse-card-actions .button {
+    min-height: 36px !important;
+    padding: 7px 10px !important;
+  }
+}
+/* ARENDASKLADA_CARD_FINAL_V2_END */
+
+/* ARENDASKLADA_ROBOTO_START */
+html,
+body,
+button,
+input,
+textarea,
+select,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+li,
+dt,
+dd,
+label,
+small {
+  font-family: 'Roboto', Arial, sans-serif !important;
+}
+/* ARENDASKLADA_ROBOTO_END */
+
+/* ARENDASKLADA_CARD_TEXT_70_ALIGN_START */
+/* Уменьшение текста карточки примерно на 30% */
+.catalog-results-panel .warehouse-card h3,
+.catalog-results-panel [data-property-card] h3 {
+  margin: 0 0 8px !important;
+  font-size: clamp(14px, 1.2vw, 19px) !important;
+  line-height: 1.06 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.catalog-results-panel .warehouse-card-specs dt,
+.catalog-results-panel [data-property-card] .warehouse-card-specs dt {
+  font-size: clamp(10px, .75vw, 12px) !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+}
+
+.catalog-results-panel .warehouse-card-specs dd,
+.catalog-results-panel [data-property-card] .warehouse-card-specs dd {
+  font-size: clamp(10px, .78vw, 12px) !important;
+  line-height: 1.2 !important;
+  font-weight: 400 !important;
+}
+
+.catalog-results-panel .warehouse-card-specs small,
+.catalog-results-panel [data-property-card] .warehouse-card-specs small {
+  font-size: 9px !important;
+  line-height: 1.15 !important;
+}
+
+.catalog-results-panel .warehouse-card-actions .button,
+.catalog-results-panel [data-property-card] .warehouse-card-actions .button {
+  min-height: 36px !important;
+  padding: 8px 12px !important;
+  font-size: 10px !important;
+}
+
+/* Текст параметров начинается на одной линии с названием */
+.catalog-results-panel .warehouse-card-content,
+.catalog-results-panel [data-property-card] .warehouse-card-content {
+  --card-info-indent: 16px;
+}
+
+.catalog-results-panel .warehouse-card-specs,
+.catalog-results-panel [data-property-card] .warehouse-card-specs {
+  width: calc(100% + (var(--card-info-indent) * 2)) !important;
+  margin-left: calc(var(--card-info-indent) * -1) !important;
+  margin-right: calc(var(--card-info-indent) * -1) !important;
+  padding-left: var(--card-info-indent) !important;
+  padding-right: var(--card-info-indent) !important;
+  box-sizing: border-box !important;
+}
+
+.catalog-results-panel .warehouse-card-specs > div,
+.catalog-results-panel [data-property-card] .warehouse-card-specs > div {
+  min-height: 0 !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  column-gap: 7px !important;
+}
+
+@media (max-width: 640px) {
+  .catalog-results-panel .warehouse-card-content,
+  .catalog-results-panel [data-property-card] .warehouse-card-content {
+    --card-info-indent: 14px;
+  }
+
+  .catalog-results-panel .warehouse-card h3,
+  .catalog-results-panel [data-property-card] h3 {
+    font-size: 14px !important;
+  }
+
+  .catalog-results-panel .warehouse-card-specs dt,
+  .catalog-results-panel .warehouse-card-specs dd,
+  .catalog-results-panel [data-property-card] .warehouse-card-specs dt,
+  .catalog-results-panel [data-property-card] .warehouse-card-specs dd {
+    font-size: 10px !important;
+  }
+}
+/* ARENDASKLADA_CARD_TEXT_70_ALIGN_END */

@@ -5,37 +5,28 @@ import { getWarehouseUrl } from '../lib/warehouses';
 import { relativePath } from '../lib/paths';
 
 const { warehouse, index } = Astro.props as { warehouse: WarehouseEntry; index: number };
-
 const currentPath = Astro.url.pathname;
 const data = warehouse.data;
-const cleanLeaseType = data.leaseType.replace(/["“”]/g, '').trim();
-const leaseTypeLines = /\s+аренда$/i.test(cleanLeaseType) ? [cleanLeaseType.replace(/\s+аренда$/i, ''), 'аренда'] : [cleanLeaseType];
-
 const detailUrl = relativePath(getWarehouseUrl(warehouse), currentPath);
 const mainImage = relativePath(data.mainImage, currentPath);
+
 const contactSource = readFileSync('src/components/Contact.astro', 'utf8');
 const telegramHref = contactSource.match(/ARENDASKLADA_MARKER_TELEGRAM[\s\S]*?href="([^"]+)"/)?.[1] ?? '';
 const hasTelegram = /^https?:\/\/(?:t\.me|telegram\.me)\//i.test(telegramHref) && !/REPLACE_ME/i.test(telegramHref);
 
 const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data.propertyType} ${data.area} ${data.temperatureMode} ${data.leaseType} ${data.ready}`;
-
 const displayTitle = data.title.replace(/^Логистический центр\s*[—-]\s*/i, '');
-const rawPrice = data.price.trim();
+const rawPrice = String(data.price ?? '').trim();
 const priceNumber = rawPrice.match(/\d+(?:[.,]\d+)?/)?.[0];
 const rentRate = rawPrice.toLowerCase() === 'по запросу' || !priceNumber
   ? 'По запросу'
   : `от $ ${priceNumber} за м²`;
-const displayReady = data.ready.trim().toLowerCase() === 'действующий'
-  ? 'Действующий' : data.ready;
-const displayLeaseType = data.leaseType
-  .replace(/["“”]/g, '')
-  .trim()
-  .replace(/^Сухая аренда$/i, 'Сухая\nаренда')
-  .replace(/^Стеллажная аренда$/i, 'Стеллажная\nаренда');
+const readyText = String(data.ready ?? '').trim().toLowerCase();
+const displayReady = readyText.includes('стро') ? 'Строящийся' : 'Действующий';
 ---
 
 <article
-  class="warehouse-card"
+  class="warehouse-card warehouse-card--final"
   id={`object-${data.pageSlug}`}
   data-property-card
   data-title={data.title}
@@ -58,10 +49,10 @@ const displayLeaseType = data.leaseType
       aria-label="Открыть Telegram"
       title="Открыть Telegram"
     >
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M6.7 3.8c.4-.4 1-.5 1.5-.2l2.1 1.2c.5.3.7.9.5 1.4l-.9 2c-.2.5-.1 1 .2 1.4l1.8 1.9 1.9 1.8c.4.3.9.4 1.4.2l2-.9c.5-.2 1.1 0 1.4.5l1.2 2.1c.3.5.2 1.1-.2 1.5l-1 1c-.8.8-2 1.1-3.1.8-2.6-.7-5.1-2.2-7.4-4.5S4.3 9.2 3.6 6.6c-.3-1.1 0-2.3.8-3.1l1-1Z" />
       </svg>
-  </a>
+    </a>
   )}
 
   <a class="warehouse-card-media" href={detailUrl} aria-label={`Открыть ${data.title}`}>
@@ -69,30 +60,20 @@ const displayLeaseType = data.leaseType
   </a>
 
   <div class="warehouse-card-content">
-    <h3>
-      <a href={detailUrl}>{displayTitle}</a>
-    </h3>
+    <h3><a href={detailUrl}>{displayTitle}</a></h3>
 
-    <dl class="warehouse-card-specs">
+    <dl class="warehouse-card-specs warehouse-card-specs--final">
       <div>
-        <dt>Площадь</dt>
+        <dt>Площадь:</dt>
         <dd>{data.area.toLocaleString('ru-RU')} м²</dd>
       </div>
-
       <div>
-        <dt>Тип аренды</dt>
-        <dd class="warehouse-card-lease-value">{leaseTypeLines.map((line) => <span>{line}</span>)}</dd>
+        <dt>Ставка аренды:</dt>
+        <dd>{rentRate}<small>не включая НДС и эксплуатацию</small></dd>
       </div>
-
-      <div class="warehouse-card-rate">
-        <dt>Ставка аренды</dt>
-        <dd>{rentRate}</dd>
-        <small>не включая НДС и эксплуатацию</small>
-      </div>
-
       <div>
-        <dt>Готовность</dt>
-        <dd class="warehouse-card-ready-value">{displayReady}</dd>
+        <dt>Готовность:</dt>
+        <dd>{displayReady}</dd>
       </div>
     </dl>
 

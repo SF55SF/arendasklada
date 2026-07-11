@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeFilterValues = null;
   let yandexMapsPromise = null;
+  
+
 
   const normalizeText = (value) => String(value || '').trim().toLowerCase();
 
@@ -183,17 +185,52 @@ document.addEventListener('DOMContentLoaded', () => {
     sorted.forEach((element) => container.appendChild(element));
   };
 
+  /* ARENDASKLADA_MAP_CARD_SYNC_START */
+  let highlightedMapCard = null;
+
+  const clearMapCardHighlight = () => {
+    if (highlightedMapCard) {
+      highlightedMapCard.classList.remove('is-map-hovered');
+      highlightedMapCard = null;
+    }
+  };
+
+  const highlightPropertyCard = (order) => {
+    clearMapCardHighlight();
+
+    const card = Array.from(document.querySelectorAll('[data-property-card]')).find(
+      (item) => String(item.getAttribute('data-order') || '') === String(order || '')
+    );
+
+    if (card) {
+      card.classList.add('is-map-hovered');
+      highlightedMapCard = card;
+    }
+  };
+
   const updateYandexMaps = (values) => {
     document.querySelectorAll('[data-yandex-map]').forEach((mapNode) => {
       const mapState = mapNode.__arendaYandexMap;
 
-      if (!mapState?.objectManager) {
-        return;
+      if (mapState?.objectManager) {
+        mapState.objectManager.setFilter((object) => matchesSource(object.properties || {}, values));
       }
 
-      mapState.objectManager.setFilter((object) => matchesSource(object.properties || {}, values));
+      if (mapState?.leafletMap && Array.isArray(mapState.leafletMarkers)) {
+        mapState.leafletMarkers.forEach(({ marker, source }) => {
+          const shouldShow = matchesSource(source, values);
+          const isVisible = mapState.leafletMap.hasLayer(marker);
+
+          if (shouldShow && !isVisible) {
+            marker.addTo(mapState.leafletMap);
+          } else if (!shouldShow && isVisible) {
+            mapState.leafletMap.removeLayer(marker);
+          }
+        });
+      }
     });
   };
+  /* ARENDASKLADA_MAP_CARD_SYNC_END */
 
   const applyPropertyFilters = () => {
     const values = getFilterValues();
@@ -328,14 +365,49 @@ document.addEventListener('DOMContentLoaded', () => {
     return yandexMapsPromise;
   };
 
-  const initYandexMap = async (mapNode) => {
-    const pointNodes = Array.from(mapNode.querySelectorAll('[data-yandex-point]'));
+  /* ARENDASKLADA_MAP_HOVER_RESTORE_START */
+  let leafletMapsPromise = null;
 
-    if (!pointNodes.length) {
-      return;
+  const loadLeafletMaps = () => {
+    if (window.L) {
+      return Promise.resolve(window.L);
     }
 
-    const points = pointNodes
+    if (leafletMapsPromise) {
+      return leafletMapsPromise;
+    }
+
+    leafletMapsPromise = new Promise((resolve, reject) => {
+      if (!document.querySelector('link[data-arendasklada-leaflet]')) {
+        const stylesheet = document.createElement('link');
+        stylesheet.rel = 'stylesheet';
+        stylesheet.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        stylesheet.setAttribute('data-arendasklada-leaflet', '');
+        document.head.appendChild(stylesheet);
+      }
+
+      const existingScript = document.querySelector('script[data-arendasklada-leaflet]');
+
+      if (existingScript) {
+        existingScript.addEventListener('load', () => resolve(window.L), { once: true });
+        existingScript.addEventListener('error', reject, { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.async = true;
+      script.setAttribute('data-arendasklada-leaflet', '');
+      script.onload = () => window.L ? resolve(window.L) : reject(new Error('Leaflet is unavailable'));
+      script.onerror = () => reject(new Error('Leaflet failed to load'));
+      document.head.appendChild(script);
+    });
+
+    return leafletMapsPromise;
+  };
+
+  const getMapPoints = (mapNode) =>
+    Array.from(mapNode.querySelectorAll('[data-yandex-point]'))
       .map((point, index) => {
         const lat = Number(point.getAttribute('data-lat'));
         const lng = Number(point.getAttribute('data-lng'));
@@ -345,17 +417,103 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const source = getSourceFromElement(point);
-        const url = point.getAttribute('data-url') || point.getAttribute('href') || '#';
 
         return {
           ...source,
           id: point.getAttribute('data-order') || String(index + 1),
           lat,
           lng,
-          url,
         };
       })
       .filter(Boolean);
+
+  const getMarkerColor = (availability) =>
+    normalizeText(availability).includes('строящ') ? '#e5b84b' : '#4f8a68';
+
+  const getMiniCardHtml = (point) => `
+    <div class="map-mini-card">
+      <strong>${escapeHtml(point.title)}</strong>
+      <span>${escapeHtml(point.area)} м² · ${escapeHtml(point.leaseType)}</span>
+      <b>${escapeHtml(point.availability)}</b>
+    </div>
+  `;
+
+  const initLeafletFallback = async (mapNode, points) => {
+    const L = await loadLeafletMaps();
+    const centerLat = Number(mapNode.getAttribute('data-center-lat') || points[0].lat);
+    const centerLng = Number(mapNode.getAttribute('data-center-lng') || points[0].lng);
+    const zoom = Number(mapNode.getAttribute('data-zoom') || 11);
+
+    mapNode.innerHTML = '';
+
+    const map = L.map(mapNode, {
+      center: [centerLat, centerLng],
+      zoom,
+      zoomControl: true,
+      scrollWheelZoom: false,
+      attributionControl: true,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap',
+    }).addTo(map);
+
+    const leafletMarkers = points.map((point, index) => {
+      const isBuilding = normalizeText(point.availability).includes('строящ');
+      const marker = L.marker([point.lat, point.lng], {
+        icon: L.divIcon({
+          className: 'leaflet-object-icon',
+          html: `<span class="leaflet-status-dot ${isBuilding ? 'is-building' : 'is-ready'}">${index + 1}</span>`,
+          iconSize: [34, 34],
+          iconAnchor: [17, 17],
+        }),
+        keyboard: true,
+        riseOnHover: true,
+      });
+
+      marker.bindTooltip(getMiniCardHtml(point), {
+        direction: 'top',
+        offset: [0, -14],
+        opacity: 1,
+        className: 'leaflet-mini-tooltip',
+      });
+
+      marker.on('mouseover focus', () => {
+        highlightPropertyCard(point.order || point.id);
+        marker.openTooltip();
+      });
+
+      marker.on('mouseout blur', () => {
+        clearMapCardHighlight();
+        marker.closeTooltip();
+      });
+
+      marker.on('click', (event) => {
+        event.originalEvent?.preventDefault?.();
+        marker.openTooltip();
+      });
+
+      marker.addTo(map);
+      return { marker, source: point };
+    });
+
+    if (leafletMarkers.length > 1) {
+      map.fitBounds(
+        leafletMarkers.map(({ marker }) => marker.getLatLng()),
+        { padding: [46, 46], maxZoom: 13 }
+      );
+    }
+
+    mapNode.__arendaYandexMap = { leafletMap: map, leafletMarkers };
+    mapNode.classList.add('is-leaflet-ready');
+    updateYandexMaps(activeFilterValues || getFilterValues());
+
+    window.setTimeout(() => map.invalidateSize(), 100);
+  };
+
+  const initYandexMap = async (mapNode) => {
+    const points = getMapPoints(mapNode);
 
     if (!points.length) {
       return;
@@ -387,8 +545,14 @@ document.addEventListener('DOMContentLoaded', () => {
         gridSize: 64,
       });
 
-      objectManager.objects.options.set('preset', 'islands#circleDotIcon');
-      objectManager.clusters.options.set('preset', 'islands#orangeClusterIcons');
+      objectManager.objects.options.set({
+        preset: 'islands#circleDotIcon',
+        hasBalloon: false,
+        openBalloonOnClick: false,
+        openHintOnHover: true,
+      });
+
+      objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
 
       objectManager.add({
         type: 'FeatureCollection',
@@ -399,14 +563,12 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'Point',
             coordinates: [point.lat, point.lng],
           },
-          // ARENDASKLADA_MAP_STATUS_COLORS_START
           options: {
             preset: 'islands#circleDotIcon',
-            iconColor: String(point.availability || '').toLowerCase().includes('стро')
-              ? '#e5b84b'
-              : '#4f8a68',
+            iconColor: getMarkerColor(point.availability),
+            hasBalloon: false,
+            openBalloonOnClick: false,
           },
-          // ARENDASKLADA_MAP_STATUS_COLORS_END
           properties: {
             title: point.title,
             city: point.city,
@@ -418,60 +580,26 @@ document.addEventListener('DOMContentLoaded', () => {
             area: point.area,
             order: point.order,
             search: point.search,
-            hintContent: `
-              <div class="ymap-card">
-                <strong>${escapeHtml(point.title)}</strong>
-                <span>${escapeHtml(point.district)}</span>
-                <b>${escapeHtml(point.area)} м² · ${escapeHtml(point.availability)}</b>
-                <em>${escapeHtml(point.temperature)} · ${escapeHtml(point.leaseType)}</em>
-              </div>
-            `,
-            balloonContent: `
-              <div class="ymap-card">
-                <strong>${escapeHtml(point.title)}</strong>
-                <span>${escapeHtml(point.city)}, ${escapeHtml(point.district)}</span>
-                <b>${escapeHtml(point.area)} м² · ${escapeHtml(point.availability)}</b>
-                <em>${escapeHtml(point.temperature)} · ${escapeHtml(point.leaseType)}</em>
-                <a href="${escapeHtml(point.url)}">Подробнее</a>
-              </div>
-            `,
+            hintContent: getMiniCardHtml(point),
           },
         })),
       });
 
       map.geoObjects.add(objectManager);
 
-      let balloonCloseTimer = 0;
-
-      const cancelBalloonClose = () => {
-        if (balloonCloseTimer) {
-          window.clearTimeout(balloonCloseTimer);
-          balloonCloseTimer = 0;
-        }
-      };
-
-      const closeBalloonSoon = () => {
-        cancelBalloonClose();
-        balloonCloseTimer = window.setTimeout(() => {
-          objectManager.objects.balloon.close();
-          balloonCloseTimer = 0;
-        }, 140);
-      };
-
       objectManager.objects.events.add('mouseenter', (event) => {
-        cancelBalloonClose();
         const objectId = event.get('objectId');
-        objectManager.objects.balloon.open(objectId);
+        const object = objectManager.objects.getById(objectId);
+        highlightPropertyCard(object?.properties?.order ?? objectId);
       });
 
-      objectManager.objects.events.add('mouseleave', closeBalloonSoon);
-      objectManager.objects.balloon.events?.add('mouseenter', cancelBalloonClose);
-      objectManager.objects.balloon.events?.add('mouseleave', closeBalloonSoon);
-      mapNode.addEventListener('mouseleave', closeBalloonSoon);
+      objectManager.objects.events.add('mouseleave', clearMapCardHighlight);
+      objectManager.objects.events.add('click', (event) => {
+        event.preventDefault?.();
+      });
 
       mapNode.__arendaYandexMap = { map, objectManager };
       mapNode.classList.add('is-yandex-ready');
-
       updateYandexMaps(activeFilterValues || getFilterValues());
 
       if (points.length > 1) {
@@ -485,10 +613,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     } catch (error) {
-      mapNode.classList.add('is-yandex-fallback');
-      console.warn(error);
+      console.warn('Yandex Maps unavailable, switching to OpenStreetMap:', error);
+
+      try {
+        await initLeafletFallback(mapNode, points);
+      } catch (leafletError) {
+        mapNode.classList.add('is-yandex-fallback');
+        console.warn('OpenStreetMap fallback unavailable:', leafletError);
+      }
     }
   };
+
+  document.querySelectorAll('[data-property-marker]').forEach((marker) => {
+    const activate = () => highlightPropertyCard(marker.getAttribute('data-order'));
+
+    marker.addEventListener('click', (event) => event.preventDefault());
+    marker.addEventListener('pointerenter', activate);
+    marker.addEventListener('pointerleave', clearMapCardHighlight);
+    marker.addEventListener('focusin', activate);
+    marker.addEventListener('focusout', clearMapCardHighlight);
+  });
+  /* ARENDASKLADA_MAP_HOVER_RESTORE_END */
 
   document.querySelectorAll('[data-yandex-map]').forEach((mapNode) => {
     initYandexMap(mapNode);

@@ -149,11 +149,16 @@ const structuredData = {
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     ></script>
-  </head>
+  <!-- ARENDASKLADA_ROBOTO_START -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<!-- ARENDASKLADA_ROBOTO_END -->
+</head>
 
   <body>
     <slot />
 
     <script is:inline src={siteScript} defer></script>
-  </body>
+</body>
 </html>
