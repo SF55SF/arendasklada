@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     availability: element.getAttribute('data-availability') || '',
     temperature: element.getAttribute('data-temperature') || '',
     leaseType: element.getAttribute('data-lease-type') || '',
+    price: element.getAttribute('data-price') || '',
     area: Number(element.getAttribute('data-area') || 0),
     order: Number(element.getAttribute('data-order') || 0),
     search: element.getAttribute('data-search') || '',
@@ -205,6 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (card) {
       card.classList.add('is-map-hovered');
       highlightedMapCard = card;
+      /* MAP_PANEL_SCROLL_START */
+      const p=card.closest('.catalog-results-panel');
+      if(p instanceof HTMLElement){const pr=p.getBoundingClientRect(),cr=card.getBoundingClientRect();p.scrollTo({top:Math.max(0,p.scrollTop+cr.top-pr.top-(p.clientHeight-card.offsetHeight)/2),behavior:'smooth'})}
+      /* MAP_PANEL_SCROLL_END */
     }
   };
 
@@ -428,13 +433,43 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter(Boolean);
 
   const getMarkerColor = (availability) =>
-    normalizeText(availability).includes('строящ') ? '#e5b84b' : '#4f8a68';
+    normalizeText(availability).includes('стро') ? '#f2c94c' : '#2f9e5b';
+
+  const getMarkerPreset = (availability) =>
+    normalizeText(availability).includes('стро')
+      ? 'islands#yellowCircleDotIcon'
+      : 'islands#greenCircleDotIcon';
+
+  const formatMapTitle = (value) =>
+    String(value || '').replace(/^Логистический центр\s*[—-]\s*/i, '').trim();
+
+  const formatMapArea = (value) => {
+    const number = Number(value || 0);
+    return Number.isFinite(number) ? number.toLocaleString('ru-RU') : String(value || '');
+  };
+
+  const formatMapRent = (value) => {
+    const raw = String(value || '').trim();
+    const priceNumber = raw.match(/\d+(?:[.,]\d+)?/)?.[0];
+
+    if (normalizeText(raw) === 'по запросу' || !priceNumber) {
+      return 'По запросу';
+    }
+
+    return `от $ ${priceNumber} за м²`;
+  };
+
+  const formatMapReady = (value) =>
+    normalizeText(value).includes('стро') ? 'Строящийся' : 'Действующий';
 
   const getMiniCardHtml = (point) => `
     <div class="map-mini-card">
-      <strong>${escapeHtml(point.title)}</strong>
-      <span>${escapeHtml(point.area)} м² · ${escapeHtml(point.leaseType)}</span>
-      <b>${escapeHtml(point.availability)}</b>
+      <strong class="map-mini-card__title">${escapeHtml(formatMapTitle(point.title))}</strong>
+      <div class="map-mini-card__specs">
+        <div class="map-mini-card__row"><b>Площадь:</b><span>${escapeHtml(formatMapArea(point.area))} м²</span></div>
+        <div class="map-mini-card__row"><b>Ставка аренды:</b><span>${escapeHtml(formatMapRent(point.price))}</span></div>
+        <div class="map-mini-card__row"><b>Готовность:</b><span>${escapeHtml(formatMapReady(point.availability))}</span></div>
+      </div>
     </div>
   `;
 
@@ -539,6 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
 
       map.behaviors.disable('scrollZoom');
+      if(typeof map.setType==='function')map.setType('yandex#map');
 
       const objectManager = new ymaps.ObjectManager({
         clusterize: true,
@@ -546,7 +582,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       objectManager.objects.options.set({
-        preset: 'islands#circleDotIcon',
         hasBalloon: false,
         openBalloonOnClick: false,
         openHintOnHover: true,
@@ -564,7 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
             coordinates: [point.lat, point.lng],
           },
           options: {
-            preset: 'islands#circleDotIcon',
+            preset: getMarkerPreset(point.availability),
             iconColor: getMarkerColor(point.availability),
             hasBalloon: false,
             openBalloonOnClick: false,
@@ -791,5 +826,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   /* ARENDASKLADA_AUTO_CLOSE_POPOVERS_END */
+
+  
+  /* MAP_STABLE_HOVER_START */
+  const linkedMarker=(o,on)=>{const v=String(o||'');if(!v)return;document.querySelectorAll('[data-property-marker],.leaflet-status-dot,.yandex-status-dot').forEach(m=>{if(String(m.getAttribute('data-order')||'')===v)m.classList.toggle('is-card-hovered',on)})};
+  document.querySelectorAll('[data-property-card]').forEach(c=>{const o=c.getAttribute('data-order'),on=()=>linkedMarker(o,true),off=()=>linkedMarker(o,false);c.addEventListener('pointerenter',on);c.addEventListener('pointerleave',off);c.addEventListener('focusin',on);c.addEventListener('focusout',off)});
+  /* MAP_STABLE_HOVER_END */
 
 });

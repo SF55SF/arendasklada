@@ -2506,3 +2506,121 @@ small {
   }
 }
 /* ARENDASKLADA_NAV_VISUAL_ALIGN_END */
+
+/* ARENDASKLADA_MAP_STATUS_CARD_START */
+.map-mini-card {
+  width: 220px;
+  padding: 12px;
+  border: 1px solid rgba(19, 25, 54, .32);
+  border-radius: 12px;
+  background: #fff;
+  color: #131936;
+  box-shadow: 0 14px 34px rgba(19, 25, 54, .2);
+  font-family: "Roboto", Arial, sans-serif !important;
+  pointer-events: none;
+}
+
+.map-mini-card__title {
+  display: block;
+  margin: 0 0 10px;
+  color: #131936;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.map-mini-card__specs {
+  display: grid;
+  gap: 0;
+  padding: 7px 10px;
+  border: 1px solid #e0e3e8;
+  border-radius: 11px;
+  background: #f4f5f7;
+}
+
+.map-mini-card__row {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px solid #d9dde3;
+  color: #131936;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.map-mini-card__row:last-child {
+  border-bottom: 0;
+}
+
+.map-mini-card__row b {
+  font-weight: 800;
+}
+
+.map-mini-card__row span {
+  min-width: 0;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+.leaflet-mini-tooltip {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.leaflet-mini-tooltip::before {
+  display: none !important;
+}
+
+[class*="ymaps-"][class*="-hint__text"]:has(.map-mini-card) {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.leaflet-status-dot.is-ready,
+.catalog-static-map .hero-yandex-point.is-ready .hero-point-number {
+  border-color: #fff !important;
+  background: #2f9e5b !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 6px rgba(47, 158, 91, .22), 0 8px 20px rgba(19, 25, 54, .22) !important;
+}
+
+.leaflet-status-dot.is-building,
+.catalog-static-map .hero-yandex-point.is-building .hero-point-number {
+  border-color: #fff !important;
+  background: #f2c94c !important;
+  color: #131936 !important;
+  box-shadow: 0 0 0 6px rgba(242, 201, 76, .28), 0 8px 20px rgba(19, 25, 54, .2) !important;
+}
+/* ARENDASKLADA_MAP_STATUS_CARD_END */
+
+/* ARENDASKLADA_HEADER_CONTACTS_RIGHT_START */
+@media (min-width: 901px) {
+  .site-header .header-contacts {
+    position: absolute !important;
+    top: 50% !important;
+    right: 18px !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    text-align: right !important;
+    margin: 0 !important;
+  }
+}
+/* ARENDASKLADA_HEADER_CONTACTS_RIGHT_END */
+
+/* MAP_LINK_CSS_START */
+.map-mini-card,.map-mini-card *{color:#000!important}.map-mini-card{width:286px!important;padding:16px!important;border-radius:16px!important}.map-mini-card__title{font-size:21px!important;margin-bottom:13px!important}.map-mini-card__specs{padding:9px 13px!important}.map-mini-card__row{font-size:14px!important;padding:7px 0!important}.catalog-results-panel,.catalog-results-panel .warehouse-list{overflow:visible!important}.catalog-results-panel [data-property-card]{position:relative!important;transform-origin:center!important;transition:transform .22s ease,box-shadow .22s ease!important}.catalog-results-panel [data-property-card].is-map-hovered{z-index:80!important;transform:scale(1.3)!important;box-shadow:0 22px 54px rgba(19,25,54,.28)!important}.hero-yandex-point .hero-point-number,.leaflet-status-dot{transform-origin:center!important;transition:transform .2s ease!important}.hero-yandex-point.is-card-hovered .hero-point-number,.leaflet-status-dot.is-card-hovered{transform:scale(2)!important;z-index:500!important}
+/* MAP_LINK_CSS_END */
+
+/* MAP_COLOR_FIX_START */
+.catalog-static-map,.hero-yandex-map,.catalog-static-map [class*="ground-pane"],.hero-yandex-map [class*="ground-pane"],.catalog-static-map .leaflet-tile,.hero-yandex-map .leaflet-tile{filter:none!important;-webkit-filter:none!important;mix-blend-mode:normal!important;opacity:1!important}.hero-yandex-point .hero-point-number,.leaflet-status-dot,.yandex-status-dot{transform-origin:center!important;transition:transform .16s ease!important}.hero-yandex-point.is-card-hovered .hero-point-number,.leaflet-status-dot.is-card-hovered,.yandex-status-dot.is-card-hovered{transform:scale(2)!important;z-index:500!important}
+/* MAP_COLOR_FIX_END */
