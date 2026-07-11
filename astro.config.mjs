@@ -1,9 +1,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// ARENDASKLADA_MARKER_DOMAIN: replace here if the production domain changes.
+// GitHub Pages project site configuration.
 export default defineConfig({
-  site: 'https://arendasklada.uz',
+  site: 'https://sf55sf.github.io',
+  base: '/arendasklada',
   trailingSlash: 'always',
   build: {
     inlineStylesheets: 'always',
