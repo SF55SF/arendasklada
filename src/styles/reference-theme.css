@@ -2624,3 +2624,64 @@ small {
 /* MAP_COLOR_FIX_START */
 .catalog-static-map,.hero-yandex-map,.catalog-static-map [class*="ground-pane"],.hero-yandex-map [class*="ground-pane"],.catalog-static-map .leaflet-tile,.hero-yandex-map .leaflet-tile{filter:none!important;-webkit-filter:none!important;mix-blend-mode:normal!important;opacity:1!important}.hero-yandex-point .hero-point-number,.leaflet-status-dot,.yandex-status-dot{transform-origin:center!important;transition:transform .16s ease!important}.hero-yandex-point.is-card-hovered .hero-point-number,.leaflet-status-dot.is-card-hovered,.yandex-status-dot.is-card-hovered{transform:scale(2)!important;z-index:500!important}
 /* MAP_COLOR_FIX_END */
+
+/* ARENDASKLADA_MAP_EDGE_FLYOUT_START */
+.map-mini-card,
+.leaflet-mini-tooltip,
+[class*="ymaps-"][class*="-hint"] {
+  display: none !important;
+}
+
+.catalog-results-panel {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  scrollbar-gutter: auto !important;
+  overscroll-behavior: auto !important;
+  padding-bottom: initial !important;
+}
+
+.catalog-results-panel .warehouse-list {
+  overflow: visible !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.catalog-results-panel [data-property-card].is-map-hovered {
+  transform: none !important;
+  box-shadow: inherit !important;
+}
+
+.map-edge-card-flyout {
+  position: fixed !important;
+  z-index: 10050 !important;
+  display: flex !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+  opacity: 0;
+  transform: none !important;
+  transform-origin: center !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 24px 64px rgba(19, 25, 54, 0.34) !important;
+  transition:
+    left 220ms ease,
+    top 220ms ease,
+    width 220ms ease,
+    height 220ms ease,
+    opacity 160ms ease,
+    box-shadow 220ms ease !important;
+  will-change: left, top, width, height, opacity;
+}
+
+.map-edge-card-flyout.is-visible {
+  opacity: 1 !important;
+}
+
+.hero-yandex-point.is-card-hovered .hero-point-number,
+.leaflet-status-dot.is-card-hovered,
+.yandex-status-dot.is-card-hovered {
+  transform: scale(1.5) !important;
+  z-index: 500 !important;
+}
+/* ARENDASKLADA_MAP_EDGE_FLYOUT_END */

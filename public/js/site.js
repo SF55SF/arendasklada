@@ -584,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
       objectManager.objects.options.set({
         hasBalloon: false,
         openBalloonOnClick: false,
-        openHintOnHover: true,
+        openHintOnHover: false,
       });
 
       objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
@@ -832,5 +832,133 @@ document.addEventListener('DOMContentLoaded', () => {
   const linkedMarker=(o,on)=>{const v=String(o||'');if(!v)return;document.querySelectorAll('[data-property-marker],.leaflet-status-dot,.yandex-status-dot').forEach(m=>{if(String(m.getAttribute('data-order')||'')===v)m.classList.toggle('is-card-hovered',on)})};
   document.querySelectorAll('[data-property-card]').forEach(c=>{const o=c.getAttribute('data-order'),on=()=>linkedMarker(o,true),off=()=>linkedMarker(o,false);c.addEventListener('pointerenter',on);c.addEventListener('pointerleave',off);c.addEventListener('focusin',on);c.addEventListener('focusout',off)});
   /* MAP_STABLE_HOVER_END */
+
+
+
+  /* ARENDASKLADA_MAP_EDGE_FLYOUT_START */
+  const mapEdgeFlyoutState = {
+    source: null,
+    node: null,
+    closeTimer: 0,
+  };
+
+  const getCatalogMapForFlyout = () =>
+    document.querySelector('.catalog-static-map') ||
+    document.querySelector('[data-yandex-map]');
+
+  const getFlyoutTargetRect = (sourceRect, mapRect) => {
+    const gap = 14;
+    const viewportGap = 16;
+    const availableWidth = Math.max(280, window.innerWidth - mapRect.right - gap - viewportGap);
+    const desiredWidth = sourceRect.width * 1.3;
+    const width = Math.min(desiredWidth, availableWidth, window.innerWidth - viewportGap * 2);
+    const ratio = sourceRect.height / Math.max(sourceRect.width, 1);
+    const height = Math.min(width * ratio, window.innerHeight - viewportGap * 2);
+    const left = Math.min(
+      Math.max(viewportGap, mapRect.right + gap),
+      window.innerWidth - width - viewportGap
+    );
+    const top = Math.min(
+      Math.max(viewportGap, mapRect.top + (mapRect.height - height) / 2),
+      window.innerHeight - height - viewportGap
+    );
+
+    return { left, top, width, height };
+  };
+
+  const removeMapEdgeFlyout = (animateBack = true) => {
+    window.clearTimeout(mapEdgeFlyoutState.closeTimer);
+
+    const flyout = mapEdgeFlyoutState.node;
+    const source = mapEdgeFlyoutState.source;
+
+    mapEdgeFlyoutState.node = null;
+    mapEdgeFlyoutState.source = null;
+
+    if (!(flyout instanceof HTMLElement)) return;
+
+    const finish = () => flyout.remove();
+
+    if (!animateBack || !(source instanceof HTMLElement) || !source.isConnected) {
+      finish();
+      return;
+    }
+
+    const sourceRect = source.getBoundingClientRect();
+    flyout.classList.remove('is-visible');
+    flyout.style.left = sourceRect.left + 'px';
+    flyout.style.top = sourceRect.top + 'px';
+    flyout.style.width = sourceRect.width + 'px';
+    flyout.style.height = sourceRect.height + 'px';
+    flyout.style.opacity = '0';
+
+    mapEdgeFlyoutState.closeTimer = window.setTimeout(finish, 210);
+  };
+
+  const showMapEdgeFlyout = (source) => {
+    if (!(source instanceof HTMLElement) || window.innerWidth <= 900) return;
+    if (mapEdgeFlyoutState.source === source && mapEdgeFlyoutState.node) return;
+
+    removeMapEdgeFlyout(false);
+
+    const mapNode = getCatalogMapForFlyout();
+    if (!(mapNode instanceof HTMLElement)) return;
+
+    const sourceRect = source.getBoundingClientRect();
+    const mapRect = mapNode.getBoundingClientRect();
+    const target = getFlyoutTargetRect(sourceRect, mapRect);
+    const flyout = source.cloneNode(true);
+
+    flyout.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
+    flyout.classList.remove('is-map-hovered');
+    flyout.classList.add('map-edge-card-flyout');
+    flyout.setAttribute('aria-hidden', 'true');
+    flyout.setAttribute('inert', '');
+    flyout.style.left = sourceRect.left + 'px';
+    flyout.style.top = sourceRect.top + 'px';
+    flyout.style.width = sourceRect.width + 'px';
+    flyout.style.height = sourceRect.height + 'px';
+
+    document.body.appendChild(flyout);
+    mapEdgeFlyoutState.source = source;
+    mapEdgeFlyoutState.node = flyout;
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        if (mapEdgeFlyoutState.node !== flyout) return;
+        flyout.classList.add('is-visible');
+        flyout.style.left = target.left + 'px';
+        flyout.style.top = target.top + 'px';
+        flyout.style.width = target.width + 'px';
+        flyout.style.height = target.height + 'px';
+        flyout.style.opacity = '1';
+      });
+    });
+  };
+
+  const syncMapEdgeFlyout = () => {
+    const active = document.querySelector('[data-property-card].is-map-hovered');
+
+    if (active instanceof HTMLElement) {
+      showMapEdgeFlyout(active);
+    } else {
+      removeMapEdgeFlyout(true);
+    }
+  };
+
+  const mapEdgeFlyoutObserver = new MutationObserver(syncMapEdgeFlyout);
+  document.querySelectorAll('[data-property-card]').forEach((card) => {
+    mapEdgeFlyoutObserver.observe(card, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (mapEdgeFlyoutState.source) {
+      showMapEdgeFlyout(mapEdgeFlyoutState.source);
+    }
+  });
+  /* ARENDASKLADA_MAP_EDGE_FLYOUT_END */
 
 });
