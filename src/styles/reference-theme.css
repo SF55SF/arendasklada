@@ -1220,3 +1220,28 @@ select {
 /* LEASE_TWO_LINES_START */
 .catalog-results-panel .warehouse-card-lease-value{display:flex!important;flex-direction:column!important;align-items:flex-start!important;line-height:1.12!important;white-space:normal!important}.catalog-results-panel .warehouse-card-lease-value>span{display:block!important;white-space:nowrap!important}
 /* LEASE_TWO_LINES_END */
+
+/* ARENDASKLADA_CONTACT_TG_ICON_START */
+.catalog-results-panel .warehouse-card { position: relative !important; }
+.catalog-results-panel .warehouse-card-telegram {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 6 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  background: #b3202a !important;
+  color: #fff !important;
+  box-shadow: 0 8px 18px rgba(179,32,42,.28) !important;
+  text-decoration: none !important;
+}
+.catalog-results-panel .warehouse-card-telegram svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+}
+/* ARENDASKLADA_CONTACT_TG_ICON_END */
