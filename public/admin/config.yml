@@ -106,9 +106,9 @@ collections:
         name: ready
         widget: select
         options:
-          - Существующие
-          - Строящиеся
-        default: Существующие
+          - Действующий
+          - Строящийся
+        default: Действующий
       - label: Доступен сейчас
         name: availableNow
         widget: boolean
@@ -131,8 +131,8 @@ collections:
         options:
           - +15 - +25 C
           - Холодильник
-          - Естественное
-        default: Естественное
+          - Естественная
+        default: Естественная
       - label: Тип аренды для фильтра
         name: leaseType
         widget: select

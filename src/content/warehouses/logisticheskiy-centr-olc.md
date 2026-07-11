@@ -17,7 +17,7 @@ intro: 'Склад с высотой хранения 14 м. Возможно с
 features:
 - '2 500 м²'
 - 'Яшнабадский район'
-- 'Естественное'
+- 'Естественная'
 - 'Сухая аренда'
 - 'Действующий'
 detailFeatures:
@@ -48,7 +48,7 @@ warehouseClass: 'A'
 ceilingHeight: '14 м'
 dockDoors: 'по запросу'
 temperature: '+15 - +25 C'
-temperatureMode: 'Естественное'
+temperatureMode: 'Естественная'
 leaseType: 'Сухая аренда'
 builtYear: 2023
 price: 'По запросу'

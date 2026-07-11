@@ -387,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gridSize: 64,
       });
 
-      objectManager.objects.options.set('preset', 'islands#yellowCircleDotIcon');
+      objectManager.objects.options.set('preset', 'islands#circleDotIcon');
       objectManager.clusters.options.set('preset', 'islands#orangeClusterIcons');
 
       objectManager.add({
@@ -399,6 +399,14 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'Point',
             coordinates: [point.lat, point.lng],
           },
+          // ARENDASKLADA_MAP_STATUS_COLORS_START
+          options: {
+            preset: 'islands#circleDotIcon',
+            iconColor: String(point.availability || '').toLowerCase().includes('стро')
+              ? '#e5b84b'
+              : '#4f8a68',
+          },
+          // ARENDASKLADA_MAP_STATUS_COLORS_END
           properties: {
             title: point.title,
             city: point.city,
@@ -433,14 +441,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
       map.geoObjects.add(objectManager);
 
+      let balloonCloseTimer = 0;
+
+      const cancelBalloonClose = () => {
+        if (balloonCloseTimer) {
+          window.clearTimeout(balloonCloseTimer);
+          balloonCloseTimer = 0;
+        }
+      };
+
+      const closeBalloonSoon = () => {
+        cancelBalloonClose();
+        balloonCloseTimer = window.setTimeout(() => {
+          objectManager.objects.balloon.close();
+          balloonCloseTimer = 0;
+        }, 140);
+      };
+
       objectManager.objects.events.add('mouseenter', (event) => {
+        cancelBalloonClose();
         const objectId = event.get('objectId');
         objectManager.objects.balloon.open(objectId);
       });
 
-      objectManager.objects.events.add('mouseleave', () => {
-        window.setTimeout(() => objectManager.objects.balloon.close(), 350);
-      });
+      objectManager.objects.events.add('mouseleave', closeBalloonSoon);
+      objectManager.objects.balloon.events?.add('mouseenter', cancelBalloonClose);
+      objectManager.objects.balloon.events?.add('mouseleave', closeBalloonSoon);
+      mapNode.addEventListener('mouseleave', closeBalloonSoon);
 
       mapNode.__arendaYandexMap = { map, objectManager };
       mapNode.classList.add('is-yandex-ready');
@@ -578,4 +605,46 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.showModal();
     document.body.classList.add('lightbox-open');
   });
+
+  /* ARENDASKLADA_AUTO_CLOSE_POPOVERS_START */
+  document.querySelectorAll('.catalog-toolbar details.toolbar-filter').forEach((detail) => {
+    let closeTimer = 0;
+
+    const cancelClose = () => {
+      if (closeTimer) {
+        window.clearTimeout(closeTimer);
+        closeTimer = 0;
+      }
+    };
+
+    const closeSoon = () => {
+      cancelClose();
+      closeTimer = window.setTimeout(() => {
+        detail.open = false;
+        closeTimer = 0;
+      }, 140);
+    };
+
+    detail.addEventListener('pointerenter', cancelClose);
+    detail.addEventListener('pointerleave', closeSoon);
+    detail.addEventListener('focusin', cancelClose);
+    detail.addEventListener('focusout', (event) => {
+      const next = event.relatedTarget;
+      if (!(next instanceof Node) || !detail.contains(next)) {
+        closeSoon();
+      }
+    });
+
+    detail.addEventListener('toggle', () => {
+      if (!detail.open) return;
+
+      document.querySelectorAll('.catalog-toolbar details.toolbar-filter').forEach((other) => {
+        if (other !== detail) {
+          other.open = false;
+        }
+      });
+    });
+  });
+  /* ARENDASKLADA_AUTO_CLOSE_POPOVERS_END */
+
 });
