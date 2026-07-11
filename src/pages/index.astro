@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Warehouses from '../components/Warehouses.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="ArendaSklada.uz — аренда складов от собственника в Ташкенте"
+  description="Складские помещения и индустриальные объекты в аренду от собственника в Узбекистане. Карта, фильтры по площади, температуре, типу аренды и готовности."
+  canonical="https://arendasklada.uz/"
+  image="https://arendasklada.uz/images/hero-warehouse-bg.jpg"
+>
+  <Header />
+
+  <main>
+    <Warehouses />
+    <Contact />
+  </main>
+
+  <Footer />
+</BaseLayout>

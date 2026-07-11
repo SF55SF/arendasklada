@@ -1,0 +1,57 @@
+---
+import type { WarehouseEntry } from '../lib/warehouses';
+import { getWarehouseUrl } from '../lib/warehouses';
+import { relativePath } from '../lib/paths';
+
+const { warehouse, index } = Astro.props as { warehouse: WarehouseEntry; index: number };
+
+const currentPath = Astro.url.pathname;
+const data = warehouse.data;
+
+const detailUrl = relativePath(getWarehouseUrl(warehouse), currentPath);
+const mainImage = relativePath(data.mainImage, currentPath);
+const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data.propertyType} ${data.area} ${data.temperatureMode} ${data.leaseType} ${data.ready}`;
+---
+
+<article
+  class="warehouse-card"
+  id={`object-${data.pageSlug}`}
+  data-property-card
+  data-title={data.title}
+  data-city={data.city}
+  data-district={data.district}
+  data-type={data.propertyType}
+  data-area={data.area}
+  data-availability={data.ready}
+  data-temperature={data.temperatureMode}
+  data-lease-type={data.leaseType}
+  data-order={data.order}
+  data-search={search}
+>
+  <a class="warehouse-card-media" href={detailUrl} aria-label={`Открыть ${data.title}`}>
+    <img src={mainImage} alt={data.imageAlt} loading={index > 2 ? 'lazy' : 'eager'} />
+  </a>
+
+  <div class="warehouse-card-content">
+    <p class="warehouse-card-location">{data.city}, {data.district}</p>
+
+    <h3>
+      <a href={detailUrl}>{data.title}</a>
+    </h3>
+
+    <dl class="warehouse-card-specs">
+      <div>
+        <dt>Площадь</dt>
+        <dd>{data.area.toLocaleString('ru-RU')} м²</dd>
+      </div>
+      <div>
+        <dt>Дата готовности</dt>
+        <dd>{data.builtYear ?? 'По запросу'}</dd>
+      </div>
+    </dl>
+
+    <div class="warehouse-card-actions">
+      <a class="button button-dark" href={detailUrl}>Подробнее</a>
+    </div>
+  </div>
+</article>

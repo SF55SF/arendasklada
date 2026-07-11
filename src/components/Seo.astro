@@ -1,0 +1,42 @@
+---
+const {
+  title = 'ArendaSklada.uz — склады и индустриальные объекты в аренду в Ташкенте',
+  description = 'Каталог складских помещений и индустриальных объектов в аренду в Узбекистане. Первый город запуска — Ташкент.',
+  canonical = 'https://arendasklada.uz/',
+  image = 'https://arendasklada.uz/images/hero-bg.svg',
+  imageAlt = 'ArendaSklada.uz — каталог складов в аренду в Ташкенте',
+  siteName = 'ArendaSklada.uz',
+  locale = 'ru_RU',
+  noindex = false,
+} = Astro.props;
+
+const robotsContent = noindex
+  ? 'noindex, nofollow'
+  : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta name="robots" content={robotsContent} />
+<meta name="googlebot" content={robotsContent} />
+
+<meta name="theme-color" content="#112D32" />
+<meta name="format-detection" content="telephone=no" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:image:secure_url" content={image} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={locale} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={imageAlt} />

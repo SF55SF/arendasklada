@@ -1,0 +1,77 @@
+---
+import { getPublishedWarehouses, getWarehouseUrl } from '../lib/warehouses';
+import { relativePath } from '../lib/paths';
+
+const currentPath = Astro.url.pathname;
+const warehouses = await getPublishedWarehouses();
+---
+
+<section id="location" class="section section-muted">
+  <div class="container two-col location-grid">
+    <div>
+      <p class="eyebrow">Карта объектов</p>
+      <h2>Ташкент — первый город запуска</h2>
+      <p>
+        На главном экране объекты отображаются на серой Яндекс-карте. Если карта
+        не загрузится, сайт покажет резервную схему с теми же объектами.
+      </p>
+
+      <div class="route-list">
+        <article>
+          <strong>Страна</strong>
+          <span>Узбекистан</span>
+        </article>
+        <article>
+          <strong>Город</strong>
+          <span>Ташкент</span>
+        </article>
+        <article>
+          <strong>Дальше</strong>
+          <span>Добавляйте новые районы и объекты через админ-панель</span>
+        </article>
+      </div>
+    </div>
+
+    <div class="map-placeholder warehouse-map" data-property-map aria-label="Карта складских объектов Ташкента">
+      <div class="map-canvas" role="img" aria-label="Резервная схема Ташкента в серых тонах с точками складских объектов">
+        <span class="map-label map-label-city">Ташкент</span>
+        <span class="map-label map-label-north">север</span>
+        <span class="map-label map-label-airport">аэропорт</span>
+        <span class="map-road map-road-a"></span>
+        <span class="map-road map-road-b"></span>
+        <span class="map-road map-road-c"></span>
+        <span class="map-ring map-ring-one"></span>
+        <span class="map-ring map-ring-two"></span>
+
+        {warehouses.map((warehouse) => {
+          const data = warehouse.data;
+          const href = relativePath(getWarehouseUrl(warehouse), currentPath);
+
+          return (
+            <a
+              class="map-dot"
+              href={href}
+              title={`${data.title}, ${data.district}, ${data.area} м²`}
+              style={`left: ${data.mapX}%; top: ${data.mapY}%;`}
+              data-property-marker
+              data-title={data.title}
+              data-city={data.city}
+              data-district={data.district}
+              data-type={data.propertyType}
+              data-area={data.area}
+              data-availability={data.ready}
+              data-order={data.order}
+              aria-label={`${data.title}, ${data.district}, ${data.area} м²`}
+            >
+              <span>{data.area} м²</span>
+            </a>
+          );
+        })}
+      </div>
+
+      <p class="map-note">
+        Для точного расположения используйте поля <code>latitude</code> и <code>longitude</code> в карточке объекта.
+      </p>
+    </div>
+  </div>
+</section>

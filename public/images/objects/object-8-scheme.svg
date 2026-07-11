@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-label="Схема склада">
+  <defs>
+    <linearGradient id="fade" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#EAF4FA" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#001D39" stop-opacity=".08"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#001D39" flood-opacity=".22"/></filter>
+  </defs>
+  <rect x="0" y="0" width="1200" height="760" fill="#BDD8E9"/>
+<rect x="0" y="0" width="420" height="760" fill="#EAF4FA"/>
+<rect x="420" y="0" width="480" height="760" fill="#0A4174"/>
+<rect x="900" y="0" width="300" height="760" fill="#001D39"/>
+<rect x="420" y="456" width="480" height="304" fill="#7BBDE8"/>
+<rect x="900" y="456" width="300" height="304" fill="#49769F"/>
+  <rect width="1200" height="760" fill="url(#fade)"/>
+  <g filter="url(#shadow)" transform="translate(165 250)">
+    <path d="M0 122 L180 22 L360 122 V318 H0 Z" fill="#EAF4FA" opacity=".94"/>
+    <path d="M52 146 H308 V318 H52 Z" fill="#BDD8E9"/>
+    <path d="M88 184 H148 V318 H88 Z M180 184 H240 V318 H180 Z" fill="#0A4174" opacity=".92"/>
+    <path d="M0 122 L180 22 L360 122" fill="none" stroke="#49769F" stroke-width="18" stroke-linecap="round"/>
+    <path d="M52 318 H640" stroke="#001D39" stroke-width="16" stroke-linecap="round"/>
+    <rect x="410" y="90" width="260" height="228" rx="8" fill="#EAF4FA" opacity=".9"/>
+    <rect x="438" y="132" width="76" height="186" fill="#7BBDE8"/>
+    <rect x="540" y="132" width="76" height="186" fill="#49769F"/>
+    <path d="M410 90 H670" stroke="#0A4174" stroke-width="16"/>
+  </g>
+  <g transform="translate(74 82)">
+    <rect width="510" height="130" rx="28" fill="#EAF4FA" opacity=".92"/>
+    <text x="32" y="42" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#0A4174">45 000 м² · 12 м</text>
+    <text x="32" y="84" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900" fill="#001D39">Схема склада</text>
+    <text x="32" y="116" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="700" fill="#0A4174">Центр Ташкента</text>
+  </g>
+</svg>

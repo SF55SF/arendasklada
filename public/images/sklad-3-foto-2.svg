@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" role="img" aria-label="Warehouse plan 7800 m2">
+  <rect width="760" height="560" fill="#F5F8F7"/>
+  <rect x="70" y="75" width="620" height="460" rx="24" fill="#E1E9E7" stroke="#112D32" stroke-opacity="0.18"/>
+  <rect x="115" y="125" width="250" height="160" rx="12" fill="#ffffff" stroke="#4F4A41" stroke-width="4"/><text x="133" y="165" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#112D32">Блок A</text><rect x="390" y="125" width="250" height="160" rx="12" fill="#ffffff" stroke="#4F4A41" stroke-width="4"/><text x="408" y="165" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#112D32">Блок B</text><rect x="115" y="310" width="525" height="120" rx="12" fill="#ffffff" stroke="#4F4A41" stroke-width="4"/><text x="133" y="350" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#112D32">Open space</text><rect x="115" y="455" width="525" height="60" rx="12" fill="#ffffff" stroke="#4F4A41" stroke-width="4"/><text x="133" y="495" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#112D32">Ворота</text>
+  <path d="M90 95H670M90 515H670M90 95V515M670 95V515" stroke="#112D32" stroke-opacity="0.14" stroke-width="2" stroke-dasharray="10 9"/>
+  <text x="70" y="45" font-family="Arial, sans-serif" font-size="28" font-weight="800" fill="#112D32">Warehouse plan 7800 m2</text>
+  <text x="70" y="555" font-family="Arial, sans-serif" font-size="14" fill="#6E6658">Placeholder plan - replace via Decap CMS</text>
+</svg>

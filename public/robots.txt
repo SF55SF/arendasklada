@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arendasklada.uz/sitemap-index.xml

@@ -1,0 +1,231 @@
+# ARENDASKLADA_MARKER_ADMIN_CONFIG: Decap CMS config for arendasklada.uz.
+backend:
+  name: github
+  # ARENDASKLADA_MARKER_GITHUB_REPO: replace with your GitHub repository, for example owner/arendasklada.uz
+  repo: ARENDASKLADA_GITHUB_REPO_REPLACE_ME
+  branch: main
+  # ARENDASKLADA_MARKER_CLOUDFLARE_WORKER_AUTH: replace after deploying Decap OAuth Worker/Pages Function.
+  base_url: https://ARENDASKLADA_DECAP_AUTH_WORKER_REPLACE_ME.workers.dev
+  auth_endpoint: auth
+
+# ARENDASKLADA_MARKER_MEDIA_FOLDER: uploaded files from admin panel are stored here.
+media_folder: public/uploads
+public_folder: /uploads
+
+# ARENDASKLADA_MARKER_DOMAIN: production domain.
+site_url: https://arendasklada.uz
+display_url: https://arendasklada.uz
+logo_url: https://arendasklada.uz/favicon-192x192.png
+
+collections:
+  - name: warehouses
+    label: Склады
+    label_singular: Склад
+    folder: src/content/warehouses
+    create: true
+    slug: "{{pageSlug}}"
+    extension: md
+    format: frontmatter
+    sortable_fields: [order, area, title, district]
+    view_filters:
+      - label: Опубликованные
+        field: published
+        pattern: true
+    fields:
+      - label: Публиковать на сайте
+        name: published
+        widget: boolean
+        default: true
+      - label: Порядок на главной
+        name: order
+        widget: number
+        value_type: int
+        default: 1
+        min: 1
+      - label: URL страницы без слэшей
+        name: pageSlug
+        widget: string
+        hint: Например warehouse-1500m2-tashkent-sergeli. Страница будет доступна как /warehouse-1500m2-tashkent-sergeli/
+      - label: Название объекта / комплекса
+        name: block
+        widget: string
+        default: Складской объект
+      - label: Город
+        name: city
+        widget: string
+        default: Ташкент
+      - label: Регион / область
+        name: region
+        widget: string
+        default: Ташкент
+      - label: Район
+        name: district
+        widget: string
+      - label: Адрес
+        name: address
+        widget: string
+        default: Ташкент, Узбекистан
+      - label: Тип объекта
+        name: propertyType
+        widget: select
+        options:
+          - Склад
+          - Логистический центр
+          - Логистический центр класса A
+          - Распределительный центр
+          - Складской блок
+          - Температурный склад
+          - Холодный склад
+          - Склад класса A
+          - Склад у ж/д ветки
+        default: Склад
+      - label: Класс склада
+        name: warehouseClass
+        widget: select
+        options: [A, B+, B, C, По запросу]
+        default: B
+      - label: Старое поле / класс или этаж
+        name: floor
+        widget: string
+        default: B
+        hint: Поле сохранено для совместимости с текущей структурой.
+      - label: Площадь, м²
+        name: area
+        widget: number
+        value_type: int
+      - label: Высота потолка
+        name: ceilingHeight
+        widget: string
+        default: по запросу
+      - label: Старое поле / высота или рабочие места
+        name: workplaces
+        widget: string
+        default: по запросу
+        hint: Поле сохранено для совместимости с текущей структурой.
+      - label: Готовность
+        name: ready
+        widget: select
+        options:
+          - Существующие
+          - Строящиеся
+        default: Существующие
+      - label: Доступен сейчас
+        name: availableNow
+        widget: boolean
+        default: true
+      - label: Формат / планировка
+        name: warehouseLayout
+        widget: string
+        default: сухой склад
+      - label: Ворота / доки
+        name: dockDoors
+        widget: string
+        default: по запросу
+      - label: Температурный диапазон
+        name: temperature
+        widget: string
+        default: +15 - +25 C
+      - label: Температурный режим для фильтра
+        name: temperatureMode
+        widget: select
+        options:
+          - +15 - +25 C
+          - Холодильник
+          - Естественное
+        default: Естественное
+      - label: Тип аренды для фильтра
+        name: leaseType
+        widget: select
+        options:
+          - '"Сухая" аренда'
+          - Стеллажная аренда
+          - 3PL
+        default: '"Сухая" аренда'
+      - label: Год постройки
+        name: builtYear
+        widget: number
+        value_type: int
+        required: false
+      - label: Цена аренды
+        name: price
+        widget: string
+        default: По запросу
+      - label: Позиция на карте X, %
+        name: mapX
+        widget: number
+        value_type: float
+        min: 0
+        max: 100
+        default: 50
+        hint: Положение кружка слева направо на серой карте.
+      - label: Позиция на карте Y, %
+        name: mapY
+        widget: number
+        value_type: float
+        min: 0
+        max: 100
+        default: 50
+        hint: Положение кружка сверху вниз на серой карте.
+      - label: Широта для Яндекс карты
+        name: latitude
+        widget: number
+        value_type: float
+        default: 41.311081
+        hint: Например 41.311081 для Ташкента.
+      - label: Долгота для Яндекс карты
+        name: longitude
+        widget: number
+        value_type: float
+        default: 69.240562
+        hint: Например 69.240562 для Ташкента.
+      - label: Заголовок карточки на главной
+        name: title
+        widget: string
+      - label: Заголовок страницы объекта
+        name: detailTitle
+        widget: string
+      - label: SEO title
+        name: seoTitle
+        widget: string
+      - label: SEO description
+        name: description
+        widget: text
+      - label: Alt-текст главного изображения
+        name: imageAlt
+        widget: string
+        default: Складской объект в Ташкенте
+      - label: Описание на странице объекта
+        name: intro
+        widget: text
+      - label: Преимущества в карточке
+        name: features
+        widget: list
+        field:
+          label: Пункт
+          name: item
+          widget: string
+      - label: Характеристики на странице объекта
+        name: detailFeatures
+        widget: list
+        field:
+          label: Пункт
+          name: item
+          widget: string
+      - label: Планировка / схема
+        name: planImage
+        widget: image
+      - label: Главное изображение
+        name: mainImage
+        widget: image
+      - label: Галерея
+        name: gallery
+        widget: list
+        field:
+          label: Изображение
+          name: image
+          widget: image
+      - label: PDF презентация
+        name: presentationFile
+        widget: file
+        required: false
+        default: /files/placeholder-presentation-1.pdf

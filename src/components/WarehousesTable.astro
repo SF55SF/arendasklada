@@ -1,0 +1,181 @@
+---
+import type { WarehouseEntry } from '../lib/warehouses';
+import { getWarehouseUrl } from '../lib/warehouses';
+import { relativePath } from '../lib/paths';
+import WarehouseCard from './WarehouseCard.astro';
+
+const { warehouses } = Astro.props as { warehouses: WarehouseEntry[] };
+const currentPath = Astro.url.pathname;
+const yandexApiKey = import.meta.env.PUBLIC_YANDEX_MAPS_API_KEY ?? '';
+
+const centerLat = 41.311081;
+const centerLng = 69.240562;
+
+const areaOptions = [
+  { value: 'upto1000', label: 'до 1 000 м²' },
+  { value: '1000to5000', label: '1 000–5 000 м²' },
+  { value: 'from5000', label: 'от 5 000 м²' },
+];
+
+const temperatureOptions = ['+15 - +25 C', 'Холодильник', 'Естественное'];
+const availabilityOptions = ['Существующие', 'Строящиеся'];
+const leaseOptions = ['"Сухая" аренда', 'Стеллажная аренда', '3PL'];
+---
+
+<section id="warehouses" class="catalog-workspace">
+  <form class="catalog-toolbar" data-property-filters aria-label="Поиск и фильтры складских объектов">
+    <label class="catalog-search">
+      <span class="sr-only">Поиск объекта</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5"></circle>
+        <path d="m16 16 4 4"></path>
+      </svg>
+      <input name="q" type="search" autocomplete="off" placeholder="Район, название или тип склада" />
+    </label>
+    <input name="sort" type="hidden" value="order" />
+
+    <details class="toolbar-filter">
+      <summary>Площадь</summary>
+      <fieldset>
+        <legend>Площадь</legend>
+        {areaOptions.map((option) => (
+          <label><input type="checkbox" name="areaBucket" value={option.value} /><span>{option.label}</span></label>
+        ))}
+      </fieldset>
+    </details>
+
+    <details class="toolbar-filter">
+      <summary>Готовность</summary>
+      <fieldset>
+        <legend>Готовность</legend>
+        {availabilityOptions.map((option) => (
+          <label><input type="checkbox" name="availability" value={option} /><span>{option}</span></label>
+        ))}
+      </fieldset>
+    </details>
+
+    <details class="toolbar-filter">
+      <summary>Температура</summary>
+      <fieldset>
+        <legend>Температурный режим</legend>
+        {temperatureOptions.map((option) => (
+          <label><input type="checkbox" name="temperature" value={option} /><span>{option}</span></label>
+        ))}
+      </fieldset>
+    </details>
+
+    <details class="toolbar-filter">
+      <summary>Тип аренды</summary>
+      <fieldset>
+        <legend>Тип аренды</legend>
+        {leaseOptions.map((option) => (
+          <label><input type="checkbox" name="leaseType" value={option} /><span>{option}</span></label>
+        ))}
+      </fieldset>
+    </details>
+
+    <button class="toolbar-reset" type="button" data-filter-reset>Сбросить</button>
+  </form>
+
+  <div class="catalog-split">
+    <aside id="location" class="catalog-map-panel" aria-label="Карта складских объектов Ташкента">
+      <div class="catalog-map-heading">
+        <span>Ташкент</span>
+        <strong>{warehouses.length} объектов на карте</strong>
+      </div>
+
+      <div
+        class="hero-yandex-map catalog-static-map"
+        data-yandex-map
+        data-yandex-api-key={yandexApiKey}
+        data-center-lat={centerLat}
+        data-center-lng={centerLng}
+        data-zoom="11"
+        aria-label="Яндекс карта складских объектов в Ташкенте"
+      >
+        <div class="hero-map-fallback" aria-hidden="true">
+          <span class="hero-map-road hero-map-road-a"></span>
+          <span class="hero-map-road hero-map-road-b"></span>
+          <span class="hero-map-road hero-map-road-c"></span>
+          <span class="hero-map-label">Ташкент</span>
+
+          {warehouses.map((warehouse, index) => {
+            const data = warehouse.data;
+            const href = relativePath(getWarehouseUrl(warehouse), currentPath);
+            const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data.propertyType} ${data.area} ${data.temperatureMode} ${data.leaseType} ${data.ready}`;
+
+            return (
+              <a
+                class={`hero-yandex-point ${data.ready === 'Строящиеся' ? 'is-building' : 'is-ready'}`}
+                href={href}
+                title={`${data.title}, ${data.district}, ${data.area} м²`}
+                style={`left: ${data.mapX}%; top: ${data.mapY}%;`}
+                data-property-marker
+                data-yandex-point
+                data-title={data.title}
+                data-city={data.city}
+                data-district={data.district}
+                data-type={data.propertyType}
+                data-area={data.area}
+                data-availability={data.ready}
+                data-temperature={data.temperatureMode}
+                data-lease-type={data.leaseType}
+                data-order={data.order}
+                data-lat={data.latitude}
+                data-lng={data.longitude}
+                data-url={href}
+                data-search={search}
+                aria-label={`${data.title}, ${data.district}, ${data.area} м²`}
+              >
+                <span class="hero-point-number">{index + 1}</span>
+                <span class="hero-point-card" aria-hidden="true">
+                  <strong>{data.title}</strong>
+                  <small>{data.district}</small>
+                  <b>{data.area.toLocaleString('ru-RU')} м²</b>
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </aside>
+
+    <div class="catalog-results-panel">
+      <div class="catalog-results-head">
+        <div>
+          <p class="eyebrow">Аренда складов в Ташкенте</p>
+          <h1>Свободные складские объекты</h1>
+        </div>
+        <div class="catalog-summary" aria-live="polite">
+          <span data-catalog-count>Найдено: {warehouses.length}</span>
+        </div>
+      </div>
+
+      <div data-property-table hidden>
+        {warehouses.map((warehouse) => {
+          const search = `${warehouse.data.title} ${warehouse.data.block} ${warehouse.data.city} ${warehouse.data.district} ${warehouse.data.propertyType} ${warehouse.data.area} ${warehouse.data.temperatureMode} ${warehouse.data.leaseType} ${warehouse.data.ready}`;
+
+          return (
+            <div
+              data-property-row
+              data-title={warehouse.data.title}
+              data-city={warehouse.data.city}
+              data-district={warehouse.data.district}
+              data-type={warehouse.data.propertyType}
+              data-area={warehouse.data.area}
+              data-availability={warehouse.data.ready}
+              data-temperature={warehouse.data.temperatureMode}
+              data-lease-type={warehouse.data.leaseType}
+              data-order={warehouse.data.order}
+              data-search={search}
+            />
+          );
+        })}
+      </div>
+
+      <div class="warehouse-list" data-property-cards>
+        {warehouses.map((warehouse, index) => <WarehouseCard warehouse={warehouse} index={index} />)}
+      </div>
+    </div>
+  </div>
+</section>

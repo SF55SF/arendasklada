@@ -1,0 +1,19 @@
+{
+  "name": "ArendaSklada.uz",
+  "short_name": "ArendaSklada",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#112D32",
+  "background_color": "#88BDBC",
+  "display": "standalone"
+}

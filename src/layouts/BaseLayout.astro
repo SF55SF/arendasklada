@@ -1,0 +1,159 @@
+---
+import '../styles/global.css';
+import { getPublishedWarehouses } from '../lib/warehouses';
+import { absoluteUrl, relativePath } from '../lib/paths';
+import Seo from '../components/Seo.astro';
+
+const {
+  title = 'ArendaSklada.uz — аренда складов от собственника в Ташкенте',
+  description = 'Складские помещения и индустриальные объекты в аренду от собственника в Узбекистане. Первый город запуска — Ташкент.',
+  canonical = 'https://arendasklada.uz/',
+  image = 'https://arendasklada.uz/images/hero-bg.svg',
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+const siteScript = relativePath('/js/site.js', currentPath);
+const favicon48 = relativePath('/favicon-48x48.png', currentPath);
+const favicon192 = relativePath('/favicon-192x192.png', currentPath);
+const appleTouchIcon = relativePath('/apple-touch-icon.png', currentPath);
+const faviconIco = relativePath('/favicon.ico', currentPath);
+const faviconSvg = relativePath('/favicon.svg', currentPath);
+const manifest = relativePath('/site.webmanifest', currentPath);
+
+const warehouses = await getPublishedWarehouses();
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://arendasklada.uz/#organization",
+      "name": "ArendaSklada.uz",
+      "alternateName": "Аренда склада Узбекистан",
+      "url": "https://arendasklada.uz/",
+      "logo": "https://arendasklada.uz/favicon-192x192.png",
+      "image": "https://arendasklada.uz/images/hero-bg.svg",
+      "telephone": "+998000000000",
+      "email": "info@arendasklada.uz",
+      "description": "Складские и индустриальные объекты в аренду от собственника в Узбекистане. Первый город запуска — Ташкент.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ташкент",
+        "addressCountry": "UZ"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Узбекистан"
+      },
+      "makesOffer": warehouses.map((warehouse) => ({
+        "@type": "Offer",
+        "name": `Аренда склада ${warehouse.data.area} м² — ${warehouse.data.district}`,
+        "availability": warehouse.data.availableNow ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+        "businessFunction": "http://purl.org/goodrelations/v1#LeaseOut",
+        "seller": {
+          "@id": "https://arendasklada.uz/#organization"
+        },
+        "url": absoluteUrl(`/${warehouse.data.pageSlug}/`),
+        "itemOffered": {
+          "@type": "Place",
+          "name": warehouse.data.title,
+          "description": warehouse.data.description,
+          "image": absoluteUrl(warehouse.data.mainImage),
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": warehouse.data.address,
+            "addressLocality": warehouse.data.city,
+            "addressRegion": warehouse.data.region,
+            "addressCountry": "UZ"
+          },
+          "floorSize": {
+            "@type": "QuantitativeValue",
+            "value": warehouse.data.area,
+            "unitCode": "MTK",
+            "unitText": "м²"
+          }
+        }
+      }))
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://arendasklada.uz/#website",
+      "url": "https://arendasklada.uz/",
+      "name": "ArendaSklada.uz",
+      "inLanguage": "ru-RU",
+      "publisher": {
+        "@id": "https://arendasklada.uz/#organization"
+      }
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <Seo
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+    />
+
+    <!-- ARENDASKLADA_MARKER_SEARCH_VERIFICATION: add Google/Yandex verification meta tags here. -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href={favicon48}
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href={favicon192}
+    />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href={appleTouchIcon}
+    />
+
+    <link
+      rel="shortcut icon"
+      href={faviconIco}
+    />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={faviconSvg}
+    />
+
+    <link rel="manifest" href={manifest} />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    ></script>
+  </head>
+
+  <body>
+    <slot />
+
+    <script is:inline src={siteScript} defer></script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+---
+import { navItems } from '../data/navigation';
+import { homePath, resolveNavHref } from '../lib/paths';
+
+const currentPath = Astro.url.pathname;
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="logo footer-logo" href={homePath(currentPath)}>
+        <span class="logo-mark">AS</span>
+        <span>ArendaSklada.uz</span>
+      </a>
+
+      <p>
+        Складские и индустриальные объекты в аренду от собственника в Узбекистане.
+        Информация на сайте носит справочный характер и не является публичной офертой.
+      </p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Навигация в подвале">
+      {navItems.map((item) => (
+        <a href={resolveNavHref(item.href, currentPath)}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="footer-contact">
+      <!-- ARENDASKLADA_MARKER_CONTACT_PHONE: replace phone when final contact is ready. -->
+      <a href="tel:+998000000000">+998 00 000 00 00</a>
+      <!-- ARENDASKLADA_MARKER_CONTACT_EMAIL: replace email when mailbox is connected. -->
+      <a href="mailto:info@arendasklada.uz">info@arendasklada.uz</a>
+      <span>© 2026 arendasklada.uz</span>
+    </div>
+  </div>
+</footer>

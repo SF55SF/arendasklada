@@ -1,0 +1,8 @@
+---
+import { getPublishedWarehouses } from '../lib/warehouses';
+import WarehousesTable from './WarehousesTable.astro';
+
+const warehouses = await getPublishedWarehouses();
+---
+
+<WarehousesTable warehouses={warehouses} />

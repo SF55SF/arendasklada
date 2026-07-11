@@ -1,0 +1,80 @@
+<section id="contacts" class="section contact-section">
+  <div class="container two-col">
+    <div>
+      <p class="eyebrow">Контакты</p>
+      <h2>Получить предложение по аренде</h2>
+      <p>
+        Оставьте контакты и параметры поиска. Собственник свяжется с вами,
+        уточнит требования к складу и подготовит актуальное предложение.
+      </p>
+
+      <div class="contact-cards">
+        <!-- ARENDASKLADA_MARKER_CONTACT_PHONE: replace phone when final contact is ready. -->
+        <a href="tel:+998000000000">+998 00 000 00 00</a>
+        <!-- ARENDASKLADA_MARKER_CONTACT_EMAIL: replace email when mailbox is connected. -->
+        <a href="mailto:info@arendasklada.uz">info@arendasklada.uz</a>
+        <!-- ARENDASKLADA_MARKER_TELEGRAM: replace Telegram link. -->
+        <a
+          href="https://t.me/ARENDASKLADA_REPLACE_ME"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Telegram
+        </a>
+      </div>
+    </div>
+
+    <!-- ARENDASKLADA_MARKER_FORM_ENDPOINT: replace /api/leads with Cloudflare Worker, Pages Function, Formspree, CRM webhook, etc. -->
+    <form
+      class="lead-form"
+      id="lead-form"
+      action="/api/leads"
+      method="POST"
+    >
+      <label>
+        Имя
+        <input name="name" type="text" placeholder="Ваше имя" required />
+      </label>
+
+      <label>
+        Телефон
+        <input
+          name="phone"
+          type="tel"
+          placeholder="+998 __ ___-__-__"
+          required
+        />
+      </label>
+
+      <label>
+        Email
+        <input name="email" type="email" placeholder="name@example.com" />
+      </label>
+
+      <label>
+        Интересующая площадь
+        <input name="area" type="text" placeholder="например 1000–3000 м²" />
+      </label>
+
+      <label>
+        Комментарий
+        <textarea
+          name="message"
+          rows="4"
+          placeholder="Район, тип склада, срок аренды"
+        ></textarea>
+      </label>
+
+      <label class="checkbox-row">
+        <input name="privacy" type="checkbox" required />
+        <span>Согласен на обработку персональных данных</span>
+      </label>
+
+      <input type="hidden" name="_subject" value="Новая заявка с arendasklada.uz" />
+      <input type="hidden" name="source" value="arendasklada.uz" />
+
+      <button class="button button-dark" type="submit">Отправить</button>
+      <p class="form-note" role="status"></p>
+    </form>
+  </div>
+</section>

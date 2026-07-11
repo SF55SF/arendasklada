@@ -1,0 +1,124 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { absoluteUrl, homeAnchor, relativePath } from '../lib/paths';
+
+export async function getStaticPaths() {
+  const warehouses = await getCollection('warehouses', ({ data }) => data.published !== false);
+
+  return warehouses.map((warehouse) => ({
+    params: { slug: warehouse.data.pageSlug },
+    props: { warehouse },
+  }));
+}
+
+const { warehouse } = Astro.props as { warehouse: CollectionEntry<'warehouses'> };
+const data = warehouse.data;
+
+const currentPath = Astro.url.pathname;
+const canonical = absoluteUrl(`/${data.pageSlug}/`);
+const mainImage = relativePath(data.mainImage, currentPath);
+const gallery = data.gallery.map((image) => relativePath(image, currentPath));
+---
+
+<BaseLayout
+  title={data.seoTitle}
+  description={data.description}
+  canonical={canonical}
+  image={absoluteUrl(data.mainImage)}
+>
+  <Header />
+
+  <main>
+    <section class="section warehouse-detail-page">
+      <div class="container two-col">
+        <div>
+          <p class="eyebrow">Склад {data.area} м² · {data.city}</p>
+
+          <h1 class="warehouse-detail-title">
+            {data.detailTitle}
+          </h1>
+
+          <p>{data.intro}</p>
+
+          <div class="route-list detail-route-list">
+            <article>
+              <strong>Район</strong>
+              <span>{data.district}</span>
+            </article>
+            <article>
+              <strong>Тип</strong>
+              <span>{data.propertyType}</span>
+            </article>
+            <article>
+              <strong>Высота</strong>
+              <span>{data.ceilingHeight}</span>
+            </article>
+          </div>
+
+          <ul class="feature-list">
+            {data.detailFeatures.map((feature) => <li>{feature}</li>)}
+          </ul>
+
+          <div class="card-actions">
+            <a class="button button-dark" href="#contacts">
+              Получить предложение
+            </a>
+
+            <a class="button" href={homeAnchor('warehouses', currentPath)}>
+              Все склады
+            </a>
+          </div>
+        </div>
+
+        <div class="plan-placeholder">
+          <button
+            class="image-open-button"
+            type="button"
+            data-lightbox-src={mainImage}
+            data-lightbox-alt={data.imageAlt}
+            aria-label={`Открыть визуализацию склада ${data.area} м²`}
+          >
+            <img
+              src={mainImage}
+              alt={data.imageAlt}
+            />
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Материалы объекта</p>
+        <h2>Схемы и визуализации склада {data.area} м²</h2>
+
+        <div class="mini-gallery">
+          {gallery.map((image, index) => (
+            <div>
+              <button
+                class="image-open-button"
+                type="button"
+                data-lightbox-src={image}
+                data-lightbox-alt={`Визуализация ${index + 1} склада ${data.area} м² в Ташкенте`}
+                aria-label={`Открыть визуализацию ${index + 1} склада ${data.area} м²`}
+              >
+                <img
+                  src={image}
+                  alt={`Визуализация ${index + 1} склада ${data.area} м² в Ташкенте`}
+                />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Contact />
+  </main>
+
+  <Footer />
+</BaseLayout>
