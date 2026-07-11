@@ -20,10 +20,20 @@ const areaOptions = [
 const temperatureOptions = ['+15 - +25 C', 'Холодильник', 'Естественное'];
 const availabilityOptions = ['Действующий', 'Строящийся'];
 const leaseOptions = ['Сухая аренда', 'Стеллажная аренда', '3PL'];
+
+const numericRentRates = warehouses
+  .map(({ data }) => {
+    const match = String(data.price ?? '').replace(',', '.').match(/\d+(?:\.\d+)?/);
+    return match ? Number(match[0]) : Number.NaN;
+  })
+  .filter((value) => Number.isFinite(value));
+
+const rentMin = numericRentRates.length ? Math.floor(Math.min(...numericRentRates) * 2) / 2 : 0;
+const rentMax = numericRentRates.length ? Math.ceil(Math.max(...numericRentRates) * 2) / 2 : 100;
+const rentStep = 0.5;
 ---
 
 <section id="warehouses" class="catalog-workspace">
-
   <div class="catalog-split">
     <aside id="location" class="catalog-map-panel" aria-label="Карта складских объектов Ташкента">
       <div class="catalog-map-heading">
@@ -49,7 +59,7 @@ const leaseOptions = ['Сухая аренда', 'Стеллажная арен�
           {warehouses.map((warehouse, index) => {
             const data = warehouse.data;
             const href = relativePath(getWarehouseUrl(warehouse), currentPath);
-            const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data.propertyType} ${data.area} ${data.temperatureMode} ${data.leaseType} ${data.ready}`;
+            const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data.propertyType} ${data.area} ${data.temperatureMode} ${data.leaseType} ${data.ready} ${data.price}`;
 
             return (
               <a
@@ -99,63 +109,103 @@ const leaseOptions = ['Сухая аренда', 'Стеллажная арен�
         </div>
       </div>
 
-      <form class="catalog-toolbar" data-property-filters aria-label="Поиск и фильтры складских объектов">
-          <label class="catalog-search">
-            <span class="sr-only">Поиск объекта</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="6.5"></circle>
-              <path d="m16 16 4 4"></path>
-            </svg>
-            <input name="q" type="search" autocomplete="off" placeholder="Район, название или тип склада" />
-          </label>
-          <input name="sort" type="hidden" value="order" />
-      
-          <details class="toolbar-filter">
-            <summary>Площадь</summary>
-            <fieldset>
-              <legend>Площадь</legend>
-              {areaOptions.map((option) => (
-                <label><input type="checkbox" name="areaBucket" value={option.value} /><span>{option.label}</span></label>
-              ))}
-            </fieldset>
-          </details>
-      
-          <details class="toolbar-filter">
-            <summary>Готовность</summary>
-            <fieldset>
-              <legend>Готовность</legend>
-              {availabilityOptions.map((option) => (
-                <label><input type="checkbox" name="availability" value={option} /><span>{option}</span></label>
-              ))}
-            </fieldset>
-          </details>
-      
-          <details class="toolbar-filter">
-            <summary>Температура</summary>
-            <fieldset>
-              <legend>Температурный режим</legend>
-              {temperatureOptions.map((option) => (
-                <label><input type="checkbox" name="temperature" value={option} /><span>{option}</span></label>
-              ))}
-            </fieldset>
-          </details>
-      
-          <details class="toolbar-filter">
-            <summary>Тип аренды</summary>
-            <fieldset>
-              <legend>Тип аренды</legend>
-              {leaseOptions.map((option) => (
-                <label><input type="checkbox" name="leaseType" value={option} /><span>{option}</span></label>
-              ))}
-            </fieldset>
-          </details>
-      
-          <button class="toolbar-reset" type="button" data-filter-reset>Сбросить</button>
-        </form>
+      <form class="catalog-toolbar catalog-toolbar--with-rent" data-property-filters aria-label="Поиск и фильтры складских объектов">
+        <label class="catalog-search">
+          <span class="sr-only">Поиск объекта</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+          <input name="q" type="search" autocomplete="off" placeholder="Район, название или тип склада" />
+        </label>
+        <input name="sort" type="hidden" value="order" />
+
+        <details class="toolbar-filter">
+          <summary>Площадь</summary>
+          <fieldset>
+            <legend>Площадь</legend>
+            {areaOptions.map((option) => (
+              <label><input type="checkbox" name="areaBucket" value={option.value} /><span>{option.label}</span></label>
+            ))}
+          </fieldset>
+        </details>
+
+        <details class="toolbar-filter">
+          <summary>Готовность</summary>
+          <fieldset>
+            <legend>Готовность</legend>
+            {availabilityOptions.map((option) => (
+              <label><input type="checkbox" name="availability" value={option} /><span>{option}</span></label>
+            ))}
+          </fieldset>
+        </details>
+
+        <details class="toolbar-filter">
+          <summary>Температура</summary>
+          <fieldset>
+            <legend>Температурный режим</legend>
+            {temperatureOptions.map((option) => (
+              <label><input type="checkbox" name="temperature" value={option} /><span>{option}</span></label>
+            ))}
+          </fieldset>
+        </details>
+
+        <details class="toolbar-filter">
+          <summary>Тип аренды</summary>
+          <fieldset>
+            <legend>Тип аренды</legend>
+            {leaseOptions.map((option) => (
+              <label><input type="checkbox" name="leaseType" value={option} /><span>{option}</span></label>
+            ))}
+          </fieldset>
+        </details>
+
+        <details class="toolbar-filter toolbar-filter--rent">
+          <summary>Ставка аренды</summary>
+          <div
+            class="rent-range-panel"
+            data-rent-filter
+            data-default-min={rentMin}
+            data-default-max={rentMax}
+          >
+            <div class="rent-range-values">
+              <span>от <b><output data-rent-min-output>{rentMin}</output> $</b></span>
+              <span>до <b><output data-rent-max-output>{rentMax}</output> $</b> за м²</span>
+            </div>
+            <div class="rent-dual-range" style={`--rent-min:${rentMin}; --rent-max:${rentMax};`}>
+              <input
+                type="range"
+                name="minRent"
+                min={rentMin}
+                max={rentMax}
+                step={rentStep}
+                value={rentMin}
+                data-default-value={rentMin}
+                data-rent-min
+                aria-label="Минимальная ставка аренды"
+              />
+              <input
+                type="range"
+                name="maxRent"
+                min={rentMin}
+                max={rentMax}
+                step={rentStep}
+                value={rentMax}
+                data-default-value={rentMax}
+                data-rent-max
+                aria-label="Максимальная ставка аренды"
+              />
+            </div>
+            <p>Объекты «По запросу» показываются, пока диапазон не изменён.</p>
+          </div>
+        </details>
+
+        <button class="toolbar-reset" type="button" data-filter-reset>Сбросить</button>
+      </form>
 
       <div data-property-table hidden>
         {warehouses.map((warehouse) => {
-          const search = `${warehouse.data.title} ${warehouse.data.block} ${warehouse.data.city} ${warehouse.data.district} ${warehouse.data.propertyType} ${warehouse.data.area} ${warehouse.data.temperatureMode} ${warehouse.data.leaseType} ${warehouse.data.ready}`;
+          const search = `${warehouse.data.title} ${warehouse.data.block} ${warehouse.data.city} ${warehouse.data.district} ${warehouse.data.propertyType} ${warehouse.data.area} ${warehouse.data.temperatureMode} ${warehouse.data.leaseType} ${warehouse.data.ready} ${warehouse.data.price}`;
 
           return (
             <div
@@ -165,6 +215,7 @@ const leaseOptions = ['Сухая аренда', 'Стеллажная арен�
               data-district={warehouse.data.district}
               data-type={warehouse.data.propertyType}
               data-area={warehouse.data.area}
+              data-price={warehouse.data.price}
               data-availability={warehouse.data.ready}
               data-temperature={warehouse.data.temperatureMode}
               data-lease-type={warehouse.data.leaseType}

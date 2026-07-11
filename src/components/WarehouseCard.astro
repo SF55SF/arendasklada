@@ -14,7 +14,7 @@ const contactSource = readFileSync('src/components/Contact.astro', 'utf8');
 const telegramHref = contactSource.match(/ARENDASKLADA_MARKER_TELEGRAM[\s\S]*?href="([^"]+)"/)?.[1] ?? '';
 const hasTelegram = /^https?:\/\/(?:t\.me|telegram\.me)\//i.test(telegramHref) && !/REPLACE_ME/i.test(telegramHref);
 
-const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data.propertyType} ${data.area} ${data.temperatureMode} ${data.leaseType} ${data.ready}`;
+const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data.propertyType} ${data.area} ${data.temperatureMode} ${data.leaseType} ${data.ready} ${data.price}`;
 const displayTitle = data.title.replace(/^Логистический центр\s*[—-]\s*/i, '');
 const rawPrice = String(data.price ?? '').trim();
 const priceNumber = rawPrice.match(/\d+(?:[.,]\d+)?/)?.[0];
@@ -27,7 +27,6 @@ const displayReady = readyText.includes('стро') ? 'Строящийся' : '
 
 <article
   class="warehouse-card warehouse-card--final"
- 
   id={`object-${data.pageSlug}`}
   data-property-card
   data-title={data.title}
@@ -35,12 +34,14 @@ const displayReady = readyText.includes('стро') ? 'Строящийся' : '
   data-district={data.district}
   data-type={data.propertyType}
   data-area={data.area}
+  data-price={data.price}
   data-availability={data.ready}
   data-temperature={data.temperatureMode}
   data-lease-type={data.leaseType}
   data-order={data.order}
   data-search={search}
- style="position:relative !important; display:flex !important; flex-direction:column !important; width:100% !important; height:auto !important; min-height:0 !important; aspect-ratio:2 / 3 !important; overflow:hidden !important;">
+  style="position:relative !important; display:flex !important; flex-direction:column !important; width:100% !important; height:auto !important; min-height:0 !important; aspect-ratio:2 / 3 !important; overflow:hidden !important;"
+>
   {hasTelegram && (
     <a
       class="warehouse-card-telegram"
@@ -60,18 +61,17 @@ const displayReady = readyText.includes('стро') ? 'Строящийся' : '
     <img src={mainImage} alt={data.imageAlt} loading={index > 2 ? 'lazy' : 'eager'} style="display:block !important; width:100% !important; height:100% !important; object-fit:cover !important; object-position:center !important;" />
   </a>
 
-  <div class="warehouse-card-content" style="display:flex !important; flex:1 1 56% !important; flex-direction:column !important; justify-content:space-between !important; width:100% !important; height:56% !important; min-height:0 !important; max-height:56% !important; padding:14px 18px 12px !important; box-sizing:border-box !important; overflow:hidden !important;">
-    <h3 style="font-size:22px !important; line-height:1.05 !important; min-height:0 !important; margin:0 18px !important; width:calc(100% - 36px) !important; box-sizing:border-box !important;"><a href={detailUrl}>{displayTitle}</a></h3>
+  <div class="warehouse-card-content" style="display:flex !important; flex:1 1 56% !important; flex-direction:column !important; justify-content:flex-start !important; width:100% !important; height:56% !important; min-height:0 !important; max-height:56% !important; padding:18px !important; box-sizing:border-box !important; overflow:hidden !important;">
+    <h3 style="font-size:22px !important; line-height:1.05 !important; min-height:0 !important; margin:0 18px 18px !important; width:calc(100% - 36px) !important; box-sizing:border-box !important;"><a href={detailUrl}>{displayTitle}</a></h3>
 
-    <dl class="warehouse-card-specs warehouse-card-specs--final" style="flex:0 0 auto !important; width:100% !important; margin:0 !important; padding-left:18px !important; padding-right:18px !important; box-sizing:border-box !important;">
+    <dl class="warehouse-card-specs warehouse-card-specs--final" style="flex:0 0 auto !important; width:100% !important; margin:0 0 18px !important; padding-left:18px !important; padding-right:18px !important; box-sizing:border-box !important;">
       <div>
         <dt style="font-size:14px !important; line-height:1.15 !important; font-weight:700 !important;">Площадь:</dt>
         <dd style="font-size:14px !important; line-height:1.15 !important; font-weight:400 !important;">{data.area.toLocaleString('ru-RU')} м²</dd>
       </div>
       <div>
         <dt style="font-size:14px !important; line-height:1.15 !important; font-weight:700 !important;">Ставка аренды:</dt>
-        <dd style="font-size:14px !important; line-height:1.15 !important; font-weight:400 !important;">{rentRate}
-</dd>
+        <dd style="font-size:14px !important; line-height:1.15 !important; font-weight:400 !important;">{rentRate}</dd>
       </div>
       <div>
         <dt style="font-size:14px !important; line-height:1.15 !important; font-weight:700 !important;">Готовность:</dt>
@@ -79,7 +79,7 @@ const displayReady = readyText.includes('стро') ? 'Строящийся' : '
       </div>
     </dl>
 
-    <div class="warehouse-card-actions" style="display:block !important; flex:0 0 auto !important; width:100% !important; margin:0 !important; padding:0 !important; box-sizing:border-box !important;">
+    <div class="warehouse-card-actions" style="display:block !important; flex:0 0 auto !important; width:100% !important; margin:auto 0 0 !important; padding:0 !important; box-sizing:border-box !important;">
       <a class="button button-dark" style="display:flex !important; width:100% !important; min-height:40px !important; padding:9px 12px !important; box-sizing:border-box !important;" href={detailUrl}>Подробнее</a>
     </div>
   </div>

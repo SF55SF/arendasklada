@@ -89,11 +89,23 @@ document.addEventListener('DOMContentLoaded', () => {
         areaBucket: [],
         minArea: 0,
         maxArea: 0,
+        rentActive: false,
+        minRent: 0,
+        maxRent: 0,
         sort: 'order',
       };
     }
 
     const formData = new FormData(filters);
+    const rentMinInput = filters.querySelector('[data-rent-min]');
+    const rentMaxInput = filters.querySelector('[data-rent-max]');
+    const rentMinValue = Number(rentMinInput?.value || 0);
+    const rentMaxValue = Number(rentMaxInput?.value || 0);
+    const rentDefaultMin = Number(rentMinInput?.getAttribute('data-default-value') || 0);
+    const rentDefaultMax = Number(rentMaxInput?.getAttribute('data-default-value') || 0);
+    const rentActive =
+      Math.abs(rentMinValue - rentDefaultMin) > 0.001 ||
+      Math.abs(rentMaxValue - rentDefaultMax) > 0.001;
 
     return {
       q: String(formData.get('q') || ''),
@@ -106,6 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
       areaBucket: getMultiValues(formData, 'areaBucket'),
       minArea: Number(formData.get('minArea') || 0),
       maxArea: Number(formData.get('maxArea') || 0),
+      rentActive,
+      minRent: rentMinValue,
+      maxRent: rentMaxValue,
       sort: String(formData.get('sort') || 'order'),
     };
   };
@@ -155,6 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (values.areaBucket?.length && !values.areaBucket.some((bucket) => areaMatchesBucket(area, bucket))) return false;
     if (values.minArea && area < values.minArea) return false;
     if (values.maxArea && area > values.maxArea) return false;
+
+    if (values.rentActive) {
+      const rentMatch = String(source.price || '').replace(',', '.').match(/[0-9]+(?:[.][0-9]+)?/);
+      const rent = rentMatch ? Number(rentMatch[0]) : Number.NaN;
+      if (!Number.isFinite(rent)) return false;
+      if (rent < values.minRent || rent > values.maxRent) return false;
+    }
 
     return true;
   };
@@ -290,7 +312,66 @@ document.addEventListener('DOMContentLoaded', () => {
       if (filters instanceof HTMLFormElement) {
         filters.reset();
 
-        if (quickSearch instanceof HTMLFormElement) {
+        /* ARENDASKLADA_RENT_FILTER_RUNTIME_START */
+  const rentFilter = filters?.querySelector('[data-rent-filter]');
+  const rentMinInput = filters?.querySelector('[data-rent-min]');
+  const rentMaxInput = filters?.querySelector('[data-rent-max]');
+  const rentMinOutput = filters?.querySelector('[data-rent-min-output]');
+  const rentMaxOutput = filters?.querySelector('[data-rent-max-output]');
+
+  const formatRentValue = (value) =>
+    Number(value || 0).toLocaleString('ru-RU', { maximumFractionDigits: 1 });
+
+  const syncRentRange = (changedInput = null) => {
+    if (!(rentMinInput instanceof HTMLInputElement) || !(rentMaxInput instanceof HTMLInputElement)) return;
+
+    let minValue = Number(rentMinInput.value || 0);
+    let maxValue = Number(rentMaxInput.value || 0);
+
+    if (minValue > maxValue) {
+      if (changedInput === rentMinInput) {
+        maxValue = minValue;
+        rentMaxInput.value = String(maxValue);
+      } else {
+        minValue = maxValue;
+        rentMinInput.value = String(minValue);
+      }
+    }
+
+    if (rentMinOutput) rentMinOutput.textContent = formatRentValue(minValue);
+    if (rentMaxOutput) rentMaxOutput.textContent = formatRentValue(maxValue);
+
+    if (rentFilter instanceof HTMLElement) {
+      const absoluteMin = Number(rentMinInput.min || 0);
+      const absoluteMax = Number(rentMinInput.max || 100);
+      const span = Math.max(absoluteMax - absoluteMin, 1);
+      rentFilter.style.setProperty('--rent-low', ((minValue - absoluteMin) / span * 100) + '%');
+      rentFilter.style.setProperty('--rent-high', ((maxValue - absoluteMin) / span * 100) + '%');
+    }
+  };
+
+  [rentMinInput, rentMaxInput].forEach((input) => {
+    input?.addEventListener('input', () => {
+      syncRentRange(input);
+      applyPropertyFilters();
+    });
+    input?.addEventListener('change', () => {
+      syncRentRange(input);
+      applyPropertyFilters();
+    });
+  });
+
+  filters?.addEventListener('reset', () => {
+    window.setTimeout(() => {
+      syncRentRange();
+      applyPropertyFilters();
+    }, 0);
+  });
+
+  syncRentRange();
+  /* ARENDASKLADA_RENT_FILTER_RUNTIME_END */
+
+  if (quickSearch instanceof HTMLFormElement) {
           setFormValue(quickSearch, 'q', '');
         }
 
