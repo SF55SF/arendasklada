@@ -23,59 +23,6 @@ const leaseOptions = ['"Сухая" аренда', 'Стеллажная аре�
 ---
 
 <section id="warehouses" class="catalog-workspace">
-  <form class="catalog-toolbar" data-property-filters aria-label="Поиск и фильтры складских объектов">
-    <label class="catalog-search">
-      <span class="sr-only">Поиск объекта</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="11" cy="11" r="6.5"></circle>
-        <path d="m16 16 4 4"></path>
-      </svg>
-      <input name="q" type="search" autocomplete="off" placeholder="Район, название или тип склада" />
-    </label>
-    <input name="sort" type="hidden" value="order" />
-
-    <details class="toolbar-filter">
-      <summary>Площадь</summary>
-      <fieldset>
-        <legend>Площадь</legend>
-        {areaOptions.map((option) => (
-          <label><input type="checkbox" name="areaBucket" value={option.value} /><span>{option.label}</span></label>
-        ))}
-      </fieldset>
-    </details>
-
-    <details class="toolbar-filter">
-      <summary>Готовность</summary>
-      <fieldset>
-        <legend>Готовность</legend>
-        {availabilityOptions.map((option) => (
-          <label><input type="checkbox" name="availability" value={option} /><span>{option}</span></label>
-        ))}
-      </fieldset>
-    </details>
-
-    <details class="toolbar-filter">
-      <summary>Температура</summary>
-      <fieldset>
-        <legend>Температурный режим</legend>
-        {temperatureOptions.map((option) => (
-          <label><input type="checkbox" name="temperature" value={option} /><span>{option}</span></label>
-        ))}
-      </fieldset>
-    </details>
-
-    <details class="toolbar-filter">
-      <summary>Тип аренды</summary>
-      <fieldset>
-        <legend>Тип аренды</legend>
-        {leaseOptions.map((option) => (
-          <label><input type="checkbox" name="leaseType" value={option} /><span>{option}</span></label>
-        ))}
-      </fieldset>
-    </details>
-
-    <button class="toolbar-reset" type="button" data-filter-reset>Сбросить</button>
-  </form>
 
   <div class="catalog-split">
     <aside id="location" class="catalog-map-panel" aria-label="Карта складских объектов Ташкента">
@@ -144,12 +91,66 @@ const leaseOptions = ['"Сухая" аренда', 'Стеллажная аре�
       <div class="catalog-results-head">
         <div>
           <p class="eyebrow">Аренда складов в Ташкенте</p>
-          <h1>Свободные складские объекты</h1>
+          <h2>Свободные складские объекты</h2>
         </div>
         <div class="catalog-summary" aria-live="polite">
           <span data-catalog-count>Найдено: {warehouses.length}</span>
         </div>
       </div>
+
+      <form class="catalog-toolbar" data-property-filters aria-label="Поиск и фильтры складских объектов">
+          <label class="catalog-search">
+            <span class="sr-only">Поиск объекта</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5"></circle>
+              <path d="m16 16 4 4"></path>
+            </svg>
+            <input name="q" type="search" autocomplete="off" placeholder="Район, название или тип склада" />
+          </label>
+          <input name="sort" type="hidden" value="order" />
+      
+          <details class="toolbar-filter">
+            <summary>Площадь</summary>
+            <fieldset>
+              <legend>Площадь</legend>
+              {areaOptions.map((option) => (
+                <label><input type="checkbox" name="areaBucket" value={option.value} /><span>{option.label}</span></label>
+              ))}
+            </fieldset>
+          </details>
+      
+          <details class="toolbar-filter">
+            <summary>Готовность</summary>
+            <fieldset>
+              <legend>Готовность</legend>
+              {availabilityOptions.map((option) => (
+                <label><input type="checkbox" name="availability" value={option} /><span>{option}</span></label>
+              ))}
+            </fieldset>
+          </details>
+      
+          <details class="toolbar-filter">
+            <summary>Температура</summary>
+            <fieldset>
+              <legend>Температурный режим</legend>
+              {temperatureOptions.map((option) => (
+                <label><input type="checkbox" name="temperature" value={option} /><span>{option}</span></label>
+              ))}
+            </fieldset>
+          </details>
+      
+          <details class="toolbar-filter">
+            <summary>Тип аренды</summary>
+            <fieldset>
+              <legend>Тип аренды</legend>
+              {leaseOptions.map((option) => (
+                <label><input type="checkbox" name="leaseType" value={option} /><span>{option}</span></label>
+              ))}
+            </fieldset>
+          </details>
+      
+          <button class="toolbar-reset" type="button" data-filter-reset>Сбросить</button>
+        </form>
 
       <div data-property-table hidden>
         {warehouses.map((warehouse) => {
