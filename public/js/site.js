@@ -206,10 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (card) {
       card.classList.add('is-map-hovered');
       highlightedMapCard = card;
-      /* MAP_PANEL_SCROLL_START */
-      const p=card.closest('.catalog-results-panel');
-      if(p instanceof HTMLElement){const pr=p.getBoundingClientRect(),cr=card.getBoundingClientRect();p.scrollTo({top:Math.max(0,p.scrollTop+cr.top-pr.top-(p.clientHeight-card.offsetHeight)/2),behavior:'smooth'})}
-      /* MAP_PANEL_SCROLL_END */
     }
   };
 
@@ -485,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
       center: [centerLat, centerLng],
       zoom,
       zoomControl: true,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       attributionControl: true,
     });
 
@@ -499,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const marker = L.marker([point.lat, point.lng], {
         icon: L.divIcon({
           className: 'leaflet-object-icon',
-          html: `<span class="leaflet-status-dot ${isBuilding ? 'is-building' : 'is-ready'}">${index + 1}</span>`,
+          html: `<span class="leaflet-status-dot ${isBuilding ? 'is-building' : 'is-ready'}" data-order="${escapeHtml(point.order || point.id)}">${index + 1}</span>`,
           iconSize: [34, 34],
           iconAnchor: [17, 17],
         }),
@@ -573,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       );
 
-      map.behaviors.disable('scrollZoom');
+      map.behaviors.enable('scrollZoom');
       if(typeof map.setType==='function')map.setType('yandex#map');
 
       const objectManager = new ymaps.ObjectManager({
@@ -581,7 +577,15 @@ document.addEventListener('DOMContentLoaded', () => {
         gridSize: 64,
       });
 
+      /* ARENDASKLADA_YANDEX_STATUS_LAYOUT_START */
+      const yandexStatusLayout = ymaps.templateLayoutFactory.createClass(
+        '<div class="yandex-status-dot $[properties.statusClass]" data-order="$[properties.order]">$[properties.markerNumber]</div>'
+      );
+      /* ARENDASKLADA_YANDEX_STATUS_LAYOUT_END */
+
       objectManager.objects.options.set({
+        iconLayout: yandexStatusLayout,
+        iconShape: { type: 'Circle', coordinates: [0, 0], radius: 18 },
         hasBalloon: false,
         openBalloonOnClick: false,
         openHintOnHover: false,
@@ -591,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       objectManager.add({
         type: 'FeatureCollection',
-        features: points.map((point) => ({
+        features: points.map((point, index) => ({
           type: 'Feature',
           id: point.id,
           geometry: {
@@ -605,6 +609,8 @@ document.addEventListener('DOMContentLoaded', () => {
             openBalloonOnClick: false,
           },
           properties: {
+            markerNumber: index + 1,
+            statusClass: normalizeText(point.availability).includes('стро') ? 'is-building' : 'is-ready',
             title: point.title,
             city: point.city,
             district: point.district,
@@ -828,137 +834,158 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ARENDASKLADA_AUTO_CLOSE_POPOVERS_END */
 
   
-  /* MAP_STABLE_HOVER_START */
-  const linkedMarker=(o,on)=>{const v=String(o||'');if(!v)return;document.querySelectorAll('[data-property-marker],.leaflet-status-dot,.yandex-status-dot').forEach(m=>{if(String(m.getAttribute('data-order')||'')===v)m.classList.toggle('is-card-hovered',on)})};
-  document.querySelectorAll('[data-property-card]').forEach(c=>{const o=c.getAttribute('data-order'),on=()=>linkedMarker(o,true),off=()=>linkedMarker(o,false);c.addEventListener('pointerenter',on);c.addEventListener('pointerleave',off);c.addEventListener('focusin',on);c.addEventListener('focusout',off)});
-  /* MAP_STABLE_HOVER_END */
+  
 
 
 
-  /* ARENDASKLADA_MAP_EDGE_FLYOUT_START */
-  const mapEdgeFlyoutState = {
-    source: null,
-    node: null,
-    closeTimer: 0,
+  
+
+
+  /* ARENDASKLADA_MAP_FLYOUT_REPAIR_START */
+const mapFlyoutState = { source: null, node: null, timer: 0 };
+  const FLYOUT_DURATION = 286;
+
+  const setImportant = (node, property, value) => {
+    node.style.setProperty(property, value, 'important');
   };
 
-  const getCatalogMapForFlyout = () =>
-    document.querySelector('.catalog-static-map') ||
-    document.querySelector('[data-yandex-map]');
+  const copyComputedAppearance = (source, clone) => {
+    const sourceNodes = [source, ...source.querySelectorAll('*')];
+    const cloneNodes = [clone, ...clone.querySelectorAll('*')];
 
-  const getFlyoutTargetRect = (sourceRect, mapRect) => {
-    const gap = 14;
-    const viewportGap = 16;
-    const availableWidth = Math.max(280, window.innerWidth - mapRect.right - gap - viewportGap);
-    const desiredWidth = sourceRect.width * 1.3;
-    const width = Math.min(desiredWidth, availableWidth, window.innerWidth - viewportGap * 2);
-    const ratio = sourceRect.height / Math.max(sourceRect.width, 1);
-    const height = Math.min(width * ratio, window.innerHeight - viewportGap * 2);
-    const left = Math.min(
-      Math.max(viewportGap, mapRect.right + gap),
-      window.innerWidth - width - viewportGap
-    );
-    const top = Math.min(
-      Math.max(viewportGap, mapRect.top + (mapRect.height - height) / 2),
-      window.innerHeight - height - viewportGap
-    );
-
-    return { left, top, width, height };
+    sourceNodes.forEach((sourceNode, index) => {
+      const cloneNode = cloneNodes[index];
+      if (!(sourceNode instanceof Element) || !(cloneNode instanceof Element)) return;
+      const computed = window.getComputedStyle(sourceNode);
+      for (let i = 0; i < computed.length; i += 1) {
+        const property = computed.item(i);
+        try {
+          cloneNode.style.setProperty(property, computed.getPropertyValue(property), computed.getPropertyPriority(property));
+        } catch {}
+      }
+    });
   };
 
-  const removeMapEdgeFlyout = (animateBack = true) => {
-    window.clearTimeout(mapEdgeFlyoutState.closeTimer);
+  const getCatalogMapNode = () =>
+    document.querySelector('.catalog-static-map') || document.querySelector('[data-yandex-map]');
 
-    const flyout = mapEdgeFlyoutState.node;
-    const source = mapEdgeFlyoutState.source;
-
-    mapEdgeFlyoutState.node = null;
-    mapEdgeFlyoutState.source = null;
-
+  const removeMapFlyout = (animate = true) => {
+    window.clearTimeout(mapFlyoutState.timer);
+    const flyout = mapFlyoutState.node;
+    mapFlyoutState.node = null;
+    mapFlyoutState.source = null;
     if (!(flyout instanceof HTMLElement)) return;
 
     const finish = () => flyout.remove();
-
-    if (!animateBack || !(source instanceof HTMLElement) || !source.isConnected) {
+    if (!animate) {
       finish();
       return;
     }
 
-    const sourceRect = source.getBoundingClientRect();
     flyout.classList.remove('is-visible');
-    flyout.style.left = sourceRect.left + 'px';
-    flyout.style.top = sourceRect.top + 'px';
-    flyout.style.width = sourceRect.width + 'px';
-    flyout.style.height = sourceRect.height + 'px';
-    flyout.style.opacity = '0';
-
-    mapEdgeFlyoutState.closeTimer = window.setTimeout(finish, 210);
+    setImportant(flyout, 'transform', 'translate3d(0, 0, 0) scale(1)');
+    setImportant(flyout, 'opacity', '0');
+    mapFlyoutState.timer = window.setTimeout(finish, FLYOUT_DURATION + 40);
   };
 
-  const showMapEdgeFlyout = (source) => {
+  const showMapFlyout = (source) => {
     if (!(source instanceof HTMLElement) || window.innerWidth <= 900) return;
-    if (mapEdgeFlyoutState.source === source && mapEdgeFlyoutState.node) return;
+    if (mapFlyoutState.source === source && mapFlyoutState.node?.isConnected) return;
 
-    removeMapEdgeFlyout(false);
-
-    const mapNode = getCatalogMapForFlyout();
+    removeMapFlyout(false);
+    const mapNode = getCatalogMapNode();
     if (!(mapNode instanceof HTMLElement)) return;
 
     const sourceRect = source.getBoundingClientRect();
     const mapRect = mapNode.getBoundingClientRect();
-    const target = getFlyoutTargetRect(sourceRect, mapRect);
-    const flyout = source.cloneNode(true);
+    if (sourceRect.width < 40 || sourceRect.height < 40) return;
 
+    const scale = 1.3;
+    const gap = 18;
+    const viewportGap = 18;
+    const scaledWidth = sourceRect.width * scale;
+    const scaledHeight = sourceRect.height * scale;
+    const targetLeft = Math.min(
+      Math.max(viewportGap, mapRect.right + gap),
+      window.innerWidth - scaledWidth - viewportGap
+    );
+    const targetTop = Math.min(
+      Math.max(viewportGap, mapRect.top + (mapRect.height - scaledHeight) / 2),
+      window.innerHeight - scaledHeight - viewportGap
+    );
+    const sourceCenterX = sourceRect.left + sourceRect.width / 2;
+    const sourceCenterY = sourceRect.top + sourceRect.height / 2;
+    const targetCenterX = targetLeft + scaledWidth / 2;
+    const targetCenterY = targetTop + scaledHeight / 2;
+    const deltaX = targetCenterX - sourceCenterX;
+    const deltaY = targetCenterY - sourceCenterY;
+
+    const flyout = source.cloneNode(true);
+    copyComputedAppearance(source, flyout);
     flyout.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
+    flyout.removeAttribute('data-property-card');
+    flyout.removeAttribute('data-order');
+    flyout.removeAttribute('hidden');
     flyout.classList.remove('is-map-hovered');
     flyout.classList.add('map-edge-card-flyout');
     flyout.setAttribute('aria-hidden', 'true');
     flyout.setAttribute('inert', '');
-    flyout.style.left = sourceRect.left + 'px';
-    flyout.style.top = sourceRect.top + 'px';
-    flyout.style.width = sourceRect.width + 'px';
-    flyout.style.height = sourceRect.height + 'px';
+
+    setImportant(flyout, 'position', 'fixed');
+    setImportant(flyout, 'left', `${sourceRect.left}px`);
+    setImportant(flyout, 'top', `${sourceRect.top}px`);
+    setImportant(flyout, 'width', `${sourceRect.width}px`);
+    setImportant(flyout, 'height', `${sourceRect.height}px`);
+    setImportant(flyout, 'min-width', '0');
+    setImportant(flyout, 'max-width', 'none');
+    setImportant(flyout, 'min-height', '0');
+    setImportant(flyout, 'max-height', 'none');
+    setImportant(flyout, 'margin', '0');
+    setImportant(flyout, 'z-index', '10050');
+    setImportant(flyout, 'pointer-events', 'none');
+    setImportant(flyout, 'transform-origin', 'center center');
+    setImportant(flyout, 'transform', 'translate3d(0, 0, 0) scale(1)');
+    setImportant(flyout, 'opacity', '0');
+    setImportant(
+      flyout,
+      'transition',
+      `transform ${FLYOUT_DURATION}ms ease, opacity 208ms ease, box-shadow ${FLYOUT_DURATION}ms ease`
+    );
+    setImportant(flyout, 'box-shadow', '0 24px 64px rgba(19, 25, 54, .34)');
+    setImportant(flyout, 'overflow', 'hidden');
 
     document.body.appendChild(flyout);
-    mapEdgeFlyoutState.source = source;
-    mapEdgeFlyoutState.node = flyout;
+    mapFlyoutState.source = source;
+    mapFlyoutState.node = flyout;
 
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
-        if (mapEdgeFlyoutState.node !== flyout) return;
+        if (mapFlyoutState.node !== flyout) return;
         flyout.classList.add('is-visible');
-        flyout.style.left = target.left + 'px';
-        flyout.style.top = target.top + 'px';
-        flyout.style.width = target.width + 'px';
-        flyout.style.height = target.height + 'px';
-        flyout.style.opacity = '1';
+        setImportant(flyout, 'transform', `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`);
+        setImportant(flyout, 'opacity', '1');
       });
     });
   };
 
-  const syncMapEdgeFlyout = () => {
+  const syncMapFlyout = () => {
     const active = document.querySelector('[data-property-card].is-map-hovered');
-
-    if (active instanceof HTMLElement) {
-      showMapEdgeFlyout(active);
-    } else {
-      removeMapEdgeFlyout(true);
-    }
+    if (active instanceof HTMLElement) showMapFlyout(active);
+    else removeMapFlyout(true);
   };
 
-  const mapEdgeFlyoutObserver = new MutationObserver(syncMapEdgeFlyout);
+  const flyoutObserver = new MutationObserver(syncMapFlyout);
   document.querySelectorAll('[data-property-card]').forEach((card) => {
-    mapEdgeFlyoutObserver.observe(card, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
+    flyoutObserver.observe(card, { attributes: true, attributeFilter: ['class'] });
   });
 
   window.addEventListener('resize', () => {
-    if (mapEdgeFlyoutState.source) {
-      showMapEdgeFlyout(mapEdgeFlyoutState.source);
+    const source = mapFlyoutState.source;
+    if (source instanceof HTMLElement) {
+      removeMapFlyout(false);
+      showMapFlyout(source);
     }
   });
-  /* ARENDASKLADA_MAP_EDGE_FLYOUT_END */
+  /* ARENDASKLADA_MAP_FLYOUT_REPAIR_END */
 
 });

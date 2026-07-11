@@ -2617,34 +2617,22 @@ small {
 }
 /* ARENDASKLADA_HEADER_CONTACTS_RIGHT_END */
 
-/* MAP_LINK_CSS_START */
-.map-mini-card,.map-mini-card *{color:#000!important}.map-mini-card{width:286px!important;padding:16px!important;border-radius:16px!important}.map-mini-card__title{font-size:21px!important;margin-bottom:13px!important}.map-mini-card__specs{padding:9px 13px!important}.map-mini-card__row{font-size:14px!important;padding:7px 0!important}.catalog-results-panel,.catalog-results-panel .warehouse-list{overflow:visible!important}.catalog-results-panel [data-property-card]{position:relative!important;transform-origin:center!important;transition:transform .22s ease,box-shadow .22s ease!important}.catalog-results-panel [data-property-card].is-map-hovered{z-index:80!important;transform:scale(1.3)!important;box-shadow:0 22px 54px rgba(19,25,54,.28)!important}.hero-yandex-point .hero-point-number,.leaflet-status-dot{transform-origin:center!important;transition:transform .2s ease!important}.hero-yandex-point.is-card-hovered .hero-point-number,.leaflet-status-dot.is-card-hovered{transform:scale(2)!important;z-index:500!important}
-/* MAP_LINK_CSS_END */
-
-/* MAP_COLOR_FIX_START */
-.catalog-static-map,.hero-yandex-map,.catalog-static-map [class*="ground-pane"],.hero-yandex-map [class*="ground-pane"],.catalog-static-map .leaflet-tile,.hero-yandex-map .leaflet-tile{filter:none!important;-webkit-filter:none!important;mix-blend-mode:normal!important;opacity:1!important}.hero-yandex-point .hero-point-number,.leaflet-status-dot,.yandex-status-dot{transform-origin:center!important;transition:transform .16s ease!important}.hero-yandex-point.is-card-hovered .hero-point-number,.leaflet-status-dot.is-card-hovered,.yandex-status-dot.is-card-hovered{transform:scale(2)!important;z-index:500!important}
-/* MAP_COLOR_FIX_END */
-
-/* ARENDASKLADA_MAP_EDGE_FLYOUT_START */
+/* ARENDASKLADA_MAP_FLYOUT_FIX_START */
 .map-mini-card,
 .leaflet-mini-tooltip,
 [class*="ymaps-"][class*="-hint"] {
   display: none !important;
 }
 
-.catalog-results-panel {
+.catalog-results-panel,
+.catalog-results-panel .warehouse-list {
   height: auto !important;
   max-height: none !important;
   overflow: visible !important;
-  scrollbar-gutter: auto !important;
-  overscroll-behavior: auto !important;
-  padding-bottom: initial !important;
-}
-
-.catalog-results-panel .warehouse-list {
-  overflow: visible !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+  scrollbar-gutter: auto !important;
+  overscroll-behavior: auto !important;
 }
 
 .catalog-results-panel [data-property-card].is-map-hovered {
@@ -2658,19 +2646,11 @@ small {
   display: flex !important;
   margin: 0 !important;
   pointer-events: none !important;
-  opacity: 0;
-  transform: none !important;
-  transform-origin: center !important;
+  opacity: 0 !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
-  box-shadow: 0 24px 64px rgba(19, 25, 54, 0.34) !important;
-  transition:
-    left 220ms ease,
-    top 220ms ease,
-    width 220ms ease,
-    height 220ms ease,
-    opacity 160ms ease,
-    box-shadow 220ms ease !important;
+  box-shadow: 0 24px 64px rgba(19, 25, 54, .34) !important;
+  transition: left 220ms ease, top 220ms ease, width 220ms ease, height 220ms ease, opacity 160ms ease !important;
   will-change: left, top, width, height, opacity;
 }
 
@@ -2678,10 +2658,133 @@ small {
   opacity: 1 !important;
 }
 
-.hero-yandex-point.is-card-hovered .hero-point-number,
+.yandex-status-dot,
+.leaflet-status-dot,
+.hero-yandex-point .hero-point-number {
+  display: grid !important;
+  place-items: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin: -18px 0 0 -18px !important;
+  border: 3px solid #fff !important;
+  border-radius: 50% !important;
+  box-sizing: border-box !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  transform-origin: center !important;
+  transition: transform 160ms ease !important;
+}
+
+.yandex-status-dot.is-ready,
+.leaflet-status-dot.is-ready,
+.hero-yandex-point.is-ready .hero-point-number {
+  background: #2f9e5b !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 6px rgba(47, 158, 91, .22), 0 8px 20px rgba(19, 25, 54, .22) !important;
+}
+
+.yandex-status-dot.is-building,
+.leaflet-status-dot.is-building,
+.hero-yandex-point.is-building .hero-point-number {
+  background: #f2c94c !important;
+  color: #131936 !important;
+  box-shadow: 0 0 0 6px rgba(242, 201, 76, .28), 0 8px 20px rgba(19, 25, 54, .2) !important;
+}
+
+.yandex-status-dot.is-card-hovered,
 .leaflet-status-dot.is-card-hovered,
-.yandex-status-dot.is-card-hovered {
+.hero-yandex-point.is-card-hovered .hero-point-number,
+[data-property-marker].is-card-hovered .hero-point-number {
   transform: scale(1.5) !important;
   z-index: 500 !important;
 }
-/* ARENDASKLADA_MAP_EDGE_FLYOUT_END */
+/* ARENDASKLADA_MAP_FLYOUT_FIX_END */
+
+/* ARENDASKLADA_MAP_FLYOUT_REPAIR_START */
+.map-mini-card,
+.leaflet-mini-tooltip,
+[class*="ymaps-"][class*="-hint"] {
+  display: none !important;
+}
+
+.catalog-workspace {
+  padding-top: clamp(48px, 5vw, 76px) !important;
+  padding-bottom: clamp(48px, 5vw, 76px) !important;
+}
+
+.catalog-results-panel,
+.catalog-results-panel .warehouse-list {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.catalog-results-panel [data-property-card].is-map-hovered {
+  transform: none !important;
+  box-shadow: inherit !important;
+}
+
+.map-edge-card-flyout {
+  position: fixed !important;
+  z-index: 10050 !important;
+  pointer-events: none !important;
+  transform-origin: center center !important;
+  will-change: transform, opacity;
+}
+
+.yandex-status-dot,
+.leaflet-status-dot,
+.hero-yandex-point .hero-point-number {
+  transform-origin: center center !important;
+  transition: transform 286ms ease !important;
+}
+
+.yandex-status-dot.is-card-hovered,
+.leaflet-status-dot.is-card-hovered,
+.hero-yandex-point.is-card-hovered .hero-point-number,
+[data-property-marker].is-card-hovered .hero-point-number {
+  transform: scale(1.5) !important;
+  z-index: 500 !important;
+}
+
+@media (max-width: 900px) {
+  .catalog-workspace {
+    padding-top: 36px !important;
+    padding-bottom: 36px !important;
+  }
+}
+/* ARENDASKLADA_MAP_FLYOUT_REPAIR_END */
+
+/* ARENDASKLADA_OBJECTS_SPACING_SHADOW_START */
+#warehouses.catalog-workspace {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+#warehouses .catalog-split {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.map-edge-card-flyout {
+  box-shadow:
+    18px 24px 54px rgba(19, 25, 54, 0.34),
+    8px 12px 22px rgba(19, 25, 54, 0.22) !important;
+  transition:
+    left 344ms cubic-bezier(.22, .61, .36, 1),
+    top 344ms cubic-bezier(.22, .61, .36, 1),
+    width 344ms cubic-bezier(.22, .61, .36, 1),
+    height 344ms cubic-bezier(.22, .61, .36, 1),
+    opacity 250ms ease,
+    box-shadow 344ms ease !important;
+}
+/* ARENDASKLADA_OBJECTS_SPACING_SHADOW_END */
+
+/* ARENDASKLADA_RESULTS_TOP_ALIGN_START */
+@media (min-width: 901px) {
+  #warehouses .catalog-results-panel {
+    padding-top: 24px !important;
+  }
+}
+/* ARENDASKLADA_RESULTS_TOP_ALIGN_END */
