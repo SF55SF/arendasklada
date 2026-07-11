@@ -819,3 +819,39 @@ select {
   }
 }
 /* ARENDASKLADA_CODE_GATES_END */
+
+/* ARENDASKLADA_RED_TITLE_START */
+.reference-hero h1 {
+  color: var(--reference-burgundy, #7f2028) !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.08), 0 2px 10px rgba(0,0,0,0.18);
+}
+/* ARENDASKLADA_RED_TITLE_END */
+
+/* ARENDASKLADA_TITLE_STROKE_START */
+.reference-hero h1 {
+  color: var(--reference-burgundy, #7f2028) !important;
+  -webkit-text-stroke: 3px #ffffff;
+  paint-order: stroke fill;
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 0.95),
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 2px 12px rgba(0, 0, 0, 0.10);
+}
+/* ARENDASKLADA_TITLE_STROKE_END */
+
+/* ARENDASKLADA_GATE_SHADOW_START */
+.reference-hero__content {
+  box-shadow:
+    36px 32px 48px rgba(8, 16, 22, 0.38),
+    20px 20px 28px rgba(8, 16, 22, 0.28),
+    8px 10px 16px rgba(8, 16, 22, 0.20) !important;
+}
+
+@media (max-width: 820px) {
+  .reference-hero__content {
+    box-shadow:
+      22px 24px 34px rgba(8, 16, 22, 0.32),
+      12px 14px 20px rgba(8, 16, 22, 0.22) !important;
+  }
+}
+/* ARENDASKLADA_GATE_SHADOW_END */
