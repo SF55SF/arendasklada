@@ -6,3 +6,17 @@ const warehouses = await getPublishedWarehouses();
 ---
 
 <WarehousesTable warehouses={warehouses} />
+
+<style is:global>
+  @media (min-width: 821px) {
+    .catalog-split {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .catalog-map-panel,
+    .catalog-results-panel {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+</style>
