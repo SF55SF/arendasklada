@@ -1032,3 +1032,191 @@ select {
   }
 }
 /* ARENDASKLADA_COMPACT_RESET_END */
+
+/* ARENDASKLADA_CARD_FIELDS_START */
+.catalog-results-panel .warehouse-card h3 {
+  margin-top: 0 !important;
+}
+
+.catalog-results-panel .warehouse-card-specs {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px 18px !important;
+  align-items: start !important;
+}
+
+.catalog-results-panel .warehouse-card-specs > div {
+  display: block !important;
+  min-width: 0 !important;
+}
+
+.catalog-results-panel .warehouse-card-specs dt {
+  min-height: 24px;
+  margin: 0 0 5px !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.045em;
+}
+
+.catalog-results-panel .warehouse-card-specs dd {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+  overflow-wrap: anywhere;
+}
+
+.catalog-results-panel .warehouse-card-rate small {
+  display: block;
+  margin-top: 4px;
+  color: var(--reference-muted);
+  font-size: 9px;
+  line-height: 1.2;
+}
+/* ARENDASKLADA_CARD_FIELDS_END */
+
+/* ARENDASKLADA_CARD_LAYOUT_TUNE_START */
+.catalog-results-panel .warehouse-card-specs {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px 10px !important;
+  align-items: stretch !important;
+}
+
+.catalog-results-panel .warehouse-card-specs > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  min-width: 0 !important;
+  padding: 10px 12px !important;
+  background: rgba(19, 25, 54, 0.06) !important;
+  border-radius: 10px !important;
+}
+
+.catalog-results-panel .warehouse-card-specs dt {
+  margin: 0 0 3px 0 !important;
+  min-height: 0 !important;
+  text-align: left !important;
+  font-size: 10px !important;
+  line-height: 1.15 !important;
+}
+
+.catalog-results-panel .warehouse-card-specs dd {
+  margin: 0 !important;
+  text-align: left !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+}
+
+.catalog-results-panel .warehouse-card-rate small {
+  display: block;
+  margin-top: 3px;
+  text-align: left !important;
+  font-size: 9px;
+  line-height: 1.15;
+}
+
+.catalog-results-panel .warehouse-card-specs * {
+  text-align: left !important;
+}
+/* ARENDASKLADA_CARD_LAYOUT_TUNE_END */
+
+/* ARENDASKLADA_CARD_POLISH_START */
+.catalog-results-panel .warehouse-card {
+  border: 1px solid rgba(19, 25, 54, 0.08) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,248,248,0.98) 100%) !important;
+  box-shadow: 0 18px 34px rgba(19, 25, 54, 0.12), 0 4px 10px rgba(19, 25, 54, 0.06) !important;
+  transition: transform .22s ease, box-shadow .22s ease !important;
+}
+
+.catalog-results-panel .warehouse-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 42px rgba(19, 25, 54, 0.16), 0 8px 16px rgba(19, 25, 54, 0.08) !important;
+}
+
+.catalog-results-panel .warehouse-card-content {
+  padding-top: 20px !important;
+}
+
+.catalog-results-panel .warehouse-card h3 a {
+  letter-spacing: -0.015em;
+}
+
+.catalog-results-panel .warehouse-card-specs {
+  gap: 12px !important;
+}
+
+.catalog-results-panel .warehouse-card-specs > div {
+  background: linear-gradient(180deg, rgba(19, 25, 54, 0.055) 0%, rgba(19, 25, 54, 0.035) 100%) !important;
+  border: 1px solid rgba(19, 25, 54, 0.06) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.65) !important;
+}
+
+.catalog-results-panel .warehouse-card-specs dt {
+  color: rgba(44, 58, 87, 0.68) !important;
+}
+
+.catalog-results-panel .warehouse-card-specs dd {
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.catalog-results-panel .warehouse-card-ready-value {
+  white-space: nowrap !important;
+}
+
+.catalog-results-panel .warehouse-card-rate small {
+  margin-top: 6px !important;
+  color: rgba(44, 58, 87, 0.72) !important;
+}
+
+.catalog-results-panel .warehouse-card-actions {
+  padding-top: 18px !important;
+}
+/* ARENDASKLADA_CARD_POLISH_END */
+
+/* ARENDASKLADA_LEASE_WRAP_START */
+.catalog-results-panel .warehouse-card-lease-value {
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  line-height: 1.15 !important;
+  max-width: 11ch;
+}
+.catalog-results-panel .warehouse-card-ready-value {
+  white-space: nowrap !important;
+}
+/* ARENDASKLADA_LEASE_WRAP_END */
+
+/* ARENDASKLADA_LEASE_HARD_BREAK_START */
+.catalog-results-panel .warehouse-card-lease-value {
+  white-space: pre-line !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  line-height: 1.15 !important;
+}
+/* ARENDASKLADA_LEASE_HARD_BREAK_END */
+
+/* ARENDASKLADA_FORCE_LEASE_BREAK_START */
+.catalog-results-panel .warehouse-card-lease-value {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 1px !important;
+  max-width: none !important;
+  white-space: normal !important;
+  line-height: 1.12 !important;
+}
+
+.catalog-results-panel .warehouse-card-lease-value > span {
+  display: block !important;
+  width: 100% !important;
+  white-space: nowrap !important;
+}
+/* ARENDASKLADA_FORCE_LEASE_BREAK_END */
+
+/* LEASE_TWO_LINES_START */
+.catalog-results-panel .warehouse-card-lease-value{display:flex!important;flex-direction:column!important;align-items:flex-start!important;line-height:1.12!important;white-space:normal!important}.catalog-results-panel .warehouse-card-lease-value>span{display:block!important;white-space:nowrap!important}
+/* LEASE_TWO_LINES_END */

@@ -7,8 +7,6 @@ const { warehouse, index } = Astro.props as { warehouse: WarehouseEntry; index: 
 
 const currentPath = Astro.url.pathname;
 const data = warehouse.data;
-const cleanLeaseType = data.leaseType.replace(/["“”]/g, '').trim();
-const leaseTypeLines = /\s+аренда$/i.test(cleanLeaseType) ? [cleanLeaseType.replace(/\s+аренда$/i, ''), 'аренда'] : [cleanLeaseType];
 
 const detailUrl = relativePath(getWarehouseUrl(warehouse), currentPath);
 const mainImage = relativePath(data.mainImage, currentPath);
@@ -16,18 +14,17 @@ const search = `${data.title} ${data.block} ${data.city} ${data.district} ${data
 
 const displayTitle = data.title.replace(/^Логистический центр\s*[—-]\s*/i, '');
 const rawPrice = data.price.trim();
-const priceNumber = rawPrice.match(/\d+(?:[.,]\d+)?/)?.[0];
-const rentRate = rawPrice.toLowerCase() === 'по запросу' || !priceNumber
+const numericPrice = rawPrice
+  .replace(/^от\s*/i, '')
+  .replace(/\$/g, '')
+  .replace(/\s*(?:за\s*)?м².*$/i, '')
+  .replace(/\s*\/.*$/, '')
+  .trim();
+const rentRate = rawPrice.toLowerCase() === 'по запросу'
   ? 'По запросу'
-  : `от $ ${priceNumber} за м²`;
-const displayReady = data.ready.trim().toLowerCase() === 'действующий'
-  ? 'Действующий' : data.ready;
-const displayLeaseType = data.leaseType
-  .replace(/["“”]/g, '')
-  .trim()
-  .replace(/^Сухая аренда$/i, 'Сухая\nаренда')
-  .replace(/^Стеллажная аренда$/i, 'Стеллажная\nаренда');
+  : `от $ ${numericPrice} за м²`;
 ---
+const displayReady = data.ready.trim().toLowerCase() === 'существующие' ? 'Действующие' : data.ready;
 
 <article
   class="warehouse-card"
@@ -58,21 +55,18 @@ const displayLeaseType = data.leaseType
         <dt>Площадь</dt>
         <dd>{data.area.toLocaleString('ru-RU')} м²</dd>
       </div>
-
       <div>
         <dt>Тип аренды</dt>
-        <dd class="warehouse-card-lease-value">{leaseTypeLines.map((line) => <span>{line}</span>)}</dd>
+        <dd>{data.leaseType}</dd>
       </div>
-
       <div class="warehouse-card-rate">
         <dt>Ставка аренды</dt>
         <dd>{rentRate}</dd>
         <small>не включая НДС и эксплуатацию</small>
       </div>
-
       <div>
         <dt>Готовность</dt>
-        <dd class="warehouse-card-ready-value">{displayReady}</dd>
+        <dd class="warehouse-card-ready-value">{data.ready.trim().toLowerCase() === 'существующие' ? 'Действующие' : data.ready}</dd>
       </div>
     </dl>
 
