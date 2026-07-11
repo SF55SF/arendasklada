@@ -678,3 +678,144 @@ select {
   }
 }
 /* ARENDASKLADA_HERO_REDESIGN_END */
+
+/* ARENDASKLADA_CODE_GATES_START */
+.reference-hero__content {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: min(610px, 44vw) !important;
+  max-width: min(610px, 44vw) !important;
+  min-height: clamp(520px, 58vh, 650px);
+  padding: clamp(34px, 4vw, 58px) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: 18px 22px 36px rgba(17, 45, 50, 0.22) !important;
+}
+
+/* Темно-серые ворота на всю подложку */
+.reference-hero__content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  border-left: 16px solid #eef1ef;
+  border-right: 16px solid #eef1ef;
+  border-top: 16px solid #f6f7f6;
+  border-bottom: 10px solid #cfd5d4;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.10) 2.8%,
+      rgba(0, 0, 0, 0.38) 2.8%,
+      rgba(0, 0, 0, 0.38) 4.4%,
+      rgba(0, 0, 0, 0) 4.4%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.03) 14%,
+      rgba(0, 0, 0, 0.05) 52%,
+      rgba(0, 0, 0, 0.26) 100%
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      #7f878b 0px,
+      #979ea2 2px,
+      #646c70 4px,
+      #8b9296 10px,
+      #4f575c 11px,
+      #858d91 17px,
+      #485055 18px,
+      #7b8387 19px
+    );
+  background-blend-mode: screen, multiply, normal;
+  box-shadow:
+    inset 0 0 0 1px rgba(105, 112, 116, 0.28),
+    inset 0 18px 28px rgba(0, 0, 0, 0.28),
+    inset 0 -8px 12px rgba(255, 255, 255, 0.06),
+    12px 14px 22px rgba(17, 45, 50, 0.14);
+}
+
+/* Легкое затемнение слева, чтобы белый текст читался */
+.reference-hero__content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(25, 34, 39, 0.42) 0%,
+    rgba(25, 34, 39, 0.28) 30%,
+    rgba(25, 34, 39, 0.10) 52%,
+    rgba(25, 34, 39, 0) 74%
+  );
+}
+
+.reference-hero__content > * {
+  position: relative;
+  z-index: 2;
+}
+
+.reference-hero__eyebrow,
+.reference-hero h1,
+.reference-hero__lead {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
+.reference-hero__button {
+  position: absolute !important;
+  right: clamp(24px, 4vw, 34px) !important;
+  bottom: clamp(24px, 4vw, 28px) !important;
+  left: auto !important;
+  top: auto !important;
+  align-self: auto !important;
+  margin: 0 !important;
+  min-width: 260px;
+  width: auto !important;
+  transform: none !important;
+  z-index: 4;
+}
+
+.reference-hero__button::before,
+.reference-hero__button::after {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .reference-hero__content {
+    width: min(560px, 52vw) !important;
+    max-width: min(560px, 52vw) !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .reference-hero__content {
+    width: calc(100% - 32px) !important;
+    max-width: calc(100% - 32px) !important;
+    min-height: 560px;
+    padding: 28px 22px 96px !important;
+  }
+
+  .reference-hero__content::before {
+    border-left-width: 12px;
+    border-right-width: 12px;
+    border-top-width: 12px;
+  }
+
+  .reference-hero__button {
+    right: 18px !important;
+    bottom: 18px !important;
+    min-width: 0;
+  }
+}
+/* ARENDASKLADA_CODE_GATES_END */
