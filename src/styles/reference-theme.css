@@ -525,3 +525,156 @@ body {
     margin-top: 10px;
   }
 }
+
+/* ARENDASKLADA_HERO_REDESIGN_START */
+:root {
+  --hero-panel-blue: #dce9e7;
+  --hero-panel-border-width: 4px;
+  --site-side-gutter: clamp(20px, 4vw, 64px);
+}
+
+html,
+body,
+body *,
+button,
+input,
+textarea,
+select {
+  font-family: "Roboto", Arial, sans-serif !important;
+}
+
+.site-header {
+  padding-left: var(--site-side-gutter);
+  padding-right: var(--site-side-gutter);
+}
+
+.logo {
+  font-size: 18px;
+}
+
+.main-nav {
+  gap: clamp(14px, 2.3vw, 32px);
+  font-size: 12px;
+}
+
+.header-contacts {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.reference-hero {
+  min-height: clamp(520px, calc(100svh - 72px), 680px);
+  background: var(--hero-panel-blue);
+}
+
+.reference-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 52%;
+  transform: scale(1.03);
+  transform-origin: center;
+}
+
+.reference-hero__overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(17, 45, 50, 0.08) 0%,
+    rgba(17, 45, 50, 0.025) 52%,
+    rgba(17, 45, 50, 0) 82%
+  );
+}
+
+.reference-hero__content {
+  width: min(590px, 44vw);
+  margin-left: var(--site-side-gutter);
+  padding: clamp(32px, 4vw, 56px);
+  border: var(--hero-panel-border-width) solid #fff;
+  border-radius: 0;
+  background: var(--hero-panel-blue);
+  color: #112d32;
+  transform: translateY(16px);
+  box-shadow: 18px 22px 36px rgba(17, 45, 50, 0.28);
+}
+
+.reference-hero__eyebrow {
+  margin-bottom: 14px;
+  color: rgba(17, 45, 50, 0.68);
+  font-size: 11px;
+}
+
+.reference-hero h1 {
+  max-width: 430px;
+  margin-bottom: 18px;
+  color: #112d32;
+  font-size: clamp(30px, 3.5vw, 50px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+
+.reference-hero__lead {
+  max-width: 430px;
+  margin-bottom: 24px;
+  color: rgba(17, 45, 50, 0.82);
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.45;
+}
+
+@media (max-width: 1100px) {
+  .reference-hero__content {
+    width: min(520px, 52vw);
+    padding: 38px;
+  }
+
+  .reference-hero h1 {
+    font-size: clamp(30px, 4.6vw, 46px);
+  }
+}
+
+@media (max-width: 820px) {
+  :root {
+    --site-side-gutter: 16px;
+  }
+
+  .site-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .reference-hero {
+    min-height: 600px;
+  }
+
+  .reference-hero__image {
+    object-position: 60% 52%;
+    transform: scale(1.02);
+  }
+
+  .reference-hero__content {
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    padding: 28px 22px;
+    transform: translateY(90px);
+    box-shadow: 12px 16px 28px rgba(17, 45, 50, 0.25);
+  }
+
+  .reference-hero h1 {
+    max-width: 380px;
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  .reference-hero__lead {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reference-hero__content {
+    padding: 26px 20px;
+  }
+
+  .reference-hero h1 {
+    font-size: clamp(28px, 9vw, 36px);
+  }
+}
+/* ARENDASKLADA_HERO_REDESIGN_END */
