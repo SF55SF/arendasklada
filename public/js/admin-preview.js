@@ -19,3 +19,29 @@ figure.append(image,code);
 output.append(figure);
 });
 }));
+/* ADMIN_SAVE_CLIENT_START */
+const saveButton=form?.querySelector("[data-admin-save]");
+const saveStatus=form?.querySelector("[data-admin-status]");
+const numericFields=new Set(["area","latitude","longitude","builtYear"]);
+const setSaveStatus=(message,state="")=>{if(!saveStatus)return;saveStatus.textContent=message;saveStatus.dataset.state=state};
+form?.addEventListener("input",()=>setSaveStatus("Есть несохранённые изменения.","dirty"));
+form?.addEventListener("submit",async(event)=>{
+event.preventDefault();
+if(!saveButton)return;
+const currentSlug=form.getAttribute("data-object-slug")||slug;
+const fields={};
+try{
+for(const [key,value] of new FormData(form).entries()){
+if(typeof value!=="string")continue;
+const raw=value.trim();
+if(numericFields.has(key)){if(raw==="")continue;const number=Number(raw.split(",").join("."));if(!Number.isFinite(number))throw Error("Некорректное число в поле "+key);fields[key]=number;}else fields[key]=raw;
+}
+saveButton.disabled=true;setSaveStatus("Сохраняем...","saving");
+const response=await fetch("/api/admin/save",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({slug:currentSlug,fields})});
+const result=await response.json().catch(()=>({}));
+if(!response.ok)throw Error(result.error||("Ошибка сохранения: "+response.status));
+setSaveStatus(result.unchanged?"Изменений нет.":"Сохранено. Обновление сайта запущено.","ok");
+}catch(error){setSaveStatus(error instanceof Error?error.message:"Ошибка сохранения","error");}
+finally{saveButton.disabled=false;}
+});
+/* ADMIN_SAVE_CLIENT_END */
