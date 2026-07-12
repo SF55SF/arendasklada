@@ -42,7 +42,7 @@ const primaryFacts = [
   ['Температурный режим', data.temperatureMode],
   ['Тип аренды', data.leaseType],
   ['Готовность', data.ready],
-  ['Год постройки', data.builtYear ? String(data.builtYear) : 'По запросу'],
+  ['Год постройки', data.builtYear ? String(data.builtYear) : 'по запросу'],
 ];
 
 const generalFacts = [
@@ -78,18 +78,18 @@ const mapWidgetSrc = `https://yandex.ru/map-widget/v1/?ll=${data.longitude}%2C${
               <h1>{displayTitle}</h1>
             </div>
 
-            <div class="warehouse-dossier-badges" aria-label="Ключевые статусы объекта">
+            <div class="warehouse-dossier-badges" aria-label="Ключевые параметры">
               <span>{data.ready}</span>
-              <strong>{data.warehouseClass ? `Класс ${data.warehouseClass}` : data.propertyType}</strong>
+              <strong>{data.area.toLocaleString('ru-RU')} м²</strong>
             </div>
           </header>
 
           <div class="warehouse-dossier-body">
-            <section class="warehouse-dossier-info" aria-label="Характеристики объекта">
+            <div class="warehouse-dossier-info">
               <dl class="warehouse-dossier-primary">
                 {primaryFacts.map(([label, value]) => (
                   <div>
-                    <dt>{label}:</dt>
+                    <dt>{label}</dt>
                     <dd>{value}</dd>
                   </div>
                 ))}
@@ -114,7 +114,7 @@ const mapWidgetSrc = `https://yandex.ru/map-widget/v1/?ll=${data.longitude}%2C${
                   <p>{data.intro}</p>
 
                   {data.detailFeatures.length > 0 && (
-                    <ul aria-label="Дополнительные особенности">
+                    <ul>
                       {data.detailFeatures.map((feature) => <li>{feature}</li>)}
                     </ul>
                   )}
@@ -125,12 +125,12 @@ const mapWidgetSrc = `https://yandex.ru/map-widget/v1/?ll=${data.longitude}%2C${
                 <a class="button button-dark" href={homeAnchor('contacts', currentPath)}>Получить предложение</a>
                 <a class="button" href={homeAnchor('warehouses', currentPath)}>Все склады</a>
               </div>
-            </section>
+            </div>
 
             <aside class="warehouse-dossier-map">
               <div class="warehouse-dossier-map-head">
                 <div>
-                  <span>Расположение объекта</span>
+                  <span>Расположение</span>
                   <strong>{data.district}</strong>
                 </div>
                 <a href={mapHref} target="_blank" rel="noopener noreferrer">Открыть карту</a>

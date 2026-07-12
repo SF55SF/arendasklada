@@ -3862,605 +3862,375 @@ small {
 }
 /* ARENDASKLADA_NO_RENT_FILTER_LAYOUT_END */
 
-/* ARENDASKLADA_DETAIL_DOSSIER_V4_START */
+/* ARENDASKLADA_COMPACT_DETAIL_V3_START */
 .warehouse-object-page {
   background:
-    radial-gradient(circle at 92% 0%, rgba(143, 168, 186, .18), transparent 28%),
-    #e8e8e2;
+    radial-gradient(circle at 92% 4%, rgba(143, 168, 186, .20), transparent 28%),
+    #efeee9;
   color: #131936;
 }
 
 .warehouse-object-section {
-  min-height: calc(100svh - 72px);
-  padding: 14px 0;
-  box-sizing: border-box;
+  padding: 26px 0 34px;
 }
 
 .warehouse-object-container {
-  width: min(1500px, calc(100% - 28px));
+  width: min(1440px, calc(100% - 40px));
 }
 
-.warehouse-dossier {
-  position: relative;
+.warehouse-object-card {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) clamp(124px, 18vh, 160px);
-  gap: 12px;
-  min-height: calc(100svh - 100px);
-  padding: 16px;
-  overflow: hidden;
-  border: 1px solid rgba(19, 25, 54, .11);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, .97);
-  box-shadow: 0 20px 54px rgba(19, 25, 54, .13);
-  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1.45fr) minmax(360px, .85fr);
+  gap: 18px;
+  align-items: stretch;
+  padding: 18px;
+  border: 1px solid rgba(19, 25, 54, .10);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 16px 42px rgba(19, 25, 54, .10);
 }
 
-.warehouse-dossier::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 20px;
-  left: 20px;
-  height: 3px;
-  border-radius: 0 0 999px 999px;
-  background: #8b2029;
-}
-
-.warehouse-dossier-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 22px;
+.warehouse-object-content {
   min-width: 0;
-  padding: 2px 3px 0;
+  padding: 8px 8px 6px;
 }
 
-.warehouse-dossier-heading {
-  min-width: 0;
-}
-
-.warehouse-dossier-heading .eyebrow {
-  margin: 0 0 5px;
+.warehouse-object-content > .eyebrow {
+  margin: 0 0 7px;
   color: #8b2029;
-  font-size: 10px;
-  letter-spacing: .11em;
 }
 
-.warehouse-dossier-heading h1 {
-  margin: 0;
+.warehouse-object-title {
+  max-width: 920px;
+  margin: 0 0 16px;
   color: #131936;
-  font-size: clamp(27px, 2.65vw, 43px);
+  font-size: clamp(30px, 3.1vw, 50px);
   font-weight: 800;
   line-height: .98;
   letter-spacing: -.035em;
 }
 
-.warehouse-dossier-badges {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 8px;
-}
-
-.warehouse-dossier-badges span,
-.warehouse-dossier-badges strong {
-  display: inline-flex;
-  min-height: 32px;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 11px;
-  border-radius: 9px;
-  box-sizing: border-box;
-  font-size: 11px;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.warehouse-dossier-badges span {
-  background: #e9f0e9;
-  color: #285e38;
-  font-weight: 800;
-}
-
-.warehouse-dossier-badges strong {
-  background: #131936;
-  color: #fff;
-}
-
-.warehouse-dossier-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(340px, .75fr);
-  gap: 12px;
-  min-height: 0;
-}
-
-.warehouse-dossier-info,
-.warehouse-dossier-map {
-  min-width: 0;
-  min-height: 0;
-  border: 1px solid rgba(19, 25, 54, .10);
-  border-radius: 14px;
-}
-
-.warehouse-dossier-info {
-  display: flex;
-  flex-direction: column;
-  padding: 11px;
-  background: #f8f8f5;
-  box-sizing: border-box;
-}
-
-.warehouse-dossier-primary {
+.warehouse-object-primary {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
-  overflow: hidden;
-  border: 1px solid rgba(19, 25, 54, .12);
-  border-radius: 11px;
-  background: #fff;
+  border-top: 1px solid rgba(19, 25, 54, .12);
+  border-left: 1px solid rgba(19, 25, 54, .12);
 }
 
-.warehouse-dossier-primary > div {
+.warehouse-object-primary > div {
   display: grid;
-  grid-template-columns: minmax(118px, .82fr) minmax(0, 1.18fr);
-  gap: 8px;
-  align-items: center;
+  grid-template-columns: minmax(135px, .85fr) minmax(0, 1.15fr);
+  gap: 10px;
   min-width: 0;
-  padding: 7px 9px;
-  border-right: 1px solid rgba(19, 25, 54, .10);
-  border-bottom: 1px solid rgba(19, 25, 54, .10);
+  padding: 9px 11px;
+  border-right: 1px solid rgba(19, 25, 54, .12);
+  border-bottom: 1px solid rgba(19, 25, 54, .12);
+  background: #f7f7f4;
 }
 
-.warehouse-dossier-primary > div:nth-child(2n) {
-  border-right: 0;
-}
-
-.warehouse-dossier-primary > div:nth-last-child(-n + 2) {
-  border-bottom: 0;
-}
-
-.warehouse-dossier-primary dt,
-.warehouse-dossier-primary dd {
+.warehouse-object-primary dt,
+.warehouse-object-primary dd {
   min-width: 0;
   margin: 0;
-  font-size: 11.5px;
-  line-height: 1.2;
+  font-size: 13px;
+  line-height: 1.25;
 }
 
-.warehouse-dossier-primary dt {
-  color: rgba(19, 25, 54, .58);
+.warehouse-object-primary dt {
+  color: rgba(19, 25, 54, .62);
   font-weight: 700;
 }
 
-.warehouse-dossier-primary dd {
+.warehouse-object-primary dd {
   color: #131936;
-  font-weight: 800;
+  font-weight: 700;
   overflow-wrap: anywhere;
 }
 
-.warehouse-dossier-general {
-  display: grid;
-  gap: 8px;
-  margin-top: 9px;
-  padding: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(19, 25, 54, .09);
-  border-radius: 11px;
+.warehouse-object-general {
+  margin-top: 14px;
+  padding: 15px;
+  border: 1px solid rgba(19, 25, 54, .10);
+  border-radius: 14px;
   background: #fff;
 }
 
-.warehouse-dossier-section-title {
+.warehouse-object-section-head {
   display: flex;
-  align-items: baseline;
+  align-items: end;
   justify-content: space-between;
-  gap: 14px;
+  gap: 16px;
+  margin-bottom: 10px;
 }
 
-.warehouse-dossier-section-title span {
+.warehouse-object-section-head .eyebrow {
+  margin: 0;
   color: #8b2029;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .09em;
-  text-transform: uppercase;
 }
 
-.warehouse-dossier-section-title strong {
+.warehouse-object-section-head h2 {
+  margin: 0;
   color: #131936;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1;
 }
 
-.warehouse-dossier-general-grid {
+.warehouse-object-general-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 6px;
+  gap: 7px;
   margin: 0;
 }
 
-.warehouse-dossier-general-grid > div {
+.warehouse-object-general-grid > div {
   min-width: 0;
-  padding: 6px 7px;
-  border-radius: 8px;
-  background: #f0f1f2;
+  padding: 9px 10px;
+  border-radius: 9px;
+  background: #f1f2f3;
 }
 
-.warehouse-dossier-general-grid dt,
-.warehouse-dossier-general-grid dd {
+.warehouse-object-general-grid dt,
+.warehouse-object-general-grid dd {
   margin: 0;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
-.warehouse-dossier-general-grid dt {
-  margin-bottom: 2px;
-  color: rgba(19, 25, 54, .54);
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: .035em;
+.warehouse-object-general-grid dt {
+  margin-bottom: 3px;
+  color: rgba(19, 25, 54, .56);
+  font-size: 10px;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
-.warehouse-dossier-general-grid dd {
+.warehouse-object-general-grid dd {
   color: #131936;
-  font-size: 10.5px;
-  font-weight: 750;
+  font-size: 12px;
+  font-weight: 700;
   overflow-wrap: anywhere;
 }
 
-.warehouse-dossier-description {
+.warehouse-object-description {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
-  gap: 10px;
-  align-items: start;
-  min-width: 0;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, .85fr);
+  gap: 14px;
+  margin-top: 11px;
 }
 
-.warehouse-dossier-description p {
+.warehouse-object-description p {
   margin: 0;
-  color: rgba(19, 25, 54, .72);
-  font-size: 10.5px;
-  line-height: 1.35;
+  color: rgba(19, 25, 54, .74);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
-.warehouse-dossier-description ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+.warehouse-object-description ul {
+  display: grid;
+  gap: 5px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.warehouse-dossier-description li {
-  padding: 4px 7px;
-  border: 1px solid rgba(19, 25, 54, .09);
-  border-radius: 999px;
-  background: #f4f4f1;
+.warehouse-object-description li {
+  position: relative;
+  padding-left: 15px;
   color: #131936;
-  font-size: 9px;
-  font-weight: 700;
-  line-height: 1.15;
+  font-size: 12px;
+  line-height: 1.35;
 }
 
-.warehouse-dossier-actions {
+.warehouse-object-description li::before {
+  content: "";
+  position: absolute;
+  top: .45em;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8b2029;
+}
+
+.warehouse-object-actions {
   display: flex;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 9px;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 13px;
 }
 
-.warehouse-dossier-actions .button {
-  min-height: 34px;
-  padding: 7px 12px;
-  border-radius: 8px;
-  font-size: 10.5px;
+.warehouse-object-actions .button {
+  min-height: 38px;
+  padding: 8px 14px;
+  font-size: 12px;
 }
 
-.warehouse-dossier-map {
+.warehouse-object-map {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(330px, 1fr);
+  min-width: 0;
   overflow: hidden;
+  border: 1px solid rgba(19, 25, 54, .12);
+  border-radius: 14px;
   background: #dce5eb;
 }
 
-.warehouse-dossier-map-head {
+.warehouse-object-map-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 12px;
+  gap: 14px;
+  padding: 13px 14px;
   background: #131936;
   color: #fff;
 }
 
-.warehouse-dossier-map-head span,
-.warehouse-dossier-map-head strong {
+.warehouse-object-map-head span,
+.warehouse-object-map-head strong {
   display: block;
 }
 
-.warehouse-dossier-map-head span {
-  margin-bottom: 2px;
-  color: rgba(255, 255, 255, .58);
-  font-size: 8px;
-  font-weight: 800;
+.warehouse-object-map-head span {
+  margin-bottom: 3px;
+  color: rgba(255, 255, 255, .62);
+  font-size: 9px;
+  font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
 
-.warehouse-dossier-map-head strong {
-  max-width: 260px;
-  font-size: 13px;
+.warehouse-object-map-head strong {
+  font-size: 15px;
   line-height: 1.15;
 }
 
-.warehouse-dossier-map-head a {
+.warehouse-object-map-head a {
   flex: 0 0 auto;
-  padding: 6px 9px;
+  padding: 7px 10px;
   border: 1px solid rgba(255, 255, 255, .28);
-  border-radius: 7px;
+  border-radius: 8px;
   color: #fff;
-  font-size: 9px;
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 700;
   text-decoration: none;
 }
 
-.warehouse-dossier-map iframe {
-  display: block;
+.warehouse-object-map iframe {
   width: 100%;
   height: 100%;
-  min-height: 0;
+  min-height: 330px;
   border: 0;
 }
 
-.warehouse-dossier-media {
+.warehouse-object-media {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  min-height: 0;
+  gap: 12px;
+  margin-top: 14px;
 }
 
-.warehouse-dossier-media-card {
+.warehouse-object-media-card {
   position: relative;
-  min-width: 0;
-  min-height: 0;
   overflow: hidden;
   border: 1px solid rgba(19, 25, 54, .10);
   border-radius: 12px;
-  background: #dce5eb;
-  box-shadow: 0 8px 20px rgba(19, 25, 54, .08);
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(19, 25, 54, .08);
 }
 
-.warehouse-dossier-media-card .image-open-button {
+.warehouse-object-media-card .image-open-button {
   display: block;
   width: 100%;
-  height: 100%;
+  height: 150px;
   padding: 0;
   border: 0;
   background: #dce5eb;
   cursor: zoom-in;
 }
 
-.warehouse-dossier-media-card img {
+.warehouse-object-media-card img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.warehouse-dossier-media-card--plan img {
+.warehouse-object-media-card--plan img {
   object-fit: contain;
-  padding: 8px;
-  background: #f7f7f4;
+  padding: 10px;
   box-sizing: border-box;
+  background: #f7f7f4;
 }
 
-.warehouse-dossier-media-card > span {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  left: 8px;
-  width: max-content;
-  max-width: calc(100% - 16px);
-  padding: 5px 8px;
-  overflow: hidden;
-  border-radius: 7px;
-  background: rgba(19, 25, 54, .88);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 800;
-  line-height: 1;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-@media (min-width: 1101px) {
-  html:has(.warehouse-object-page),
-  body:has(.warehouse-object-page) {
-    overflow: hidden;
-  }
-
-  .warehouse-object-page {
-    height: calc(100svh - 72px);
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  .warehouse-object-section,
-  .warehouse-object-container,
-  .warehouse-dossier {
-    height: 100%;
-    min-height: 0;
-  }
-}
-
-@media (min-width: 1101px) and (max-height: 760px) {
-  .warehouse-object-section {
-    padding: 10px 0;
-  }
-
-  .warehouse-dossier {
-    grid-template-rows: auto minmax(0, 1fr) 112px;
-    gap: 9px;
-    min-height: calc(100svh - 92px);
-    padding: 12px;
-  }
-
-  .warehouse-dossier-heading .eyebrow {
-    margin-bottom: 3px;
-    font-size: 8px;
-  }
-
-  .warehouse-dossier-heading h1 {
-    font-size: clamp(24px, 2.2vw, 34px);
-  }
-
-  .warehouse-dossier-badges span,
-  .warehouse-dossier-badges strong {
-    min-height: 28px;
-    padding: 6px 9px;
-    font-size: 9px;
-  }
-
-  .warehouse-dossier-info {
-    padding: 8px;
-  }
-
-  .warehouse-dossier-primary > div {
-    padding: 5px 7px;
-  }
-
-  .warehouse-dossier-primary dt,
-  .warehouse-dossier-primary dd {
-    font-size: 10px;
-  }
-
-  .warehouse-dossier-general {
-    gap: 5px;
-    margin-top: 6px;
-    padding: 7px;
-  }
-
-  .warehouse-dossier-section-title strong {
-    font-size: 13px;
-  }
-
-  .warehouse-dossier-general-grid {
-    gap: 4px;
-  }
-
-  .warehouse-dossier-general-grid > div {
-    padding: 4px 5px;
-  }
-
-  .warehouse-dossier-general-grid dt {
-    font-size: 7px;
-  }
-
-  .warehouse-dossier-general-grid dd,
-  .warehouse-dossier-description p {
-    font-size: 9px;
-  }
-
-  .warehouse-dossier-description li {
-    padding: 3px 6px;
-    font-size: 8px;
-  }
-
-  .warehouse-dossier-actions {
-    padding-top: 6px;
-  }
-
-  .warehouse-dossier-actions .button {
-    min-height: 30px;
-    padding: 5px 9px;
-    font-size: 9px;
-  }
-
-  .warehouse-dossier-map-head {
-    padding: 8px 10px;
-  }
+.warehouse-object-media-card > span {
+  display: block;
+  padding: 8px 10px;
+  color: #131936;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 @media (max-width: 1100px) {
-  html,
-  body {
-    overflow: auto;
-  }
-
-  .warehouse-object-section {
-    min-height: 0;
-    padding: 18px 0 28px;
-  }
-
-  .warehouse-dossier {
-    grid-template-rows: auto auto auto;
-    min-height: 0;
-  }
-
-  .warehouse-dossier-body {
+  .warehouse-object-card {
     grid-template-columns: 1fr;
   }
 
-  .warehouse-dossier-map {
-    min-height: 320px;
+  .warehouse-object-map {
+    grid-template-rows: auto 320px;
+  }
+
+  .warehouse-object-general-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 720px) {
+  .warehouse-object-section {
+    padding: 18px 0 26px;
+  }
+
   .warehouse-object-container {
-    width: min(100% - 20px, 1500px);
+    width: min(100% - 24px, 1440px);
   }
 
-  .warehouse-dossier {
-    padding: 11px;
-    border-radius: 15px;
+  .warehouse-object-card {
+    padding: 12px;
+    border-radius: 14px;
   }
 
-  .warehouse-dossier-header {
-    display: block;
+  .warehouse-object-title {
+    font-size: clamp(28px, 10vw, 40px);
   }
 
-  .warehouse-dossier-badges {
-    margin-top: 10px;
-  }
-
-  .warehouse-dossier-primary,
-  .warehouse-dossier-general-grid,
-  .warehouse-dossier-description,
-  .warehouse-dossier-media {
+  .warehouse-object-primary,
+  .warehouse-object-general-grid,
+  .warehouse-object-description,
+  .warehouse-object-media {
     grid-template-columns: 1fr;
   }
 
-  .warehouse-dossier-primary > div,
-  .warehouse-dossier-primary > div:nth-child(2n),
-  .warehouse-dossier-primary > div:nth-last-child(-n + 2) {
-    border-right: 0;
-    border-bottom: 1px solid rgba(19, 25, 54, .10);
+  .warehouse-object-primary > div {
+    grid-template-columns: minmax(120px, .8fr) minmax(0, 1.2fr);
   }
 
-  .warehouse-dossier-primary > div:last-child {
-    border-bottom: 0;
-  }
-
-  .warehouse-dossier-primary > div {
-    grid-template-columns: minmax(120px, .85fr) minmax(0, 1.15fr);
-  }
-
-  .warehouse-dossier-section-title {
+  .warehouse-object-section-head {
     display: block;
   }
 
-  .warehouse-dossier-section-title strong {
-    display: block;
-    margin-top: 4px;
+  .warehouse-object-section-head h2 {
+    margin-top: 5px;
   }
 
-  .warehouse-dossier-media-card {
+  .warehouse-object-map {
+    grid-template-rows: auto 280px;
+  }
+
+  .warehouse-object-map iframe {
+    min-height: 280px;
+  }
+
+  .warehouse-object-media-card .image-open-button {
     height: 190px;
   }
 }
-/* ARENDASKLADA_DETAIL_DOSSIER_V4_END */
-
-/* DETAIL_WHITE_V15_START */
-.warehouse-object-page,.warehouse-object-section{background:#fff!important;color:#131936!important}.warehouse-object-section{padding:10px 0!important;box-sizing:border-box!important}.warehouse-object-container{display:grid!important;grid-template-rows:minmax(0,1fr) clamp(132px,20vh,180px)!important;gap:12px!important;width:min(1480px,calc(100% - 28px))!important;height:100%!important;min-height:0!important;margin:auto!important;padding:0!important}.warehouse-object-card{display:grid!important;grid-template-columns:minmax(0,.92fr) minmax(420px,1.08fr)!important;gap:14px!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}.warehouse-object-content,.warehouse-object-map,.warehouse-object-media-card{min-width:0!important;border:1px solid #e3e5e8!important;border-radius:14px!important;background:#fff!important;box-shadow:0 10px 28px rgba(19,25,54,.08)!important;box-sizing:border-box!important}.warehouse-object-content{display:flex!important;flex-direction:column!important;min-height:0!important;padding:15px 18px!important;overflow:hidden!important}.warehouse-object-content>.eyebrow{margin:0 0 4px!important;color:#8b2029!important;font-size:9px!important;font-weight:800!important;letter-spacing:.08em!important;text-transform:uppercase!important}.warehouse-object-title{margin:0!important;padding-bottom:9px!important;border-bottom:1px solid #eceef0!important;color:#131936!important;font-size:clamp(25px,2.1vw,39px)!important;line-height:1!important;letter-spacing:-.035em!important}.warehouse-object-primary{display:grid!important;margin:7px 0 0!important}.warehouse-object-primary>div{display:grid!important;grid-template-columns:minmax(150px,.82fr) minmax(0,1.18fr)!important;gap:10px!important;padding:4px 0!important;border-bottom:1px solid #eef0f2!important}.warehouse-object-primary dt,.warehouse-object-primary dd{margin:0!important;font-size:11px!important;line-height:1.2!important}.warehouse-object-primary dt{font-weight:800!important}.warehouse-object-primary dd{color:#505568!important;font-weight:600!important;overflow-wrap:anywhere!important}.warehouse-object-general{display:grid!important;gap:6px!important;margin-top:8px!important;padding:8px!important;border:1px solid #e6e8eb!important;border-radius:10px!important;background:#f7f7f5!important;overflow:hidden!important}.warehouse-object-section-head{display:flex!important;align-items:baseline!important;justify-content:space-between!important;gap:10px!important}.warehouse-object-section-head .eyebrow{margin:0!important;color:#8b2029!important;font-size:8px!important;font-weight:800!important;text-transform:uppercase!important}.warehouse-object-section-head h2{margin:0!important;font-size:13px!important}.warehouse-object-general-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;margin:0!important}.warehouse-object-general-grid>div{min-width:0!important;padding:5px 6px!important;border:1px solid #eceef0!important;border-radius:7px!important;background:#fff!important}.warehouse-object-general-grid dt,.warehouse-object-general-grid dd{margin:0!important;overflow-wrap:anywhere!important}.warehouse-object-general-grid dt{color:#73788a!important;font-size:7px!important;font-weight:800!important;text-transform:uppercase!important}.warehouse-object-general-grid dd{font-size:9px!important;font-weight:700!important}.warehouse-object-description{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(170px,.85fr)!important;gap:8px!important}.warehouse-object-description p{margin:0!important;color:#5f6474!important;font-size:8.5px!important;line-height:1.3!important}.warehouse-object-description ul{display:flex!important;flex-wrap:wrap!important;gap:4px!important;margin:0!important;padding:0!important;list-style:none!important}.warehouse-object-description li{padding:3px 6px!important;border:1px solid #e7e9ec!important;border-radius:999px!important;background:#fff!important;font-size:7px!important;font-weight:700!important}.warehouse-object-actions{display:flex!important;gap:7px!important;margin-top:auto!important;padding-top:7px!important}.warehouse-object-actions .button{min-height:29px!important;padding:6px 10px!important;border-radius:7px!important;font-size:9px!important}.warehouse-object-map{display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;min-height:0!important;overflow:hidden!important}.warehouse-object-map-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:10px 12px!important;border-bottom:1px solid #e5e7ea!important;background:#fff!important;color:#131936!important}.warehouse-object-map-head span,.warehouse-object-map-head strong{display:block!important}.warehouse-object-map-head span{color:#757a8b!important;font-size:8px!important;font-weight:800!important;text-transform:uppercase!important}.warehouse-object-map-head strong{font-size:12px!important}.warehouse-object-map-head a{padding:6px 9px!important;border:1px solid #d9dce1!important;border-radius:7px!important;color:#131936!important;background:#fff!important;font-size:9px!important;font-weight:800!important;text-decoration:none!important}.warehouse-object-map iframe{display:block!important;width:100%!important;height:100%!important;min-height:0!important;border:0!important;background:#f4f4f2!important}.warehouse-object-media{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;min-height:0!important}.warehouse-object-media-card{position:relative!important;min-height:0!important;overflow:hidden!important}.warehouse-object-media-card .image-open-button{display:block!important;width:100%!important;height:100%!important;padding:0!important;border:0!important;background:#f4f4f2!important}.warehouse-object-media-card img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important}.warehouse-object-media-card--plan img{object-fit:contain!important;padding:8px!important;background:#fff!important;box-sizing:border-box!important}.warehouse-object-media-card>span{position:absolute!important;left:8px!important;bottom:8px!important;padding:5px 8px!important;border-radius:7px!important;background:rgba(19,25,54,.9)!important;color:#fff!important;font-size:9px!important;font-weight:800!important;pointer-events:none!important}@media(min-width:1101px){html:has(.warehouse-object-page),body:has(.warehouse-object-page){height:100%!important;overflow:hidden!important}.warehouse-object-page{height:calc(100svh - 64px)!important;min-height:0!important;overflow:hidden!important}.warehouse-object-section{height:100%!important;min-height:0!important}}@media(min-width:1101px) and (max-height:780px){.warehouse-object-container{grid-template-rows:minmax(0,1fr) 126px!important;gap:9px!important}.warehouse-object-content{padding:11px 14px!important}.warehouse-object-title{font-size:clamp(23px,2vw,33px)!important}.warehouse-object-primary>div{padding:3px 0!important}.warehouse-object-primary dt,.warehouse-object-primary dd{font-size:10px!important}.warehouse-object-general{margin-top:5px!important;padding:6px!important}.warehouse-object-actions{padding-top:4px!important}}@media(max-width:1100px){html:has(.warehouse-object-page),body:has(.warehouse-object-page){overflow:auto!important}.warehouse-object-container{grid-template-rows:auto auto!important}.warehouse-object-card{grid-template-columns:1fr!important}.warehouse-object-map{min-height:340px!important}}@media(max-width:720px){.warehouse-object-container{width:min(100% - 20px,1480px)!important}.warehouse-object-general-grid,.warehouse-object-description,.warehouse-object-media{grid-template-columns:1fr!important}.warehouse-object-media-card{height:190px!important}}
-/* DETAIL_WHITE_V15_END */
+/* ARENDASKLADA_COMPACT_DETAIL_V3_END */
