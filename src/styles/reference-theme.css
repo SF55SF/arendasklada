@@ -4909,9 +4909,9 @@ body:has(.warehouse-object-page),
 .reference-hero__eyebrow,.reference-hero h1,.reference-hero__lead{display:none!important}
 .reference-hero__button{position:absolute!important;right:0!important;bottom:0!important;z-index:3!important;display:flex!important;align-items:center!important;justify-content:center!important;min-width:clamp(220px,23vw,340px)!important;min-height:66px!important;margin:0!important;padding:16px 34px 16px 54px!important;border:2px solid #8b2029!important;border-right:0!important;border-radius:0!important;background:rgba(255,255,255,.88)!important;color:#8b2029!important;font-size:clamp(15px,1.35vw,20px)!important;font-weight:800!important;letter-spacing:.01em!important;text-transform:none!important;text-decoration:none!important;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%)!important;box-shadow:none!important;pointer-events:auto!important}
 .reference-hero__button:hover{background:#8b2029!important;color:#fff!important;transform:none!important}
-@keyframes homeHeroCleanPanV2{from{transform:translate3d(-3.5%,0,0) scale(1.06)}to{transform:translate3d(3.5%,0,0) scale(1.06)}}
+
 @media(max-width:720px){.reference-hero{min-height:520px!important}.reference-hero__image{inset:-2% -10%!important;width:120%!important;height:104%!important}.reference-hero__button{min-width:230px!important;min-height:58px!important;padding:14px 24px 14px 42px!important;font-size:15px!important}}
-@media(prefers-reduced-motion:reduce){.reference-hero__image{animation:none!important;transform:scale(1.04)!important}}
+
 /* HOME_HERO_CLEAN_PAN_V2_END */
 
 /* HOME_HERO_BUTTON_RED_V3_START */
@@ -4927,13 +4927,60 @@ body:has(.warehouse-object-page),
 .reference-hero__overlay{display:none!important}
 .reference-hero__button--corner{position:absolute!important;right:0!important;bottom:0!important;left:auto!important;top:auto!important;z-index:4!important;display:flex!important;align-items:center!important;justify-content:center!important;min-width:clamp(176px,18.4vw,272px)!important;min-height:53px!important;margin:0!important;padding:13px 27px 13px 43px!important;border:2px solid #8b2029!important;border-right:0!important;border-radius:0!important;background:#8b2029!important;color:#fff!important;font-size:clamp(13px,1.08vw,16px)!important;font-weight:800!important;line-height:1!important;text-decoration:none!important;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%)!important;box-shadow:none!important}
 .reference-hero__button--corner:hover{background:#6f1820!important;border-color:#6f1820!important;color:#fff!important;transform:none!important}
-@keyframes homeHeroFullbleedPanV4{from{transform:translate3d(-3.5%,0,0) scale(1.06)}to{transform:translate3d(3.5%,0,0) scale(1.06)}}
+
 @media(max-width:720px){.reference-hero{min-height:520px!important}.reference-hero__image{inset:-2% -10%!important;width:120%!important;height:104%!important}.reference-hero__button--corner{min-width:184px!important;min-height:46px!important;padding:11px 19px 11px 34px!important;font-size:13px!important}}
-@media(prefers-reduced-motion:reduce){.reference-hero__image{animation:none!important;transform:scale(1.04)!important}}
+
 /* HOME_HERO_FULLBLEED_V4_END */
 
 /* HOME_HERO_MOTION_V5_START */
-.reference-hero__image{animation:homeHeroMotionV5 15s ease-in-out infinite alternate!important;transform-origin:center center!important;will-change:transform!important}
-@keyframes homeHeroMotionV5{from{transform:translate3d(-4%,0,0) scale(1.06)}to{transform:translate3d(4%,0,0) scale(1.12)}}
-@media(prefers-reduced-motion:reduce){.reference-hero__image{animation:none!important;transform:scale(1.06)!important}}
+.reference-hero__image{transform-origin:center center!important;will-change:transform!important}
+
+
 /* HOME_HERO_MOTION_V5_END */
+
+/* HOME_HERO_MOTION_FIX_V6_START */
+.reference-hero__image{animation:homeHeroMotionV6 15s ease-in-out infinite alternate!important;transform-origin:center center!important;will-change:transform!important}
+@keyframes homeHeroMotionV6{from{transform:translate3d(-5%,0,0) scale(1.06)}to{transform:translate3d(5%,0,0) scale(1.13)}}
+/* HOME_HERO_MOTION_FIX_V6_END */
+
+/* HOME_HERO_STATIC_TITLE_V7_START */
+.reference-hero__title-static{position:absolute!important;top:clamp(72px,17%,148px)!important;right:clamp(40px,10vw,168px)!important;z-index:3!important;margin:0!important;color:#2f3338!important;font-size:clamp(54px,6.7vw,104px)!important;font-weight:900!important;line-height:.94!important;letter-spacing:-.05em!important;text-align:right!important;pointer-events:none!important;text-shadow:0 2px 0 rgba(255,255,255,.38),0 8px 18px rgba(0,0,0,.22),10px 18px 0 rgba(0,0,0,.08),22px 30px 32px rgba(0,0,0,.18)!important}
+@media(max-width:900px){.reference-hero__title-static{top:clamp(86px,16%,118px)!important;right:24px!important;font-size:clamp(40px,9vw,72px)!important;line-height:.96!important}}
+/* HOME_HERO_STATIC_TITLE_V7_END */
+
+/* HOME_HERO_TITLE_VISIBILITY_V8_START */
+.reference-hero h1.reference-hero__title-static{display:block!important;visibility:visible!important;opacity:1!important}
+/* HOME_HERO_TITLE_VISIBILITY_V8_END */
+
+/* HOME_HERO_TITLE_LINE_V9_START */
+.reference-hero h1.reference-hero__title-static{display:block!important;visibility:visible!important;opacity:1!important;white-space:nowrap!important;max-width:none!important;width:auto!important;color:#25282d!important;text-shadow:12px 14px 18px rgba(0,0,0,.42)!important}
+@media(max-width:900px){.reference-hero h1.reference-hero__title-static{right:20px!important;font-size:clamp(34px,8.6vw,62px)!important;white-space:nowrap!important}}
+/* HOME_HERO_TITLE_LINE_V9_END */
+
+/* HOME_HERO_TITLE_SHADOW_V10_START */
+.reference-hero h1.reference-hero__title-static{position:absolute!important;font-size:clamp(65px,8.04vw,125px)!important;text-shadow:none!important;isolation:isolate!important}
+.reference-hero h1.reference-hero__title-static::after{content:attr(data-text)!important;position:absolute!important;inset:0!important;z-index:-1!important;color:rgba(0,0,0,.32)!important;font:inherit!important;letter-spacing:inherit!important;line-height:inherit!important;white-space:inherit!important;text-align:inherit!important;transform:translate(12px,16px)!important;clip-path:inset(80% 0 0 0)!important;filter:blur(2.5px)!important;pointer-events:none!important}
+@media(max-width:900px){.reference-hero h1.reference-hero__title-static{font-size:clamp(41px,10.32vw,74px)!important}.reference-hero h1.reference-hero__title-static::after{transform:translate(8px,12px)!important;filter:blur(2px)!important}}
+/* HOME_HERO_TITLE_SHADOW_V10_END */
+
+/* HOME_HERO_TITLE_ROOFLINE_V11_START */
+.reference-hero h1.reference-hero__title-static{font-size:clamp(54px,6.7vw,104px)!important;text-shadow:none!important}
+.reference-hero h1.reference-hero__title-static::after{content:attr(data-text)!important;position:absolute!important;inset:0!important;z-index:-1!important;color:rgba(0,0,0,.34)!important;font:inherit!important;letter-spacing:inherit!important;line-height:inherit!important;white-space:inherit!important;text-align:inherit!important;transform:translate(10px,10px)!important;clip-path:inset(86% 0 0 0)!important;filter:none!important;opacity:.86!important;pointer-events:none!important}
+@media(max-width:900px){.reference-hero h1.reference-hero__title-static{font-size:clamp(34px,8.6vw,62px)!important}.reference-hero h1.reference-hero__title-static::after{transform:translate(7px,8px)!important;clip-path:inset(86% 0 0 0)!important}}
+/* HOME_HERO_TITLE_ROOFLINE_V11_END */
+
+/* HOME_HERO_TITLE_HALF_SHADOW_V12_START */
+.reference-hero h1.reference-hero__title-static::after{clip-path:inset(50% 0 0 0)!important}
+@media(max-width:900px){.reference-hero h1.reference-hero__title-static::after{clip-path:inset(50% 0 0 0)!important}}
+/* HOME_HERO_TITLE_HALF_SHADOW_V12_END */
+
+/* HOME_HERO_TITLE_SHADOW_35_V13_START */
+.reference-hero h1.reference-hero__title-static{-webkit-text-stroke:0 transparent!important;text-shadow:none!important}
+.reference-hero h1.reference-hero__title-static::after{clip-path:inset(65% 0 0 0)!important;color:rgba(0,0,0,.34)!important;-webkit-text-stroke:0 transparent!important;text-shadow:none!important;filter:none!important;background:none!important;mix-blend-mode:multiply!important}
+@media(max-width:900px){.reference-hero h1.reference-hero__title-static::after{clip-path:inset(65% 0 0 0)!important}}
+/* HOME_HERO_TITLE_SHADOW_35_V13_END */
+
+/* HOME_HERO_TITLE_SHADOW_SOFT_V14_START */
+.reference-hero h1.reference-hero__title-static::after{color:rgba(0,0,0,.17)!important;filter:blur(1.5px)!important}
+@media(max-width:900px){.reference-hero h1.reference-hero__title-static::after{filter:blur(1px)!important}}
+/* HOME_HERO_TITLE_SHADOW_SOFT_V14_END */
