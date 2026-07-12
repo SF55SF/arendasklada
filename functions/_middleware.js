@@ -1,7 +1,7 @@
 import {verifySession} from './_auth.js';
 const json=(data,status)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
 export async function onRequest(context){
-const path=new URL(context.request.url).pathname;
+const rawPath=new URL(context.request.url).pathname;const path=rawPath.length>1&&rawPath.endsWith('/')?rawPath.slice(0,-1):rawPath;
 const adminPage=path==='/admin-preview'||path.startsWith('/admin-preview/');
 const adminApi=path.startsWith('/api/admin/');
 const publicAdminApi=path==='/api/admin/login'||path==='/api/admin/logout';
