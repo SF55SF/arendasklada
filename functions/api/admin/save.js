@@ -5,7 +5,7 @@ const encodeBase64=(value)=>{const bytes=new TextEncoder().encode(value);let bin
 const yamlValue=(value)=>{if(typeof value==='number'){if(!Number.isFinite(value))throw Error('Invalid number');return String(value);}if(typeof value==='boolean')return value?'true':'false';return JSON.stringify(String(value));};
 const updateFrontmatter=(source,fields)=>{const crlf=String.fromCharCode(13,10),lf=String.fromCharCode(10),newline=source.includes(crlf)?crlf:lf;const lines=source.split(crlf).join(lf).split(lf);if(lines[0]!=='---')throw Error('Frontmatter start not found');let end=lines.indexOf('---',1);if(end<0)throw Error('Frontmatter end not found');for(const [key,value] of Object.entries(fields)){if(!allowed.has(key)||value===undefined)continue;const prefix=key+':',next=prefix+' '+yamlValue(value);let index=-1;for(let i=1;i<end;i++){if(lines[i]===prefix||lines[i].startsWith(prefix+' ')){index=i;break;}}if(index>=0)lines[index]=next;else{lines.splice(end,0,next);end++;}}return lines.join(newline);};
 export async function onRequestPost({request,env}){
-if(!request.headers.get('CF-Access-Jwt-Assertion'))return json({error:'Cloudflare Access required'},401);
+
 if(!env.GITHUB_TOKEN)return json({error:'GITHUB_TOKEN is not configured'},500);
 let payload;try{payload=await request.json();}catch{return json({error:'Invalid JSON'},400);}
 const slug=String(payload&&payload.slug||'').trim();if(!/^[a-z0-9-]+$/.test(slug))return json({error:'Invalid slug'},400);
