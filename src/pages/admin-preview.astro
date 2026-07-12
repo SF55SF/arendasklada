@@ -3,23 +3,75 @@ import { getCollection } from "astro:content";
 const items=(await getCollection("warehouses")).sort((a,b)=>a.data.order-b.data.order);
 const current=items[0]?.data;
 const warehouseUrl=(slug)=>String.fromCharCode(47)+slug+String.fromCharCode(47);
+const yandexMapUrl=(lat,lon)=>'https://yandex.ru/maps/?pt='+lon+','+lat+'&z=16&l=map';
+const yandexMapEmbed=(lat,lon)=>'https://yandex.ru/map-widget/v1/?ll='+lon+'%2C'+lat+'&z=15&pt='+lon+'%2C'+lat+',pm2rdm';
 ---
 <!doctype html><html lang=ru><head><meta charset=UTF-8><meta name=viewport content=width=device-width,initial-scale=1><title>Admin preview</title></head><body><main class="admin">
-<aside><header><b>Объекты</b><button type="button">+</button></header>{items.map((item,index)=><a class=item href={warehouseUrl(item.data.pageSlug)} target=warehousePreview><span>{index+1}</span><div><b>{item.data.title}</b><small>{item.data.area.toLocaleString("ru-RU")} м²</small></div></a>)}</aside>
+<aside data-object-list><header><b>Объекты</b><button type="button">+</button></header>{items.map((item,index)=><a class=item data-object-item draggable=true data-object-slug={item.data.pageSlug} href={warehouseUrl(item.data.pageSlug)} target=warehousePreview><span data-order-number>{index+1}</span><span class=drag-handle aria-hidden=true>⋮⋮</span><div><b>{item.data.title}</b><small>{item.data.area.toLocaleString("ru-RU")} м²</small></div></a>)}</aside>
 <section>
-{current&&<form class=editor data-admin-editor>
+{current&&<form class=editor data-admin-editor data-object-slug={current.pageSlug}>
 <div class=editor-head><div><small>Редактирование объекта</small><h2>{current.title}</h2></div><button type=button disabled>Сохранить</button></div>
 <div class=fields>
 <label><span>Название страницы</span><input name=detailTitle value={current.detailTitle}/></label>
 <label><span>Площадь, м²</span><input type=number name=area value={current.area}/></label>
-<label><span>Ставка аренды</span><input name=price value={current.price}/></label>
+<label><span>Ставка аренды, $/м²</span><input name=price value={current.price}/></label><label><span>Готовность</span><select name=ready><option value="Действующий" selected={current.ready === "Действующий"}>Действующий</option><option value="Строящийся" selected={current.ready === "Строящийся"}>Строящийся</option></select></label>
 <label class=wide><span>Адрес</span><input name=address value={current.address}/></label>
 <label><span>Широта</span><input type=number step=any name=latitude value={current.latitude}/></label>
 <label><span>Долгота</span><input type=number step=any name=longitude value={current.longitude}/></label>
-<label class=wide><span>Главное фото</span><input name=mainImage value={current.mainImage}/><input type=file name=mainImageFile/></label>
-<label class=wide><span>Планировка</span><input name=planImage value={current.planImage}/><input type=file name=planImageFile/></label>
+<section class="wide map-editor" data-map-editor>
+<div class=map-editor-head><div><h3>Расположение на карте</h3><p>Откройте Яндекс.Карты, выберите место, затем укажите координаты.</p></div><a href={yandexMapUrl(current.latitude,current.longitude)} target=_blank rel=noopener>Открыть Яндекс.Карты</a></div>
+<div class=admin-map-frame data-admin-ctrl-map>
+<iframe src={yandexMapEmbed(current.latitude,current.longitude)} title=Карта></iframe>
+<div class=admin-map-wheel-shield aria-hidden=true></div>
+<div class=admin-map-ctrl-hint aria-hidden=true><kbd>Ctrl</kbd><span>+</span><span>колесо</span></div>
+</div>
+<button type=button disabled>Подтвердить расположение</button>
+</section>
+<div class=wide><h3>Технические характеристики</h3></div>
+<label><span>Класс склада</span><input name=warehouseClass value={current.warehouseClass}/></label>
+<label><span>Высота потолков</span><input name=ceilingHeight value={current.ceilingHeight}/></label>
+<label><span>Температурный режим</span><input name=temperatureMode value={current.temperatureMode}/></label>
+<label><span>Тип аренды</span><input name=leaseType value={current.leaseType}/></label>
+
+<label><span>Доковые ворота</span><input name=dockDoors value={current.dockDoors}/></label>
+<label><span>Этаж</span><input name=floor value={current.floor}/></label>
+<label><span>Год постройки</span><input type=number name=builtYear value={current.builtYear}/></label>
+
+
+<section class="wide upload-editor"><div><h3>Главное фото</h3><p>Выберите файл — имя создастся автоматически.</p></div><label class=upload-drop><span>Загрузить или заменить</span><input type=file name=mainImageFile accept=image/* data-auto-upload=main /></label><div class=upload-generated data-upload-output=main></div></section>
+<section class="wide upload-editor"><div><h3>Планировка</h3><p>Выберите файл — имя создастся автоматически.</p></div><label class=upload-drop><span>Загрузить или заменить</span><input type=file name=planImageFile accept=image/* data-auto-upload=plan /></label><div class=upload-generated data-upload-output=plan></div></section>
+<section class="wide gallery-editor" data-upload-gallery>
+<div><h3>Фотографии объекта</h3><p>Текущие фотографии и загрузка новых файлов.</p></div>
+<div class=gallery-existing>{(current.gallery??[]).map((image,index)=><figure><img src={image} alt={current.imageAlt}/><figcaption>Фото {index+1}</figcaption></figure>)}</div>
+<label class=gallery-upload><span>Добавить фотографии</span><input type=file name=gallery multiple accept=image/* data-auto-upload=gallery /><div class=upload-generated data-upload-output=gallery></div></label>
+</section>
 </div><p class=editor-note>Пока это безопасный прототип: поля не сохраняются.</p>
 </form>}
-<p>Предпросмотр страницы объекта</p>{current&&<iframe name=warehousePreview src={warehouseUrl(current.pageSlug)}></iframe>}</section>
+<p>Предпросмотр страницы объекта</p>{current&&<iframe data-object-preview name=warehousePreview src={warehouseUrl(current.pageSlug)} title=Предпросмотр></iframe>}</section>
 </main>
-<style>.admin{display:grid;grid-template-columns:300px 1fr;min-height:100vh;font-family:Arial;background:#eee}.admin aside{padding:20px;background:#292929;color:#fff}.admin header{display:flex;justify-content:space-between;align-items:center}.admin header button{width:38px;height:38px;border:0;border-radius:50%;font-size:24px}.item{display:grid;grid-template-columns:24px 1fr;gap:10px;width:100%;margin-top:10px;padding:12px;border:1px solid #555;background:#363636;color:#fff;text-align:left}.item small{display:block;margin-top:4px;color:#bbb}.admin section{padding:28px}.admin article{max-width:1000px;margin:20px auto;padding:42px;background:#fff}.admin h1{font-size:48px}@media(max-width:760px){.admin{grid-template-columns:1fr}}.item{text-decoration:none}.admin iframe{display:block;width:100%;height:calc(100vh - 100px);border:0;background:#fff}.editor{margin-bottom:24px;padding:24px;background:#fff;border:1px solid #d0d0d0}.editor-head{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:20px}.editor-head h2{margin:4px 0 0;font-size:26px}.editor-head small{color:#777}.editor-head button{padding:12px 18px;border:0;background:#bbb;color:#fff}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fields label{display:grid;gap:6px}.fields label.wide{grid-column:1/-1}.fields span{font-size:12px;font-weight:700;color:#666}.fields input{min-height:42px;padding:9px 11px;border:1px solid #bbb;background:#fafafa;font:inherit}.editor-note{margin:16px 0 0;color:#777;font-size:13px}@media(max-width:900px){.fields{grid-template-columns:1fr}}</style></body></html>
+<style>.admin{display:grid;grid-template-columns:300px 1fr;min-height:100vh;font-family:Arial;background:#eee}.admin aside{padding:20px;background:#292929;color:#fff}.admin header{display:flex;justify-content:space-between;align-items:center}.admin header button{width:38px;height:38px;border:0;border-radius:50%;font-size:24px}.item{display:grid;grid-template-columns:24px 1fr;gap:10px;width:100%;margin-top:10px;padding:12px;border:1px solid #555;background:#363636;color:#fff;text-align:left}.item small{display:block;margin-top:4px;color:#bbb}.admin section{padding:28px}.admin article{max-width:1000px;margin:20px auto;padding:42px;background:#fff}.admin h1{font-size:48px}@media(max-width:760px){.admin{grid-template-columns:1fr}}.item{text-decoration:none}.admin iframe{display:block;width:100%;height:calc(100vh - 100px);border:0;background:#fff}.editor{margin-bottom:24px;padding:24px;background:#fff;border:1px solid #d0d0d0}.editor-head{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:20px}.editor-head h2{margin:4px 0 0;font-size:26px}.editor-head small{color:#777}.editor-head button{padding:12px 18px;border:0;background:#bbb;color:#fff}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fields label{display:grid;gap:6px}.fields label.wide{grid-column:1/-1}.fields span{font-size:12px;font-weight:700;color:#666}.fields input,.fields select{min-height:42px;padding:9px 11px;border:1px solid #bbb;background:#fafafa;font:inherit}.editor-note{margin:16px 0 0;color:#777;font-size:13px}@media(max-width:900px){.fields{grid-template-columns:1fr}}.fields h3{margin:0 0 4px;font-size:20px}.map-editor,.gallery-editor{grid-column:1/-1;padding:18px;border:1px solid #ccc;background:#f4f4f4}.map-editor-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.map-editor-head p,.gallery-editor p{margin:6px 0 14px;color:#777;font-size:13px}.map-editor-head a,.map-editor button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border:0;background:#303030;color:#fff;text-decoration:none;font-weight:700}.admin .map-editor iframe{height:320px;margin:8px 0 12px;border:1px solid #bbb}.map-editor button:disabled{background:#999}.gallery-existing{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}.gallery-existing figure{margin:0;background:#ddd}.gallery-existing img{display:block;width:100%;height:120px;object-fit:cover}.gallery-existing figcaption{padding:7px;font-size:12px}.gallery-upload{padding:14px;border:1px dashed #999;background:#fff}@media(max-width:900px){.map-editor-head{display:block}.gallery-existing{grid-template-columns:repeat(2,minmax(0,1fr))}}.admin-map-frame{position:relative}.admin-map-wheel-shield{position:absolute;inset:0;z-index:3;background:transparent}.admin-map-frame.is-ctrl-active .admin-map-wheel-shield{pointer-events:none}.admin-map-ctrl-hint{position:absolute;right:12px;bottom:18px;z-index:4;display:flex;gap:6px;align-items:center;padding:7px 9px;background:rgba(70,70,70,.82);color:#fff;font-size:12px;pointer-events:none}.admin-map-ctrl-hint kbd{padding:2px 6px;border:1px solid #aaa;background:#eee;color:#222;font:inherit;font-weight:700}.upload-editor{grid-column:1/-1;padding:18px;border:1px solid #ccc;background:#f4f4f4}.upload-editor p{margin:6px 0 14px;color:#777;font-size:13px}.upload-drop{padding:14px;border:1px dashed #999;background:#fff}.upload-generated{display:grid;gap:8px;margin-top:12px}.upload-generated figure{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center;margin:0;padding:8px;background:#fff;border:1px solid #ddd}.upload-generated img{width:72px;height:54px;object-fit:cover}.upload-generated code{overflow-wrap:anywhere;font-size:12px}[data-object-item]{grid-template-columns:24px 18px 1fr;cursor:grab}[data-object-item]:active{cursor:grabbing}[data-object-item].is-dragging{opacity:.45}.drag-handle{display:flex;align-items:center;justify-content:center;color:#aaa;font-size:15px;letter-spacing:-5px}[data-object-list].is-reordering [data-object-item]{user-select:none}</style><script is:inline>
+const adminMapFrames=Array.from(document.querySelectorAll('[data-admin-ctrl-map]'));
+const setAdminMapCtrl=(active)=>adminMapFrames.forEach((frame)=>frame.classList.toggle('is-ctrl-active',active));
+window.addEventListener('keydown',(event)=>{if(event.code==='ControlLeft')setAdminMapCtrl(true)});
+window.addEventListener('keyup',(event)=>{if(event.code==='ControlLeft')setAdminMapCtrl(false)});
+window.addEventListener('blur',()=>setAdminMapCtrl(false));
+</script>
+<script src="/js/admin-preview.js" defer></script>
+<script is:inline>
+(()=>{
+const list=document.querySelector('[data-object-list]');
+if(!list)return;
+let dragged=null;
+let moved=false;
+const items=()=>Array.from(list.querySelectorAll('[data-object-item]'));
+const sync=()=>items().forEach((item,index)=>{item.dataset.order=String(index+1);const number=item.querySelector('[data-order-number]');if(number)number.textContent=String(index+1)});
+items().forEach((item)=>{
+item.addEventListener('dragstart',()=>{dragged=item;moved=false;item.classList.add('is-dragging');list.classList.add('is-reordering')});
+item.addEventListener('dragover',(event)=>{event.preventDefault();if(!dragged||dragged===item)return;const rect=item.getBoundingClientRect();const after=event.clientY>rect.top+rect.height/2;list.insertBefore(dragged,after?item.nextSibling:item);moved=true;sync()});
+item.addEventListener('dragend',()=>{item.classList.remove('is-dragging');list.classList.remove('is-reordering');dragged=null;window.setTimeout(()=>{moved=false},0)});
+item.addEventListener('click',(event)=>{if(moved)event.preventDefault()});
+});
+sync();
+})();
+</script>
+</body></html>

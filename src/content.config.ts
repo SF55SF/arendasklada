@@ -10,6 +10,8 @@ const warehouses = defineCollection({
     block: z.string().default('Складской объект'),
     floor: z.string().default('1'),
     area: z.number(),
+    areaMin: z.number().optional(),
+    areaMax: z.number().optional(),
     workplaces: z.string().default('по запросу'),
     ready: z.enum(['Действующий', 'Строящийся']).default('Действующий'),
     warehouseLayout: z.string().default('сухой склад'),
