@@ -1,0 +1,35 @@
+name: Weekly repository backup
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create backup archives
+        shell: bash
+        run: |
+          mkdir -p backup
+          git bundle create backup/arendasklada-full.bundle --all
+          git bundle verify backup/arendasklada-full.bundle
+          tar --exclude=.git --exclude=node_modules --exclude=dist --exclude=backup -czf backup/arendasklada-files.tar.gz .
+          git rev-parse HEAD > backup/commit-sha.txt
+
+      - name: Upload weekly backup
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-backup-${{ github.run_number }}
+          path: backup/
+          if-no-files-found: error
+          retention-days: 60
