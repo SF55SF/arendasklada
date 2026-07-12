@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter(Boolean);
 
   const getMarkerColor = (availability) =>
-    normalizeText(availability).includes('стро') ? '#c7cbd1' : '#555b63';
+    normalizeText(availability).includes('стро') ? '#f2c94c' : '#2f9e5b';
 
   const getMarkerPreset = (availability) =>
     normalizeText(availability).includes('стро')
@@ -576,9 +576,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const marker = L.marker([point.lat, point.lng], {
         icon: L.divIcon({
           className: 'leaflet-object-icon',
-          html: `<span class="leaflet-status-dot ${isBuilding ? 'is-building' : 'is-ready'}" data-order="${escapeHtml(point.order || point.id)}"></span>`,
-          iconSize: [22, 22],
-          iconAnchor: [11, 11],
+          html: `<span class="leaflet-status-dot ${isBuilding ? 'is-building' : 'is-ready'}" data-order="${escapeHtml(point.order || point.id)}">${index + 1}</span>`,
+          iconSize: [34, 34],
+          iconAnchor: [17, 17],
         }),
         keyboard: true,
         riseOnHover: true,
@@ -655,34 +655,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const objectManager = new ymaps.ObjectManager({
         clusterize: true,
-        gridSize: 44,
+        gridSize: 64,
       });
 
       /* ARENDASKLADA_YANDEX_STATUS_LAYOUT_START */
       const yandexStatusLayout = ymaps.templateLayoutFactory.createClass(
-        '<div class="yandex-status-dot $[properties.statusClass]" data-order="$[properties.order]"></div>'
+        '<div class="yandex-status-dot $[properties.statusClass]" data-order="$[properties.order]">$[properties.markerNumber]</div>'
       );
       /* ARENDASKLADA_YANDEX_STATUS_LAYOUT_END */
-      /* ARENDASKLADA_YANDEX_STACK_LAYOUT_V1 */
-      const yandexStackLayout = ymaps.templateLayoutFactory.createClass(
-        "<div class=\"yandex-marker-stack\" aria-hidden=\"true\"><span></span><span></span><span></span></div>"
-      );
 
       objectManager.objects.options.set({
         iconLayout: yandexStatusLayout,
-        iconShape: { type: 'Circle', coordinates: [0, 0], radius: 11 },
+        iconShape: { type: 'Circle', coordinates: [0, 0], radius: 18 },
         hasBalloon: false,
         openBalloonOnClick: false,
         openHintOnHover: false,
       });
 
-      objectManager.clusters.options.set({
-        clusterIconLayout: yandexStackLayout,
-        clusterIconShape: { type: "Rectangle", coordinates: [[-17, -15], [17, 15]] },
-        clusterDisableClickZoom: false,
-        clusterOpenBalloonOnClick: false,
-        clusterOpenHintOnHover: false,
-      });
+      objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
 
       objectManager.add({
         type: 'FeatureCollection',
@@ -698,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
             openBalloonOnClick: false,
           },
           properties: {
-
+            markerNumber: index + 1,
             statusClass: normalizeText(point.availability).includes('стро') ? 'is-building' : 'is-ready',
             title: point.title,
             city: point.city,

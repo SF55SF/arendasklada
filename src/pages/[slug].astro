@@ -124,7 +124,11 @@ const photos = gallery.filter((image) => image && image !== mainImage).slice(0, 
 
           <aside class="ir-map">
             <div><p class="ir-kicker">Карта</p><h2>Расположение объекта</h2><a href={mapHref} target="_blank" rel="noopener noreferrer">Открыть карту</a></div>
-            <iframe src={mapSrc} title={`Карта объекта ${title}`} loading="lazy" allowfullscreen></iframe>
+            <div class="ir-map-frame" data-detail-ctrl-map>
+              <iframe src={mapSrc} title={`Карта объекта ${title}`} loading="lazy" allowfullscreen></iframe>
+              <div class="detail-map-wheel-shield" aria-hidden="true"></div>
+              <div class="detail-map-ctrl-hint" aria-hidden="true"><kbd>Ctrl</kbd><span class="detail-map-ctrl-hint__plus">+</span><span class="detail-map-ctrl-hint__wheel">колесо</span><span class="detail-map-ctrl-hint__text">Удерживайте левый Ctrl и прокручивайте колесо</span></div>
+            </div>
           </aside>
         </div>
 
@@ -246,4 +250,32 @@ html:has(.ir-page),body:has(.ir-page){background:#fff!important;color:#111!impor
 @media (max-width:720px){.ir-wrap{width:min(100% - 24px,1440px)!important}.ir-hero{padding:22px 0 34px!important}.ir-title h1{font-size:44px!important}.ir-main,.ir-main img{min-height:280px!important}.ir-summary{padding:22px 18px!important}.ir-grid{gap:18px!important}.ir-map iframe{min-height:320px!important}.ir-gallery>div{grid-template-columns:1fr!important}.ir-gallery button,.ir-gallery img{min-height:220px!important}}
 </style>
 <!-- DETAIL_MODERN_V21_END -->
+
+  <!-- DETAIL_CTRL_MAP_V1_START -->
+  <script is:inline>
+    (() => {
+      const setup = () => {
+        const maps = Array.from(document.querySelectorAll("[data-detail-ctrl-map]"));
+        if (!maps.length) return;
+        let hovered = null;
+        let leftCtrlDown = false;
+        const sync = () => maps.forEach((node) => {
+          const active = node === hovered && leftCtrlDown;
+          node.classList.toggle("is-ctrl-active", active);
+          const text = node.querySelector(".detail-map-ctrl-hint__text");
+          if (text) text.textContent = active ? "Масштабирование включено" : "Удерживайте левый Ctrl и прокручивайте колесо";
+        });
+        maps.forEach((node) => {
+          node.addEventListener("pointerenter", () => { hovered = node; sync(); });
+          node.addEventListener("pointerleave", () => { if (hovered === node) hovered = null; sync(); });
+        });
+        document.addEventListener("keydown", (event) => { if (event.code === "ControlLeft") { leftCtrlDown = true; sync(); } });
+        document.addEventListener("keyup", (event) => { if (event.code === "ControlLeft") { leftCtrlDown = false; sync(); } });
+        window.addEventListener("blur", () => { leftCtrlDown = false; sync(); });
+      };
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", setup, { once: true });
+      else setup();
+    })();
+  </script>
+  <!-- DETAIL_CTRL_MAP_V1_END -->
 </BaseLayout>
