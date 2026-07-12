@@ -684,8 +684,6 @@ document.addEventListener('DOMContentLoaded', () => {
             coordinates: [point.lat, point.lng],
           },
           options: {
-            preset: getMarkerPreset(point.availability),
-            iconColor: getMarkerColor(point.availability),
             hasBalloon: false,
             openBalloonOnClick: false,
           },
@@ -1523,3 +1521,234 @@ const mapFlyoutState = { source: null, node: null, timer: 0 };
   }
 })();
 /* ARENDASKLADA_RENT_EDGE_LABELS_END */
+
+/* ARENDASKLADA_CTRL_MAP_ZOOM_V1_START */
+(() => {
+  const setup = () => {
+    let hoveredMap = null;
+    let leftCtrlDown = false;
+
+    const setNativeZoom = (mapNode, enabled) => {
+      const state = mapNode && mapNode.__arendaYandexMap;
+
+      if (state?.map?.behaviors) {
+        if (enabled) state.map.behaviors.enable('scrollZoom');
+        else state.map.behaviors.disable('scrollZoom');
+      }
+
+      if (state?.leafletMap?.scrollWheelZoom) {
+        if (enabled) state.leafletMap.scrollWheelZoom.enable();
+        else state.leafletMap.scrollWheelZoom.disable();
+      }
+    };
+
+    const syncMap = (mapNode) => {
+      if (!(mapNode instanceof HTMLElement)) return;
+      const active = hoveredMap === mapNode && leftCtrlDown;
+      mapNode.classList.toggle('map-ctrl-active', active);
+      setNativeZoom(mapNode, active);
+
+      const text = mapNode.querySelector('.map-ctrl-hint__text');
+      if (text) {
+        text.textContent = active
+          ? 'Масштабирование включено'
+          : 'Удерживайте левый Ctrl и прокручивайте колесо';
+      }
+    };
+
+    const bindMap = (mapNode) => {
+      if (!(mapNode instanceof HTMLElement) || mapNode.dataset.ctrlZoomBound === 'true') return;
+      mapNode.dataset.ctrlZoomBound = 'true';
+      mapNode.classList.add('map-ctrl-zoom');
+
+      const hint = document.createElement('div');
+      hint.className = 'map-ctrl-hint';
+      hint.setAttribute('aria-hidden', 'true');
+      hint.innerHTML = '<kbd>Ctrl</kbd><span class="map-ctrl-hint__plus">+</span><span class="map-ctrl-hint__wheel">колесо</span><span class="map-ctrl-hint__text">Удерживайте левый Ctrl и прокручивайте колесо</span>';
+      mapNode.appendChild(hint);
+
+      const disableLater = () => setNativeZoom(mapNode, false);
+      disableLater();
+      window.setTimeout(disableLater, 250);
+      window.setTimeout(disableLater, 900);
+      window.setTimeout(disableLater, 1800);
+
+      mapNode.addEventListener('pointerenter', () => {
+        hoveredMap = mapNode;
+        mapNode.classList.add('map-ctrl-hover');
+        syncMap(mapNode);
+      });
+
+      mapNode.addEventListener('pointerleave', () => {
+        mapNode.classList.remove('map-ctrl-hover', 'map-ctrl-active');
+        if (hoveredMap === mapNode) hoveredMap = null;
+        setNativeZoom(mapNode, false);
+      });
+
+      mapNode.addEventListener('wheel', (event) => {
+        if (leftCtrlDown && hoveredMap === mapNode) event.preventDefault();
+      }, { passive: false, capture: true });
+    };
+
+    const bindAllMaps = () => {
+      document.querySelectorAll('[data-yandex-map]').forEach(bindMap);
+    };
+
+    bindAllMaps();
+    const observer = new MutationObserver(bindAllMaps);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code !== 'ControlLeft' || event.repeat) return;
+      leftCtrlDown = true;
+      syncMap(hoveredMap);
+    });
+
+    document.addEventListener('keyup', (event) => {
+      if (event.code !== 'ControlLeft') return;
+      leftCtrlDown = false;
+      syncMap(hoveredMap);
+    });
+
+    window.addEventListener('blur', () => {
+      leftCtrlDown = false;
+      syncMap(hoveredMap);
+    });
+
+    const setMarkerScale = (order, active) => {
+      const value = String(order || '');
+      if (!value) return;
+
+      document.querySelectorAll([
+        '[data-property-marker][data-order]',
+        '.hero-yandex-point[data-order]',
+        '.leaflet-status-dot[data-order]',
+        '.yandex-status-dot[data-order]',
+        '[data-yandex-map] [data-order]'
+      ].join(',')).forEach((marker) => {
+        if (String(marker.getAttribute('data-order') || '') === value) {
+          marker.classList.toggle('is-card-hovered-150', active);
+        }
+      });
+    };
+
+    document.addEventListener('pointerover', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-property-card]') : null;
+      if (!(card instanceof HTMLElement)) return;
+      const from = event.relatedTarget;
+      if (from instanceof Node && card.contains(from)) return;
+      setMarkerScale(card.getAttribute('data-order'), true);
+    });
+
+    document.addEventListener('pointerout', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-property-card]') : null;
+      if (!(card instanceof HTMLElement)) return;
+      const to = event.relatedTarget;
+      if (to instanceof Node && card.contains(to)) return;
+      setMarkerScale(card.getAttribute('data-order'), false);
+    });
+
+    document.addEventListener('focusin', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-property-card]') : null;
+      if (card) setMarkerScale(card.getAttribute('data-order'), true);
+    });
+
+    document.addEventListener('focusout', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-property-card]') : null;
+      if (!(card instanceof HTMLElement)) return;
+      const next = event.relatedTarget;
+      if (!(next instanceof Node) || !card.contains(next)) {
+        setMarkerScale(card.getAttribute('data-order'), false);
+      }
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup, { once: true });
+  } else {
+    setup();
+  }
+})();
+/* ARENDASKLADA_CTRL_MAP_ZOOM_V1_END */
+
+/* ARENDASKLADA_CARD_MARKER_SCALE_V3_START */
+(() => {
+  const boot = () => {
+    if (document.documentElement.dataset.markerScaleV3 === 'true') return;
+    document.documentElement.dataset.markerScaleV3 = 'true';
+
+    let activeOrder = '';
+    const markerSelector = [
+      '[data-property-marker][data-order]',
+      '.hero-yandex-point[data-order]',
+      '.leaflet-status-dot[data-order]',
+      '.yandex-status-dot[data-order]'
+    ].join(',');
+
+    const visualMarker = (node) => {
+      if (!(node instanceof HTMLElement)) return null;
+      if (node.matches('.leaflet-status-dot,.yandex-status-dot,.hero-point-number')) return node;
+      return node.querySelector('.leaflet-status-dot,.yandex-status-dot,.hero-point-number') || node;
+    };
+
+    const syncMarkers = () => {
+      document.querySelectorAll(markerSelector).forEach((node) => {
+        const marker = visualMarker(node);
+        if (!(marker instanceof HTMLElement)) return;
+        const order = String(node.getAttribute('data-order') || marker.getAttribute('data-order') || '');
+        marker.classList.toggle('is-card-hovered-150-v3', Boolean(activeOrder && order === activeOrder));
+      });
+    };
+
+    const setCard = (card) => {
+      activeOrder = card instanceof HTMLElement ? String(card.getAttribute('data-order') || '') : '';
+      syncMarkers();
+    };
+
+    document.addEventListener('pointerover', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const card = target.closest('[data-property-card]');
+      if (!(card instanceof HTMLElement)) return;
+      const previous = event.relatedTarget;
+      if (previous instanceof Node && card.contains(previous)) return;
+      setCard(card);
+    }, true);
+
+    document.addEventListener('pointerout', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const card = target.closest('[data-property-card]');
+      if (!(card instanceof HTMLElement)) return;
+      const next = event.relatedTarget;
+      if (next instanceof Node && card.contains(next)) return;
+      setCard(null);
+    }, true);
+
+    document.addEventListener('focusin', (event) => {
+      const target = event.target;
+      const card = target instanceof Element ? target.closest('[data-property-card]') : null;
+      if (card instanceof HTMLElement) setCard(card);
+    });
+
+    document.addEventListener('focusout', (event) => {
+      const target = event.target;
+      const card = target instanceof Element ? target.closest('[data-property-card]') : null;
+      if (!(card instanceof HTMLElement)) return;
+      const next = event.relatedTarget;
+      if (!(next instanceof Node) || !card.contains(next)) setCard(null);
+    });
+
+    const observer = new MutationObserver(() => {
+      if (activeOrder) syncMarkers();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+/* ARENDASKLADA_CARD_MARKER_SCALE_V3_END */

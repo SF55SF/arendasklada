@@ -6,7 +6,6 @@ import { absoluteUrl, homeAnchor, relativePath } from '../lib/paths';
 
 export async function getStaticPaths() {
   const warehouses = await getCollection('warehouses', ({ data }) => data.published !== false);
-
   return warehouses.map((warehouse) => ({
     params: { slug: warehouse.data.pageSlug },
     props: { warehouse },
@@ -15,167 +14,236 @@ export async function getStaticPaths() {
 
 const { warehouse } = Astro.props as { warehouse: CollectionEntry<'warehouses'> };
 const data = warehouse.data;
-
 const currentPath = Astro.url.pathname;
 const canonical = absoluteUrl(`/${data.pageSlug}/`);
+const title = data.title.replace(/^Логистический центр\s*[—-]\s*/i, '');
 const mainImage = relativePath(data.mainImage, currentPath);
-const gallery = data.gallery.map((image) => relativePath(image, currentPath));
-const planImage = relativePath(data.planImage, currentPath);
-const photos = [mainImage, ...gallery]
-  .filter((value, index, values) => value && values.indexOf(value) === index)
-  .slice(0, 2);
-
-while (photos.length < 2) photos.push(mainImage);
-
-const displayTitle = data.title.replace(/^Логистический центр\s*[—-]\s*/i, '');
+const gallery = (data.gallery ?? []).map((image) => relativePath(image, currentPath));
+const planImage = data.planImage ? relativePath(data.planImage, currentPath) : '';
 const rawPrice = String(data.price ?? '').trim();
 const priceNumber = rawPrice.match(/\d+(?:[.,]\d+)?/)?.[0];
 const rentRate = rawPrice.toLowerCase() === 'по запросу' || !priceNumber
   ? 'По запросу'
   : `от $ ${priceNumber} за м²`;
 
-const primaryFacts = [
+const summary = [
+  ['Регион', data.district],
   ['Площадь', `${data.area.toLocaleString('ru-RU')} м²`],
   ['Ставка аренды', rentRate],
-  ['Район / локация', data.district],
+  ['Готовность', data.ready],
+];
+
+const specs = [
+  ['Тип объекта', data.propertyType],
+  ['Класс склада', data.warehouseClass],
   ['Высота потолков', data.ceilingHeight],
   ['Температурный режим', data.temperatureMode],
   ['Тип аренды', data.leaseType],
-  ['Готовность', data.ready],
-  ['Год постройки', data.builtYear ? String(data.builtYear) : 'По запросу'],
-];
-
-const generalFacts = [
-  ['Тип объекта', data.propertyType],
-  ['Класс склада', data.warehouseClass],
-  ['Этаж', data.floor],
   ['Формат хранения', data.warehouseLayout],
   ['Доковые ворота', data.dockDoors],
+  ['Этаж', data.floor],
+  ['Год постройки', data.builtYear ? String(data.builtYear) : 'По запросу'],
   ['Рабочие места', data.workplaces],
-  ['Адрес', data.address],
   ['Блок / корпус', data.block],
+  ['Адрес', data.address],
 ].filter(([, value]) => String(value ?? '').trim());
 
 const mapHref = `https://yandex.ru/maps/?pt=${data.longitude},${data.latitude}&z=14&l=map`;
-const mapWidgetSrc = `https://yandex.ru/map-widget/v1/?ll=${data.longitude}%2C${data.latitude}&z=14&pt=${data.longitude}%2C${data.latitude},pm2rdm`;
+const mapSrc = `https://yandex.ru/map-widget/v1/?ll=${data.longitude}%2C${data.latitude}&z=14&pt=${data.longitude}%2C${data.latitude},pm2rdm`;
+const photos = gallery.filter((image) => image && image !== mainImage).slice(0, 2);
 ---
 
-<BaseLayout
-  title={data.seoTitle}
-  description={data.description}
-  canonical={canonical}
-  image={absoluteUrl(data.mainImage)}
->
+<BaseLayout title={data.seoTitle} description={data.description} canonical={canonical} image={absoluteUrl(data.mainImage)}>
   <Header />
 
-  <main class="warehouse-detail-main warehouse-object-page">
-    <section class="warehouse-object-section">
-      <div class="container warehouse-object-container">
-        <article class="warehouse-dossier">
-          <header class="warehouse-dossier-header">
-            <div class="warehouse-dossier-heading">
-              <p class="eyebrow">Карточка складского объекта</p>
-              <h1>{displayTitle}</h1>
-            </div>
+  <main class="ir-page">
+    <section class="ir-hero">
+      <div class="ir-wrap">
+        <nav class="ir-crumbs">
+          <a href={homeAnchor('warehouses', currentPath)}>Склады в аренду</a>
+          <span>/</span>
+          <span>{title}</span>
+        </nav>
 
-            <div class="warehouse-dossier-badges" aria-label="Ключевые статусы объекта">
-              <span>{data.ready}</span>
-              <strong>{data.warehouseClass ? `Класс ${data.warehouseClass}` : data.propertyType}</strong>
-            </div>
-          </header>
-
-          <div class="warehouse-dossier-body">
-            <section class="warehouse-dossier-info" aria-label="Характеристики объекта">
-              <dl class="warehouse-dossier-primary">
-                {primaryFacts.map(([label, value]) => (
-                  <div>
-                    <dt>{label}:</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              <section class="warehouse-dossier-general">
-                <div class="warehouse-dossier-section-title">
-                  <span>Общая информация</span>
-                  <strong>Характеристики объекта</strong>
-                </div>
-
-                <dl class="warehouse-dossier-general-grid">
-                  {generalFacts.map(([label, value]) => (
-                    <div>
-                      <dt>{label}</dt>
-                      <dd>{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-
-                <div class="warehouse-dossier-description">
-                  <p>{data.intro}</p>
-
-                  {data.detailFeatures.length > 0 && (
-                    <ul aria-label="Дополнительные особенности">
-                      {data.detailFeatures.map((feature) => <li>{feature}</li>)}
-                    </ul>
-                  )}
-                </div>
-              </section>
-
-              <div class="warehouse-dossier-actions">
-                <a class="button button-dark" href={homeAnchor('contacts', currentPath)}>Получить предложение</a>
-                <a class="button" href={homeAnchor('warehouses', currentPath)}>Все склады</a>
-              </div>
-            </section>
-
-            <aside class="warehouse-dossier-map">
-              <div class="warehouse-dossier-map-head">
-                <div>
-                  <span>Расположение объекта</span>
-                  <strong>{data.district}</strong>
-                </div>
-                <a href={mapHref} target="_blank" rel="noopener noreferrer">Открыть карту</a>
-              </div>
-
-              <iframe
-                src={mapWidgetSrc}
-                title={`Карта объекта ${displayTitle}`}
-                loading="eager"
-                allowfullscreen
-              ></iframe>
-            </aside>
+        <div class="ir-title">
+          <div>
+            <p>Складской объект</p>
+            <h1>{title}</h1>
+            <span>{data.district}, {data.city}</span>
           </div>
+          <a href={homeAnchor('warehouses', currentPath)}>Все склады</a>
+        </div>
 
-          <section class="warehouse-dossier-media" aria-label="Фотографии и планировка объекта">
-            {photos.map((image, index) => (
-              <article class="warehouse-dossier-media-card">
-                <button
-                  class="image-open-button"
-                  type="button"
-                  data-lightbox-src={image}
-                  data-lightbox-alt={`${index === 0 ? 'Главное фото' : 'Дополнительное фото'} объекта ${displayTitle}`}
-                  aria-label={`Открыть ${index === 0 ? 'главное фото' : 'дополнительное фото'} объекта`}
-                >
-                  <img src={image} alt={`${data.imageAlt}, фото ${index + 1}`} />
-                </button>
-                <span>{index === 0 ? 'Главное фото' : 'Дополнительное фото'}</span>
-              </article>
-            ))}
+        <div class="ir-lead">
+          <button class="ir-main image-open-button" type="button" data-lightbox-src={mainImage} data-lightbox-alt={`Главное фото объекта ${title}`}>
+            <img src={mainImage} alt={data.imageAlt} />
+          </button>
 
-            <article class="warehouse-dossier-media-card warehouse-dossier-media-card--plan">
-              <button
-                class="image-open-button"
-                type="button"
-                data-lightbox-src={planImage}
-                data-lightbox-alt={`Планировка объекта ${displayTitle}`}
-                aria-label="Открыть планировку объекта"
-              >
-                <img src={planImage} alt={`Планировка объекта ${displayTitle}`} />
-              </button>
-              <span>Планировка</span>
-            </article>
+          <aside class="ir-summary">
+            <div class="ir-status"><span>Объект в аренду</span><strong>{data.ready}</strong></div>
+            <dl>
+              {summary.map(([label, value]) => (
+                <div><dt>{label}</dt><dd>{value}</dd></div>
+              ))}
+            </dl>
+            <a class="ir-cta" href={homeAnchor('contacts', currentPath)}>Получить предложение</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="ir-body">
+      <div class="ir-wrap">
+        <div class="ir-copy">
+          <article>
+            <p class="ir-kicker">Об объекте</p>
+            <h2>Современный складской комплекс</h2>
+            <p>{data.intro}</p>
+            {(data.detailFeatures ?? []).length > 0 && (
+              <ul>{(data.detailFeatures ?? []).map((feature) => <li>{feature}</li>)}</ul>
+            )}
+          </article>
+          <article>
+            <p class="ir-kicker">Локация</p>
+            <h2>{data.district}</h2>
+            <p>{data.address}</p>
+            <p>Удобное расположение для городской и региональной логистики.</p>
+          </article>
+        </div>
+
+        <div class="ir-grid">
+          <section class="ir-specs">
+            <p class="ir-kicker">Параметры</p>
+            <h2>Технические характеристики</h2>
+            <dl>
+              {specs.map(([label, value]) => (
+                <div><dt>{label}</dt><dd>{value}</dd></div>
+              ))}
+            </dl>
           </section>
-        </article>
+
+          <aside class="ir-map">
+            <div><p class="ir-kicker">Карта</p><h2>Расположение объекта</h2><a href={mapHref} target="_blank" rel="noopener noreferrer">Открыть карту</a></div>
+            <iframe src={mapSrc} title={`Карта объекта ${title}`} loading="lazy" allowfullscreen></iframe>
+          </aside>
+        </div>
+
+        {(photos.length > 0 || planImage) && (
+          <section class="ir-gallery">
+            <p class="ir-kicker">Галерея</p>
+            <h2>Фотографии и планировка</h2>
+            <div>
+              {photos.map((image, index) => (
+                <button class="image-open-button" type="button" data-lightbox-src={image} data-lightbox-alt={`Фото ${index + 2} объекта ${title}`}>
+                  <img src={image} alt={`${data.imageAlt}, фото ${index + 2}`} />
+                </button>
+              ))}
+              {planImage && (
+                <button class="image-open-button ir-plan" type="button" data-lightbox-src={planImage} data-lightbox-alt={`Планировка объекта ${title}`}>
+                  <img src={planImage} alt={`Планировка объекта ${title}`} />
+                </button>
+              )}
+            </div>
+          </section>
+        )}
       </div>
     </section>
   </main>
+
+  <style is:global>
+    html:has(.ir-page),body:has(.ir-page){margin:0;background:#ededed;color:#222}
+    .ir-page,.ir-page *{box-sizing:border-box;font-family:Roboto,Arial,sans-serif}
+    .ir-wrap{width:min(1440px,calc(100% - 48px));margin:auto}
+    .ir-hero{padding:32px 0 52px;background:#f3f3f3;border-bottom:1px solid #d5d5d5}
+    .ir-crumbs{display:flex;gap:8px;margin-bottom:25px;color:#777;font-size:13px}
+    .ir-crumbs a{color:#444;text-decoration:none}
+    .ir-title{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:26px}
+    .ir-title p,.ir-kicker{margin:0 0 8px;color:#777;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+    .ir-title h1{margin:0;max-width:980px;font-size:clamp(44px,5vw,76px);font-weight:800;line-height:.96;letter-spacing:-.045em}
+    .ir-title div>span{display:block;margin-top:13px;color:#666;font-size:18px}
+    .ir-title>a,.ir-map a{padding:11px 15px;border:1px solid #aaa;color:#292929;font-size:13px;font-weight:700;text-decoration:none}
+    .ir-lead{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(330px,.6fr);min-height:560px;background:#d2d2d2}
+    .ir-main{display:block;width:100%;min-height:560px;padding:0;border:0;background:#ccc;overflow:hidden;cursor:zoom-in}
+    .ir-main img{display:block;width:100%;height:100%;min-height:560px;object-fit:cover}
+    .ir-summary{display:flex;flex-direction:column;padding:36px 32px;background:#303030;color:#fff}
+    .ir-status{display:flex;justify-content:space-between;gap:14px;align-items:center;padding-bottom:22px;border-bottom:1px solid #555}
+    .ir-status span{color:#bbb;font-size:12px;font-weight:700;text-transform:uppercase}
+    .ir-status strong{padding:7px 9px;background:#e7e7e7;color:#292929;font-size:12px}
+    .ir-summary dl{margin:0}
+    .ir-summary dl>div{padding:22px 0;border-bottom:1px solid #505050}
+    .ir-summary dt{margin:0 0 7px;color:#aaa;font-size:12px;font-weight:700;text-transform:uppercase}
+    .ir-summary dd{margin:0;font-size:22px;font-weight:700;line-height:1.2;overflow-wrap:anywhere}
+    .ir-cta{display:flex;align-items:center;justify-content:center;min-height:54px;margin-top:auto;background:#eee;color:#222;font-size:14px;font-weight:800;text-decoration:none;text-transform:uppercase}
+    .ir-body{padding:68px 0 90px;background:#ededed}
+    .ir-copy{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:60px;padding-bottom:58px;border-bottom:1px solid #ccc}
+    .ir-copy h2,.ir-specs h2,.ir-map h2,.ir-gallery h2{margin:0 0 18px;font-size:clamp(27px,2.3vw,38px);line-height:1.08;letter-spacing:-.025em}
+    .ir-copy p:not(.ir-kicker){margin:0 0 15px;color:#555;font-size:17px;line-height:1.65}
+    .ir-copy ul{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;padding:0;list-style:none}
+    .ir-copy li{padding:8px 10px;border:1px solid #c8c8c8;background:#f6f6f6;color:#444;font-size:13px;font-weight:600}
+    .ir-grid{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(350px,.82fr);gap:30px;padding-top:58px}
+    .ir-specs,.ir-map,.ir-gallery{background:#f7f7f7;border:1px solid #d0d0d0}
+    .ir-specs{padding:32px}
+    .ir-specs dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:26px 0 0;border-top:1px solid #ccc}
+    .ir-specs dl>div{display:grid;grid-template-columns:minmax(120px,.8fr) minmax(0,1.2fr);gap:16px;padding:16px 0;border-bottom:1px solid #d4d4d4}
+    .ir-specs dl>div:nth-child(odd){padding-right:24px}
+    .ir-specs dl>div:nth-child(even){padding-left:24px;border-left:1px solid #d4d4d4}
+    .ir-specs dt,.ir-specs dd{margin:0;font-size:14px;line-height:1.4}
+    .ir-specs dt{color:#777;font-weight:600}
+    .ir-specs dd{font-weight:700;overflow-wrap:anywhere}
+    .ir-map{display:grid;grid-template-rows:auto 1fr;min-height:590px;overflow:hidden}
+    .ir-map>div{position:relative;padding:28px;background:#dedede}
+    .ir-map h2{margin-bottom:0}
+    .ir-map a{position:absolute;right:28px;bottom:28px}
+    .ir-map iframe{width:100%;height:100%;min-height:460px;border:0}
+    .ir-gallery{margin-top:30px;padding:32px}
+    .ir-gallery>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .ir-gallery button{display:block;width:100%;min-height:280px;padding:0;border:0;background:#d3d3d3;overflow:hidden;cursor:zoom-in}
+    .ir-gallery img{display:block;width:100%;height:100%;min-height:280px;object-fit:cover}
+    .ir-gallery .ir-plan img{object-fit:contain;padding:16px;background:#e6e6e6}
+    @media(max-width:1050px){.ir-lead,.ir-copy,.ir-grid{grid-template-columns:1fr}.ir-summary{min-height:500px}.ir-map{min-height:520px}}
+    @media(max-width:720px){.ir-wrap{width:min(100% - 24px,1440px)}.ir-title{align-items:flex-start;flex-direction:column}.ir-title h1{font-size:42px}.ir-main,.ir-main img{min-height:340px}.ir-summary{min-height:0;padding:26px 20px}.ir-body{padding:46px 0 62px}.ir-copy{gap:35px;padding-bottom:42px}.ir-grid{padding-top:42px}.ir-specs,.ir-gallery{padding:22px 18px}.ir-specs dl,.ir-gallery>div{grid-template-columns:1fr}.ir-specs dl>div:nth-child(odd),.ir-specs dl>div:nth-child(even){padding:14px 0;border-left:0}.ir-map a{position:static;display:inline-block;margin-top:15px}.ir-gallery button,.ir-gallery img{min-height:225px}}
+  </style>
+<!-- DETAIL_MODERN_V21_START -->
+<style is:global>
+/* DETAIL_MODERN_V21 */
+.ir-copy{display:none!important}
+.ir-title div>span{display:none!important}
+html:has(.ir-page),body:has(.ir-page){background:#fff!important;color:#111!important}
+.ir-page,.ir-page *{color:#111}
+.ir-hero,.ir-body{background:#fff!important}
+.ir-hero{padding:28px 0 56px!important;border-bottom:0!important}
+.ir-title{align-items:center!important;margin-bottom:22px!important}
+.ir-title p,.ir-kicker,.ir-summary dt,.ir-status span{color:#6b7280!important}
+.ir-title h1{font-size:clamp(42px,5.2vw,78px)!important;line-height:.95!important;letter-spacing:-.04em!important;font-weight:800!important}
+.ir-title>a{border:1px solid #e5e7eb!important;background:#f5f5f5!important;color:#111!important;border-radius:14px!important;padding:14px 18px!important}
+.ir-lead{grid-template-columns:minmax(0,1.65fr) minmax(320px,.7fr)!important;gap:22px!important;min-height:auto!important;background:transparent!important}
+.ir-main,.ir-summary,.ir-map,.ir-specs,.ir-gallery{border:1px solid #e5e7eb!important;border-radius:24px!important;overflow:hidden!important;box-shadow:none!important}
+.ir-main{min-height:560px!important;background:#f3f4f6!important}
+.ir-main img{min-height:560px!important}
+.ir-summary{background:#f3f4f6!important;padding:28px 24px!important}
+.ir-status{padding-bottom:18px!important;border-bottom:1px solid #e5e7eb!important}
+.ir-status strong{background:#fff!important;border:1px solid #e5e7eb!important;color:#111!important;border-radius:999px!important;padding:8px 12px!important}
+.ir-summary dl>div{padding:18px 0!important;border-bottom:1px solid #e5e7eb!important}
+.ir-summary dd{font-size:20px!important;line-height:1.3!important}
+.ir-cta{margin-top:18px!important;background:#111!important;color:#fff!important;border-radius:14px!important;min-height:52px!important}
+.ir-grid{padding-top:0!important;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr)!important;gap:22px!important}
+.ir-map,.ir-specs,.ir-gallery{background:#f8f8f8!important}
+.ir-map>div{background:#f8f8f8!important;padding:24px!important}
+.ir-map h2,.ir-specs h2,.ir-gallery h2{font-size:clamp(24px,2vw,32px)!important;line-height:1.1!important;margin-bottom:14px!important}
+.ir-map a{background:#fff!important;border:1px solid #e5e7eb!important;border-radius:12px!important}
+.ir-map iframe{min-height:420px!important}
+.ir-specs{padding:24px!important}
+.ir-specs dl{margin-top:18px!important;border-top:0!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+.ir-specs dl>div{display:grid!important;grid-template-columns:minmax(180px,.9fr) minmax(0,1.1fr)!important;gap:14px!important;padding:14px 16px!important;border:1px solid #e5e7eb!important;border-radius:14px!important;background:#fff!important}
+.ir-specs dl>div:nth-child(even),.ir-specs dl>div:nth-child(odd){padding:14px 16px!important;border-left:1px solid #e5e7eb!important}
+.ir-specs dt{color:#6b7280!important;font-weight:600!important}
+.ir-specs dd{font-weight:700!important}
+.ir-gallery{padding:24px!important}
+.ir-gallery>div{gap:16px!important}
+.ir-gallery button{min-height:260px!important;border-radius:18px!important;background:#f0f0f0!important}
+.ir-gallery img{min-height:260px!important}
+@media (max-width:1050px){.ir-lead,.ir-grid{grid-template-columns:1fr!important}.ir-main,.ir-main img{min-height:360px!important}}
+@media (max-width:720px){.ir-wrap{width:min(100% - 24px,1440px)!important}.ir-hero{padding:22px 0 34px!important}.ir-title h1{font-size:44px!important}.ir-main,.ir-main img{min-height:280px!important}.ir-summary{padding:22px 18px!important}.ir-grid{gap:18px!important}.ir-map iframe{min-height:320px!important}.ir-gallery>div{grid-template-columns:1fr!important}.ir-gallery button,.ir-gallery img{min-height:220px!important}}
+</style>
+<!-- DETAIL_MODERN_V21_END -->
 </BaseLayout>
