@@ -1,0 +1,140 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { absoluteUrl, homeAnchor, relativePath } from '../lib/paths';
+
+export async function getStaticPaths() {
+  const warehouses = await getCollection('warehouses', ({ data }) => data.published !== false);
+
+  return warehouses.map((warehouse) => ({
+    params: { slug: warehouse.data.pageSlug },
+    props: { warehouse },
+  }));
+}
+
+const { warehouse } = Astro.props as { warehouse: CollectionEntry<'warehouses'> };
+const data = warehouse.data;
+
+const currentPath = Astro.url.pathname;
+const canonical = absoluteUrl(`/${data.pageSlug}/`);
+const mainImage = relativePath(data.mainImage, currentPath);
+const gallery = data.gallery.map((image) => relativePath(image, currentPath));
+const planImage = relativePath(data.planImage, currentPath);
+const photos = [mainImage, ...gallery].filter((value, index, values) => value && values.indexOf(value) === index).slice(0, 2);
+while (photos.length < 2) photos.push(mainImage);
+
+const rawPrice = String(data.price ?? '').trim();
+const priceNumber = rawPrice.match(/\d+(?:[.,]\d+)?/)?.[0];
+const rentRate = rawPrice.toLowerCase() === 'по запросу' || !priceNumber
+  ? 'По запросу'
+  : `от $ ${priceNumber} за м²`;
+
+const mapHref = `https://yandex.ru/maps/?pt=${data.longitude},${data.latitude}&z=14&l=map`;
+---
+
+<BaseLayout
+  title={data.seoTitle}
+  description={data.description}
+  canonical={canonical}
+  image={absoluteUrl(data.mainImage)}
+>
+  <Header />
+
+  <main class="warehouse-detail-main">
+    <section class="warehouse-detail-hero">
+      <div class="container">
+        <p class="eyebrow">Аренда складов в Ташкенте</p>
+        <h1 class="warehouse-detail-title">{data.detailTitle}</h1>
+
+        <div class="warehouse-detail-overview">
+          <div class="warehouse-detail-info">
+            <dl class="warehouse-detail-filter-lines">
+              <div><dt>Площадь</dt><dd>{data.area.toLocaleString('ru-RU')} м²</dd></div>
+              <div><dt>Ставка аренды</dt><dd>{rentRate}</dd></div>
+              <div><dt>Готовность</dt><dd>{data.ready}</dd></div>
+              <div><dt>Температура</dt><dd>{data.temperatureMode}</dd></div>
+              <div><dt>Тип аренды</dt><dd>{data.leaseType}</dd></div>
+            </dl>
+
+            <section class="warehouse-detail-more">
+              <p class="eyebrow">Подробнее</p>
+              <h2>{data.block}</h2>
+              <p>{data.intro}</p>
+
+              {data.detailFeatures.length > 0 && (
+                <ul class="warehouse-detail-feature-list">
+                  {data.detailFeatures.map((feature) => <li>{feature}</li>)}
+                </ul>
+              )}
+            </section>
+
+            <div class="warehouse-detail-actions">
+              <a class="button button-dark" href="#contacts">Получить предложение</a>
+              <a class="button" href={homeAnchor('warehouses', currentPath)}>Все склады</a>
+            </div>
+          </div>
+
+          <aside class="warehouse-detail-map-card">
+            <span>Расположение объекта</span>
+            <strong>{data.district}</strong>
+            <p>{data.address}</p>
+            <a class="warehouse-detail-map-link" href={mapHref} target="_blank" rel="noopener noreferrer">
+              Открыть на карте
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="warehouse-detail-media-section">
+      <div class="container">
+        <div class="warehouse-detail-media-head">
+          <div>
+            <p class="eyebrow">Материалы объекта</p>
+            <h2>Фотографии и планировка</h2>
+          </div>
+        </div>
+
+        <div class="warehouse-detail-media-grid">
+          {photos.map((image, index) => (
+            <article class="warehouse-detail-media-card">
+              <span>{index === 0 ? 'Главное фото' : 'Дополнительное фото'}</span>
+              <button
+                class="image-open-button"
+                type="button"
+                data-lightbox-src={image}
+                data-lightbox-alt={`${index === 0 ? 'Главное фото' : 'Дополнительное фото'} объекта ${data.title}`}
+                aria-label={`Открыть ${index === 0 ? 'главное фото' : 'дополнительное фото'} объекта`}
+              >
+                <img src={image} alt={`${data.imageAlt}, фото ${index + 1}`} />
+              </button>
+            </article>
+          ))}
+
+          <article class="warehouse-detail-media-card warehouse-detail-media-card--plan">
+            <span>Планировка</span>
+            <button
+              class="image-open-button"
+              type="button"
+              data-lightbox-src={planImage}
+              data-lightbox-alt={`Планировка объекта ${data.title}`}
+              aria-label="Открыть планировку объекта"
+            >
+              <img src={planImage} alt={`Планировка объекта ${data.title}`} />
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <Contact />
+  </main>
+
+  <Footer />
+</BaseLayout>

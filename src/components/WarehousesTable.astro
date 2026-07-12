@@ -109,7 +109,7 @@ const rentStep = 0.5;
         </div>
       </div>
 
-      <form class="catalog-toolbar catalog-toolbar--with-rent" data-property-filters aria-label="Поиск и фильтры складских объектов">
+      <form class="catalog-toolbar catalog-toolbar--without-rent" data-property-filters aria-label="Поиск и фильтры складских объектов">
         <label class="catalog-search">
           <span class="sr-only">Поиск объекта</span>
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -159,48 +159,7 @@ const rentStep = 0.5;
             ))}
           </fieldset>
         </details>
-
-        <details class="toolbar-filter toolbar-filter--rent">
-          <summary>Ставка аренды</summary>
-          <div
-            class="rent-range-panel"
-            data-rent-filter
-            data-default-min={rentMin}
-            data-default-max={18}
-          >
-            <div class="rent-range-values">
-              <span>от <b><output data-rent-min-output>{rentMin}</output> $</b></span>
-              <span>до <b><output data-rent-max-output>18</output> $</b> за м²</span>
-            </div>
-            <div class="rent-dual-range" style={`--rent-min:${rentMin}; --rent-max:18;`}>
-              <input
-                type="range"
-                name="minRent"
-                min={rentMin}
-                max={18}
-                step={1}
-                value={rentMin}
-                data-default-value={rentMin}
-                data-rent-min
-                aria-label="Минимальная ставка аренды"
-              />
-              <input
-                type="range"
-                name="maxRent"
-                min={rentMin}
-                max={18}
-                step={1}
-                value={18}
-                data-default-value={18}
-                data-rent-max
-                aria-label="Максимальная ставка аренды"
-              />
-            </div>
-            
-          </div>
-        </details>
-
-        <button class="toolbar-reset" type="button" data-filter-reset>Сбросить</button>
+<button class="toolbar-reset" type="button" data-filter-reset>Сбросить</button>
       </form>
 
       <div data-property-table hidden>

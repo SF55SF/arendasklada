@@ -1402,34 +1402,41 @@ const mapFlyoutState = { source: null, node: null, timer: 0 };
 /* ARENDASKLADA_RENT_EDGE_LABELS_START */
 (() => {
   const setupRentRange = () => {
-    const panel = document.querySelector('#warehouses [data-rent-filter]');
-    if (!(panel instanceof HTMLElement)) return;
+    const details = Array.from(
+      document.querySelectorAll('#warehouses [data-property-filters] details')
+    ).find((node) =>
+      Boolean(node.querySelector('[data-rent-filter]')) ||
+      /ставка\s+аренды/i.test(String(node.querySelector('summary')?.textContent || ''))
+    );
 
-    const minInput = panel.querySelector('[data-rent-min]');
-    const maxInput = panel.querySelector('[data-rent-max]');
-    const range = panel.querySelector('.rent-dual-range');
+    if (!(details instanceof HTMLDetailsElement)) return;
+
+    const panel = details.querySelector('[data-rent-filter]');
+    const minInput = panel?.querySelector('[data-rent-min]');
+    const maxInput = panel?.querySelector('[data-rent-max]');
+    const range = panel?.querySelector('.rent-dual-range');
 
     if (
+      !(panel instanceof HTMLElement) ||
       !(minInput instanceof HTMLInputElement) ||
       !(maxInput instanceof HTMLInputElement) ||
       !(range instanceof HTMLElement)
     ) return;
+
+    details.classList.add('toolbar-filter--rent');
 
     [minInput, maxInput].forEach((input) => {
       input.max = '18';
       input.step = '1';
     });
 
-    if (Number(minInput.value) > 18) minInput.value = '18';
-    if (Number(maxInput.value) > 18 || !Number.isFinite(Number(maxInput.value))) maxInput.value = '18';
+    if (!Number.isFinite(Number(maxInput.value)) || Number(maxInput.value) > 18) {
+      maxInput.value = '18';
+    }
 
     maxInput.defaultValue = '18';
-    maxInput.setAttribute('value', '18');
     maxInput.setAttribute('data-default-value', '18');
     panel.setAttribute('data-default-max', '18');
-
-    const maxOutput = panel.querySelector('[data-rent-max-output]');
-    if (maxOutput) maxOutput.textContent = String(Math.round(Number(maxInput.value)));
 
     let minLabel = range.querySelector('[data-rent-thumb-min]');
     let maxLabel = range.querySelector('[data-rent-thumb-max]');
@@ -1448,54 +1455,65 @@ const mapFlyoutState = { source: null, node: null, timer: 0 };
       range.append(maxLabel);
     }
 
-    const syncLabels = () => {
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+    const sync = () => {
       const absoluteMin = Number(minInput.min || 0);
       const absoluteMax = 18;
       const span = Math.max(absoluteMax - absoluteMin, 1);
 
-      let minValue = Math.max(absoluteMin, Math.min(absoluteMax, Math.round(Number(minInput.value) || absoluteMin)));
-      let maxValue = Math.max(absoluteMin, Math.min(absoluteMax, Math.round(Number(maxInput.value) || absoluteMax)));
+      let minValue = clamp(Math.round(Number(minInput.value) || absoluteMin), absoluteMin, absoluteMax);
+      let maxValue = clamp(Math.round(Number(maxInput.value) || absoluteMax), absoluteMin, absoluteMax);
 
       if (minValue > maxValue) minValue = maxValue;
 
       minInput.value = String(minValue);
       maxInput.value = String(maxValue);
 
-      minLabel.value = minValue + ' $';
-      minLabel.textContent = minValue + ' $';
-      maxLabel.value = maxValue + ' $';
-      maxLabel.textContent = maxValue + ' $';
+      minLabel.value = String(minValue) + ' $';
+      minLabel.textContent = String(minValue) + ' $';
+      maxLabel.value = String(maxValue) + ' $';
+      maxLabel.textContent = String(maxValue) + ' $';
+
+      const minOutput = panel.querySelector('[data-rent-min-output]');
+      const maxOutput = panel.querySelector('[data-rent-max-output]');
+      if (minOutput) minOutput.textContent = String(minValue);
+      if (maxOutput) maxOutput.textContent = String(maxValue);
+
+      panel.style.setProperty('--rent-low', String(((minValue - absoluteMin) / span) * 100) + '%');
+      panel.style.setProperty('--rent-high', String(((maxValue - absoluteMin) / span) * 100) + '%');
 
       const width = range.clientWidth;
-      const edge = 10;
-      const labelEdge = 20;
-      const trackWidth = Math.max(width - edge * 2, 1);
+      if (width <= 0) return;
 
-      const minX = edge + ((minValue - absoluteMin) / span) * trackWidth;
-      const maxX = edge + ((maxValue - absoluteMin) / span) * trackWidth;
+      const trackInset = 12;
+      const trackWidth = Math.max(width - trackInset * 2, 1);
+      const minX = trackInset + ((minValue - absoluteMin) / span) * trackWidth;
+      const maxX = trackInset + ((maxValue - absoluteMin) / span) * trackWidth;
 
-      minLabel.style.left = Math.max(labelEdge, Math.min(width - labelEdge, minX)) + 'px';
-      maxLabel.style.left = Math.max(labelEdge, Math.min(width - labelEdge, maxX)) + 'px';
+      const placeLabel = (label, x) => {
+        const halfWidth = Math.max(label.offsetWidth / 2, 22);
+        const safeLeft = clamp(x, halfWidth + 3, width - halfWidth - 3);
+        label.style.left = String(safeLeft) + 'px';
+      };
 
-      panel.style.setProperty('--rent-low', ((minValue - absoluteMin) / span * 100) + '%');
-      panel.style.setProperty('--rent-high', ((maxValue - absoluteMin) / span * 100) + '%');
-
-      const currentMaxOutput = panel.querySelector('[data-rent-max-output]');
-      const currentMinOutput = panel.querySelector('[data-rent-min-output]');
-      if (currentMinOutput) currentMinOutput.textContent = String(minValue);
-      if (currentMaxOutput) currentMaxOutput.textContent = String(maxValue);
+      placeLabel(minLabel, minX);
+      placeLabel(maxLabel, maxX);
     };
 
-    if (range.dataset.rentEdgeLabelsBound !== 'true') {
-      range.dataset.rentEdgeLabelsBound = 'true';
-      minInput.addEventListener('input', syncLabels);
-      maxInput.addEventListener('input', syncLabels);
-      minInput.addEventListener('change', syncLabels);
-      maxInput.addEventListener('change', syncLabels);
-      window.addEventListener('resize', syncLabels);
+    if (range.dataset.rentFinalBoundsBound !== 'true') {
+      range.dataset.rentFinalBoundsBound = 'true';
+      minInput.addEventListener('input', sync);
+      maxInput.addEventListener('input', sync);
+      minInput.addEventListener('change', sync);
+      maxInput.addEventListener('change', sync);
+      details.addEventListener('toggle', () => {
+        if (details.open) window.requestAnimationFrame(sync);
+      });
+      window.addEventListener('resize', sync);
     }
 
-    syncLabels();
+    sync();
   };
 
   if (document.readyState === 'loading') {
