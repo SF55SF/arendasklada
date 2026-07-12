@@ -34,17 +34,13 @@ const summary = [
 ];
 
 const specs = [
-  ['Тип объекта', data.propertyType],
   ['Класс склада', data.warehouseClass],
   ['Высота потолков', data.ceilingHeight],
   ['Температурный режим', data.temperatureMode],
   ['Тип аренды', data.leaseType],
-  ['Формат хранения', data.warehouseLayout],
   ['Доковые ворота', data.dockDoors],
   ['Этаж', data.floor],
   ['Год постройки', data.builtYear ? String(data.builtYear) : 'По запросу'],
-  ['Рабочие места', data.workplaces],
-  ['Блок / корпус', data.block],
   ['Адрес', data.address],
 ].filter(([, value]) => String(value ?? '').trim());
 
@@ -80,13 +76,19 @@ const photos = gallery.filter((image) => image && image !== mainImage).slice(0, 
           </button>
 
           <aside class="ir-summary">
-            <div class="ir-status"><span>Объект в аренду</span><strong>{data.ready}</strong></div>
             <dl>
               {summary.map(([label, value]) => (
                 <div><dt>{label}</dt><dd>{value}</dd></div>
               ))}
             </dl>
             <a class="ir-cta" href={homeAnchor('contacts', currentPath)}>Получить предложение</a>
+            <!-- DETAIL_TELEGRAM_CONTACT_START -->
+            <a class="ir-summary-contact" href="https://t.me/sanjar_saymatov_cmwp" target="_blank" rel="noopener noreferrer" aria-label="Связаться в Telegram">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M6.7 3.8c.4-.4 1-.5 1.5-.2l2.1 1.2c.5.3.7.9.5 1.4l-.9 2c-.2.5-.1 1 .2 1.4l1.8 1.9 1.9 1.8c.4.3.9.4 1.4.2l2-.9c.5-.2 1.1 0 1.4.5l1.2 2.1c.3.5.2 1.1-.2 1.5l-1 1c-.8.8-2 1.1-3.1.8-2.6-.7-5.1-2.2-7.4-4.5S4.3 9.2 3.6 6.6c-.3-1.1 0-2.3.8-3.1l1-1Z" />
+              </svg>
+            </a>
+            <!-- DETAIL_TELEGRAM_CONTACT_END -->
           </aside>
         </div>
       </div>
@@ -170,9 +172,6 @@ const photos = gallery.filter((image) => image && image !== mainImage).slice(0, 
     .ir-main{display:block;width:100%;min-height:560px;padding:0;border:0;background:#ccc;overflow:hidden;cursor:zoom-in}
     .ir-main img{display:block;width:100%;height:100%;min-height:560px;object-fit:cover}
     .ir-summary{display:flex;flex-direction:column;padding:36px 32px;background:#303030;color:#fff}
-    .ir-status{display:flex;justify-content:space-between;gap:14px;align-items:center;padding-bottom:22px;border-bottom:1px solid #555}
-    .ir-status span{color:#bbb;font-size:12px;font-weight:700;text-transform:uppercase}
-    .ir-status strong{padding:7px 9px;background:#e7e7e7;color:#292929;font-size:12px}
     .ir-summary dl{margin:0}
     .ir-summary dl>div{padding:22px 0;border-bottom:1px solid #505050}
     .ir-summary dt{margin:0 0 7px;color:#aaa;font-size:12px;font-weight:700;text-transform:uppercase}
@@ -217,7 +216,7 @@ html:has(.ir-page),body:has(.ir-page){background:#fff!important;color:#111!impor
 .ir-hero,.ir-body{background:#fff!important}
 .ir-hero{padding:28px 0 56px!important;border-bottom:0!important}
 .ir-title{align-items:center!important;margin-bottom:22px!important}
-.ir-title p,.ir-kicker,.ir-summary dt,.ir-status span{color:#6b7280!important}
+.ir-title p,.ir-kicker,.ir-summary dt{color:#6b7280!important}
 .ir-title h1{font-size:clamp(42px,5.2vw,78px)!important;line-height:.95!important;letter-spacing:-.04em!important;font-weight:800!important}
 .ir-title>a{border:1px solid #e5e7eb!important;background:#f5f5f5!important;color:#111!important;border-radius:14px!important;padding:14px 18px!important}
 .ir-lead{grid-template-columns:minmax(0,1.65fr) minmax(320px,.7fr)!important;gap:22px!important;min-height:auto!important;background:transparent!important}
@@ -225,8 +224,6 @@ html:has(.ir-page),body:has(.ir-page){background:#fff!important;color:#111!impor
 .ir-main{min-height:560px!important;background:#f3f4f6!important}
 .ir-main img{min-height:560px!important}
 .ir-summary{background:#f3f4f6!important;padding:28px 24px!important}
-.ir-status{padding-bottom:18px!important;border-bottom:1px solid #e5e7eb!important}
-.ir-status strong{background:#fff!important;border:1px solid #e5e7eb!important;color:#111!important;border-radius:999px!important;padding:8px 12px!important}
 .ir-summary dl>div{padding:18px 0!important;border-bottom:1px solid #e5e7eb!important}
 .ir-summary dd{font-size:20px!important;line-height:1.3!important}
 .ir-cta{margin-top:18px!important;background:#111!important;color:#fff!important;border-radius:14px!important;min-height:52px!important}
@@ -248,6 +245,15 @@ html:has(.ir-page),body:has(.ir-page){background:#fff!important;color:#111!impor
 .ir-gallery img{min-height:260px!important}
 @media (max-width:1050px){.ir-lead,.ir-grid{grid-template-columns:1fr!important}.ir-main,.ir-main img{min-height:360px!important}}
 @media (max-width:720px){.ir-wrap{width:min(100% - 24px,1440px)!important}.ir-hero{padding:22px 0 34px!important}.ir-title h1{font-size:44px!important}.ir-main,.ir-main img{min-height:280px!important}.ir-summary{padding:22px 18px!important}.ir-grid{gap:18px!important}.ir-map iframe{min-height:320px!important}.ir-gallery>div{grid-template-columns:1fr!important}.ir-gallery button,.ir-gallery img{min-height:220px!important}}
+/* DETAIL_TELEGRAM_CONTACT_STYLES_START */
+.ir-summary-contact{display:grid;place-items:center;width:64px;height:64px;margin:28px auto 0;border-radius:50%;background:#ffc400;color:#111;text-decoration:none;transition:transform .18s ease,filter .18s ease}
+.ir-summary-contact:hover{transform:translateY(-2px);filter:brightness(.96)}
+.ir-summary-contact:focus-visible{outline:3px solid #111;outline-offset:4px}
+.ir-summary-contact svg{width:28px;height:28px;fill:currentColor}
+.ir-hero{padding-bottom:0!important}
+.ir-body{padding-top:30px!important}
+@media(max-width:720px){.ir-summary-contact{width:58px;height:58px;margin-top:22px}.ir-body{padding-top:30px!important}}
+/* DETAIL_TELEGRAM_CONTACT_STYLES_END */
 </style>
 <!-- DETAIL_MODERN_V21_END -->
 
