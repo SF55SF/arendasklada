@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+const items=(await getCollection("warehouses")).sort((a,b)=>a.data.order-b.data.order);
+const current=items[0]?.data;
+const warehouseUrl=(slug)=>String.fromCharCode(47)+slug+String.fromCharCode(47);
+---
+<!doctype html><html lang=ru><head><meta charset=UTF-8><meta name=viewport content=width=device-width,initial-scale=1><title>Admin preview</title></head><body><main class="admin">
+<aside><header><b>Объекты</b><button type="button">+</button></header>{items.map((item,index)=><a class=item href={warehouseUrl(item.data.pageSlug)} target=warehousePreview><span>{index+1}</span><div><b>{item.data.title}</b><small>{item.data.area.toLocaleString("ru-RU")} м²</small></div></a>)}</aside>
+<section>
+{current&&<form class=editor data-admin-editor>
+<div class=editor-head><div><small>Редактирование объекта</small><h2>{current.title}</h2></div><button type=button disabled>Сохранить</button></div>
+<div class=fields>
+<label><span>Название страницы</span><input name=detailTitle value={current.detailTitle}/></label>
+<label><span>Площадь, м²</span><input type=number name=area value={current.area}/></label>
+<label><span>Ставка аренды</span><input name=price value={current.price}/></label>
+<label class=wide><span>Адрес</span><input name=address value={current.address}/></label>
+<label><span>Широта</span><input type=number step=any name=latitude value={current.latitude}/></label>
+<label><span>Долгота</span><input type=number step=any name=longitude value={current.longitude}/></label>
+<label class=wide><span>Главное фото</span><input name=mainImage value={current.mainImage}/><input type=file name=mainImageFile/></label>
+<label class=wide><span>Планировка</span><input name=planImage value={current.planImage}/><input type=file name=planImageFile/></label>
+</div><p class=editor-note>Пока это безопасный прототип: поля не сохраняются.</p>
+</form>}
+<p>Предпросмотр страницы объекта</p>{current&&<iframe name=warehousePreview src={warehouseUrl(current.pageSlug)}></iframe>}</section>
+</main>
+<style>.admin{display:grid;grid-template-columns:300px 1fr;min-height:100vh;font-family:Arial;background:#eee}.admin aside{padding:20px;background:#292929;color:#fff}.admin header{display:flex;justify-content:space-between;align-items:center}.admin header button{width:38px;height:38px;border:0;border-radius:50%;font-size:24px}.item{display:grid;grid-template-columns:24px 1fr;gap:10px;width:100%;margin-top:10px;padding:12px;border:1px solid #555;background:#363636;color:#fff;text-align:left}.item small{display:block;margin-top:4px;color:#bbb}.admin section{padding:28px}.admin article{max-width:1000px;margin:20px auto;padding:42px;background:#fff}.admin h1{font-size:48px}@media(max-width:760px){.admin{grid-template-columns:1fr}}.item{text-decoration:none}.admin iframe{display:block;width:100%;height:calc(100vh - 100px);border:0;background:#fff}.editor{margin-bottom:24px;padding:24px;background:#fff;border:1px solid #d0d0d0}.editor-head{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:20px}.editor-head h2{margin:4px 0 0;font-size:26px}.editor-head small{color:#777}.editor-head button{padding:12px 18px;border:0;background:#bbb;color:#fff}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fields label{display:grid;gap:6px}.fields label.wide{grid-column:1/-1}.fields span{font-size:12px;font-weight:700;color:#666}.fields input{min-height:42px;padding:9px 11px;border:1px solid #bbb;background:#fafafa;font:inherit}.editor-note{margin:16px 0 0;color:#777;font-size:13px}@media(max-width:900px){.fields{grid-template-columns:1fr}}</style></body></html>
