@@ -166,19 +166,19 @@ const rentStep = 0.5;
             class="rent-range-panel"
             data-rent-filter
             data-default-min={rentMin}
-            data-default-max={rentMax}
+            data-default-max={18}
           >
             <div class="rent-range-values">
               <span>от <b><output data-rent-min-output>{rentMin}</output> $</b></span>
-              <span>до <b><output data-rent-max-output>{rentMax}</output> $</b> за м²</span>
+              <span>до <b><output data-rent-max-output>18</output> $</b> за м²</span>
             </div>
-            <div class="rent-dual-range" style={`--rent-min:${rentMin}; --rent-max:${rentMax};`}>
+            <div class="rent-dual-range" style={`--rent-min:${rentMin}; --rent-max:18;`}>
               <input
                 type="range"
                 name="minRent"
                 min={rentMin}
-                max={rentMax}
-                step={rentStep}
+                max={18}
+                step={1}
                 value={rentMin}
                 data-default-value={rentMin}
                 data-rent-min
@@ -188,15 +188,15 @@ const rentStep = 0.5;
                 type="range"
                 name="maxRent"
                 min={rentMin}
-                max={rentMax}
-                step={rentStep}
-                value={rentMax}
-                data-default-value={rentMax}
+                max={18}
+                step={1}
+                value={18}
+                data-default-value={18}
                 data-rent-max
                 aria-label="Максимальная ставка аренды"
               />
             </div>
-            <p>Объекты «По запросу» показываются, пока диапазон не изменён.</p>
+            
           </div>
         </details>
 

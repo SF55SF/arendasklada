@@ -1179,59 +1179,38 @@ const mapFlyoutState = { source: null, node: null, timer: 0 };
   setupCompactRentFilter();
   window.setTimeout(setupCompactRentFilter, 100);
   /* ARENDASKLADA_RENT_INLINE_COMPACT_END */
-    /* RENT_POPUP_MARKER_START */
+  /* ARENDASKLADA_RENT_DROPDOWN_RESTORE_START */
+  const rentDropdown = Array.from(document.querySelectorAll('[data-property-filters] details')).find((node) => {
+    const summaryText = String(node.querySelector('summary')?.textContent || '');
+    return /ставка\s+аренды/i.test(summaryText) || Boolean(node.querySelector('input[type="range"]'));
+  });
+
+  if (rentDropdown instanceof HTMLDetailsElement) {
+    rentDropdown.open = false;
+    rentDropdown.classList.remove('catalog-rent-inline', 'is-inline', 'rent-inline');
+    rentDropdown.removeAttribute('style');
+
+    const summary = rentDropdown.querySelector('summary');
+    summary?.removeAttribute('aria-disabled');
+    summary?.removeAttribute('style');
+
+    const walker = document.createTreeWalker(rentDropdown, NodeFilter.SHOW_TEXT);
+    const removeNodes = [];
+    while (walker.nextNode()) {
+      const text = String(walker.currentNode.nodeValue || '').replace(/\+s/g, ' ').trim();
+      if (/объекты.*по запросу|объекты без ставки аренды/i.test(text)) {
+        removeNodes.push(walker.currentNode.parentElement || walker.currentNode);
+      }
+    }
+    removeNodes.forEach((node) => node.remove());
+  }
+    /* ARENDASKLADA_RENT_DROPDOWN_RESTORE_END */
+  /* RENT_POPUP_MARKER_START */
   const rd=[...document.querySelectorAll('[data-property-filters] details')].find(d=>/ставка\s+аренды/i.test(d.querySelector('summary')?.textContent||''));
   if(rd instanceof HTMLDetailsElement){const sm=rd.querySelector(':scope>summary');rd.classList.remove('catalog-rent-inline','rent-inline','is-inline');rd.classList.add('rent-rate-filter');rd.removeAttribute('style');rd.open=false;sm?.removeAttribute('style');sm?.removeAttribute('aria-disabled');let pop=rd.querySelector(':scope>.rent-rate-popup');if(!(pop instanceof HTMLElement)){pop=document.createElement('div');pop.className='rent-rate-popup';[...rd.children].filter(x=>x!==sm).forEach(x=>pop.append(x));rd.append(pop)}}
   const mark=(o,on)=>{o=String(o||'');if(!o)return;document.querySelectorAll('[data-property-marker],.leaflet-status-dot,.yandex-status-dot').forEach(m=>{if(String(m.getAttribute('data-order')||'')===o)m.classList.toggle('is-card-hovered',on)})};
   document.querySelectorAll('[data-property-card]').forEach(c=>{const o=c.getAttribute('data-order'),on=()=>mark(o,true),off=()=>mark(o,false);c.addEventListener('pointerenter',on);c.addEventListener('pointerleave',off);c.addEventListener('focusin',on);c.addEventListener('focusout',off)});
   /* RENT_POPUP_MARKER_END */
-  /* ARENDASKLADA_RENT_RIGHT_RESTORE_START */
-  const restoreRentRight = () => {
-    const form = document.querySelector('#warehouses [data-property-filters]');
-    if (!(form instanceof HTMLFormElement)) return;
-
-    const rent = Array.from(form.querySelectorAll('details')).find((details) => {
-      const title = String(details.querySelector('summary')?.textContent || '');
-      return /ставка\s+аренды/i.test(title) || Boolean(details.querySelector('[data-rent-filter]'));
-    });
-
-    if (!(rent instanceof HTMLDetailsElement)) return;
-
-    rent.classList.add('toolbar-filter', 'toolbar-filter--rent');
-    rent.classList.remove('catalog-rent-inline', 'catalog-rent-dropdown', 'is-inline', 'rent-inline');
-    rent.removeAttribute('style');
-
-    const summary = rent.querySelector('summary');
-    if (summary instanceof HTMLElement) {
-      summary.removeAttribute('aria-disabled');
-      summary.removeAttribute('style');
-      summary.style.pointerEvents = 'auto';
-      summary.style.cursor = 'pointer';
-    }
-
-    const panel = rent.querySelector('[data-rent-filter]');
-    if (panel instanceof HTMLElement) {
-      panel.classList.add('rent-range-panel');
-      panel.classList.remove('catalog-rent-inline__panel', 'catalog-rent-panel');
-      panel.removeAttribute('style');
-    }
-
-    if (form.dataset.rentRightRestoreBound !== 'true') {
-      form.dataset.rentRightRestoreBound = 'true';
-      document.addEventListener('click', (event) => {
-        const target = event.target;
-        if (!(target instanceof Element)) return;
-        const clickedSummary = target.closest('#warehouses .toolbar-filter--rent > summary');
-        if (!clickedSummary || clickedSummary !== summary) return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        rent.open = !rent.open;
-      }, true);
-    }
-  };
-
-  restoreRentRight();
-  /* ARENDASKLADA_RENT_RIGHT_RESTORE_END */
 });
 
 /* ARENDASKLADA_RENT_MARKER_RECOVERY_START */
@@ -1334,174 +1313,3 @@ const mapFlyoutState = { source: null, node: null, timer: 0 };
   }
 })();
 /* ARENDASKLADA_RENT_MARKER_RECOVERY_END */
-
-/* ARENDASKLADA_RENT_LIMIT_18_START */
-(() => {
-  const setupRentLimit = () => {
-    const panel = document.querySelector('#warehouses [data-rent-filter]');
-    if (!(panel instanceof HTMLElement)) return;
-
-    const minInput = panel.querySelector('[data-rent-min]');
-    const maxInput = panel.querySelector('[data-rent-max]');
-    if (!(minInput instanceof HTMLInputElement) || !(maxInput instanceof HTMLInputElement)) return;
-
-    const lowerLimit = Math.ceil(Number(minInput.min || minInput.value || 0));
-    const upperLimit = 18;
-
-    [minInput, maxInput].forEach((input) => {
-      input.max = String(upperLimit);
-      input.step = '1';
-    });
-
-    if (Number(minInput.value) > upperLimit) {
-      minInput.value = String(upperLimit);
-    }
-
-    maxInput.value = String(upperLimit);
-    maxInput.defaultValue = String(upperLimit);
-    maxInput.setAttribute('value', String(upperLimit));
-    maxInput.setAttribute('data-default-value', String(upperLimit));
-    panel.setAttribute('data-default-max', String(upperLimit));
-
-    const maxOutput = panel.querySelector('[data-rent-max-output]');
-    if (maxOutput) maxOutput.textContent = String(upperLimit);
-
-    const range = panel.querySelector('.rent-dual-range');
-    if (range instanceof HTMLElement) {
-      range.style.setProperty('--rent-max', String(upperLimit));
-
-      let scale = panel.querySelector('.rent-dollar-scale');
-      if (!(scale instanceof HTMLElement)) {
-        scale = document.createElement('div');
-        scale.className = 'rent-dollar-scale';
-        scale.setAttribute('aria-hidden', 'true');
-        range.insertAdjacentElement('afterend', scale);
-      }
-
-      const values = [];
-      for (let value = lowerLimit; value <= upperLimit; value += 1) values.push(value);
-      scale.style.setProperty('--rent-tick-count', String(Math.max(values.length, 1)));
-      scale.replaceChildren(...values.map((value) => {
-        const tick = document.createElement('span');
-        tick.textContent = value + '$';
-        return tick;
-      }));
-    }
-
-    maxInput.dispatchEvent(new Event('input', { bubbles: true }));
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupRentLimit, { once: true });
-  } else {
-    setupRentLimit();
-  }
-})();
-/* ARENDASKLADA_RENT_LIMIT_18_END */
-
-/* ARENDASKLADA_RENT_EDGE_LABELS_START */
-(() => {
-  const setupRentRange = () => {
-    const panel = document.querySelector('#warehouses [data-rent-filter]');
-    if (!(panel instanceof HTMLElement)) return;
-
-    const minInput = panel.querySelector('[data-rent-min]');
-    const maxInput = panel.querySelector('[data-rent-max]');
-    const range = panel.querySelector('.rent-dual-range');
-
-    if (
-      !(minInput instanceof HTMLInputElement) ||
-      !(maxInput instanceof HTMLInputElement) ||
-      !(range instanceof HTMLElement)
-    ) return;
-
-    [minInput, maxInput].forEach((input) => {
-      input.max = '18';
-      input.step = '1';
-    });
-
-    if (Number(minInput.value) > 18) minInput.value = '18';
-    if (Number(maxInput.value) > 18 || !Number.isFinite(Number(maxInput.value))) maxInput.value = '18';
-
-    maxInput.defaultValue = '18';
-    maxInput.setAttribute('value', '18');
-    maxInput.setAttribute('data-default-value', '18');
-    panel.setAttribute('data-default-max', '18');
-
-    const maxOutput = panel.querySelector('[data-rent-max-output]');
-    if (maxOutput) maxOutput.textContent = String(Math.round(Number(maxInput.value)));
-
-    let minLabel = range.querySelector('[data-rent-thumb-min]');
-    let maxLabel = range.querySelector('[data-rent-thumb-max]');
-
-    if (!(minLabel instanceof HTMLOutputElement)) {
-      minLabel = document.createElement('output');
-      minLabel.className = 'rent-thumb-label rent-thumb-label--min';
-      minLabel.setAttribute('data-rent-thumb-min', '');
-      range.append(minLabel);
-    }
-
-    if (!(maxLabel instanceof HTMLOutputElement)) {
-      maxLabel = document.createElement('output');
-      maxLabel.className = 'rent-thumb-label rent-thumb-label--max';
-      maxLabel.setAttribute('data-rent-thumb-max', '');
-      range.append(maxLabel);
-    }
-
-    const syncLabels = () => {
-      const absoluteMin = Number(minInput.min || 0);
-      const absoluteMax = 18;
-      const span = Math.max(absoluteMax - absoluteMin, 1);
-
-      let minValue = Math.max(absoluteMin, Math.min(absoluteMax, Math.round(Number(minInput.value) || absoluteMin)));
-      let maxValue = Math.max(absoluteMin, Math.min(absoluteMax, Math.round(Number(maxInput.value) || absoluteMax)));
-
-      if (minValue > maxValue) minValue = maxValue;
-
-      minInput.value = String(minValue);
-      maxInput.value = String(maxValue);
-
-      minLabel.value = minValue + ' $';
-      minLabel.textContent = minValue + ' $';
-      maxLabel.value = maxValue + ' $';
-      maxLabel.textContent = maxValue + ' $';
-
-      const width = range.clientWidth;
-      const edge = 10;
-      const labelEdge = 20;
-      const trackWidth = Math.max(width - edge * 2, 1);
-
-      const minX = edge + ((minValue - absoluteMin) / span) * trackWidth;
-      const maxX = edge + ((maxValue - absoluteMin) / span) * trackWidth;
-
-      minLabel.style.left = Math.max(labelEdge, Math.min(width - labelEdge, minX)) + 'px';
-      maxLabel.style.left = Math.max(labelEdge, Math.min(width - labelEdge, maxX)) + 'px';
-
-      panel.style.setProperty('--rent-low', ((minValue - absoluteMin) / span * 100) + '%');
-      panel.style.setProperty('--rent-high', ((maxValue - absoluteMin) / span * 100) + '%');
-
-      const currentMaxOutput = panel.querySelector('[data-rent-max-output]');
-      const currentMinOutput = panel.querySelector('[data-rent-min-output]');
-      if (currentMinOutput) currentMinOutput.textContent = String(minValue);
-      if (currentMaxOutput) currentMaxOutput.textContent = String(maxValue);
-    };
-
-    if (range.dataset.rentEdgeLabelsBound !== 'true') {
-      range.dataset.rentEdgeLabelsBound = 'true';
-      minInput.addEventListener('input', syncLabels);
-      maxInput.addEventListener('input', syncLabels);
-      minInput.addEventListener('change', syncLabels);
-      maxInput.addEventListener('change', syncLabels);
-      window.addEventListener('resize', syncLabels);
-    }
-
-    syncLabels();
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupRentRange, { once: true });
-  } else {
-    setupRentRange();
-  }
-})();
-/* ARENDASKLADA_RENT_EDGE_LABELS_END */
