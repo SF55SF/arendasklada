@@ -4984,3 +4984,9 @@ body:has(.warehouse-object-page),
 .reference-hero h1.reference-hero__title-static::after{color:rgba(0,0,0,.17)!important;filter:blur(1.5px)!important}
 @media(max-width:900px){.reference-hero h1.reference-hero__title-static::after{filter:blur(1px)!important}}
 /* HOME_HERO_TITLE_SHADOW_SOFT_V14_END */
+
+/* ARENDASKLADA_HERO_TITLE_CLEARANCE_START */
+.reference-hero__title-static{translate:0 -56px!important;text-shadow:0 5px 8px rgba(0,0,0,.18)!important}
+.reference-hero__title-static::before,.reference-hero__title-static::after{text-shadow:0 4px 6px rgba(0,0,0,.14)!important}
+@media(max-width:820px){.reference-hero__title-static{translate:0 -24px!important}}
+/* ARENDASKLADA_HERO_TITLE_CLEARANCE_END */
