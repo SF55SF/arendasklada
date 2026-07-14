@@ -5013,3 +5013,10 @@ body:has(.warehouse-object-page),
 .reference-hero h1.reference-hero__title-static{-webkit-text-stroke:0 transparent!important;text-shadow:0 0 2px rgba(255,255,255,.9),0 0 7px rgba(255,255,255,.58),0 0 14px rgba(255,255,255,.26)!important}
 .reference-hero h1.reference-hero__title-static::before,.reference-hero h1.reference-hero__title-static::after{content:none!important;display:none!important;text-shadow:none!important;filter:none!important}
 /* HOME_HERO_TITLE_WHITE_GLOW_V15_END */
+
+/* ARENDASKLADA_FOOTER_NAVY_V16_START */
+.site-footer,footer.site-footer{border-top:1px solid rgba(255,255,255,.12)!important;background:var(--reference-navy,#131936)!important;color:rgba(255,255,255,.78)!important}
+.site-footer p,.site-footer .footer-logo,.site-footer .footer-nav a,.site-footer .footer-contact a,.site-footer .footer-contact span{color:rgba(255,255,255,.88)!important}
+.site-footer .footer-logo{color:#fff!important}
+.site-footer .logo-mark{background:#7f2028!important;color:#fff!important}
+/* ARENDASKLADA_FOOTER_NAVY_V16_END */
