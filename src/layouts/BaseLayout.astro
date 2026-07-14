@@ -8,8 +8,8 @@ import Seo from '../components/Seo.astro';
 const {
   title = 'ArendaSklada.uz — аренда складов от собственника в Ташкенте',
   description = 'Складские помещения и индустриальные объекты в аренду от собственника в Узбекистане. Первый город запуска — Ташкент.',
-  canonical = 'https://arendasklada.uz/',
-  image = 'https://arendasklada.uz/images/hero-warehouse-bg.jpg',
+  canonical = 'https://www.arendasklada.uz/',
+  image = 'https://www.arendasklada.uz/images/hero-warehouse-bg.jpg',
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
@@ -29,12 +29,12 @@ const structuredData = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://arendasklada.uz/#organization",
+      "@id": "https://www.arendasklada.uz/#organization",
       "name": "ArendaSklada.uz",
       "alternateName": "Аренда склада Узбекистан",
-      "url": "https://arendasklada.uz/",
-      "logo": "https://arendasklada.uz/favicon-192x192.png",
-      "image": "https://arendasklada.uz/images/hero-warehouse-bg.jpg",
+      "url": "https://www.arendasklada.uz/",
+      "logo": "https://www.arendasklada.uz/favicon-192x192.png",
+      "image": "https://www.arendasklada.uz/images/hero-warehouse-bg.jpg",
       "telephone": "+998505906059",
       "email": "sanjar.saimatov@cmwp.uz",
       "description": "Складские и индустриальные объекты в аренду от собственника в Узбекистане. Первый город запуска — Ташкент.",
@@ -53,7 +53,7 @@ const structuredData = {
         "availability": warehouse.data.availableNow ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
         "businessFunction": "http://purl.org/goodrelations/v1#LeaseOut",
         "seller": {
-          "@id": "https://arendasklada.uz/#organization"
+          "@id": "https://www.arendasklada.uz/#organization"
         },
         "url": absoluteUrl(`/${warehouse.data.pageSlug}/`),
         "itemOffered": {
@@ -79,12 +79,12 @@ const structuredData = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://arendasklada.uz/#website",
-      "url": "https://arendasklada.uz/",
+      "@id": "https://www.arendasklada.uz/#website",
+      "url": "https://www.arendasklada.uz/",
       "name": "ArendaSklada.uz",
       "inLanguage": "ru-RU",
       "publisher": {
-        "@id": "https://arendasklada.uz/#organization"
+        "@id": "https://www.arendasklada.uz/#organization"
       }
     }
   ]

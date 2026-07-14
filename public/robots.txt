@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin-preview/
 
-Sitemap: https://arendasklada.uz/sitemap-index.xml
+Sitemap: https://www.arendasklada.uz/sitemap-index.xml

@@ -1,5 +1,5 @@
 // ARENDASKLADA_MARKER_DOMAIN: main production origin used for SEO and structured data.
-const SITE_ORIGIN = 'https://arendasklada.uz';
+const SITE_ORIGIN = 'https://www.arendasklada.uz';
 
 function isExternalUrl(path: string) {
   return /^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(path);
