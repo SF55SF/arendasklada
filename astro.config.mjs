@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
 
 export default defineConfig({
-  site: 'https://sf55sf.github.io',
+  site: 'https://arendasklada.uz',
   base: isGitHubPages ? '/arendasklada' : '/',
   trailingSlash: 'always',
 
@@ -14,7 +14,7 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/admin/'),
+      filter: (page) => !page.includes('/admin/') && !page.includes('/admin-preview/'),
     }),
   ],
 });
