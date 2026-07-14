@@ -1,14 +1,15 @@
 ---
 import { navItems } from '../data/navigation';
-import { homePath, resolveNavHref } from '../lib/paths';
+import { homePath, relativePath, resolveNavHref } from '../lib/paths';
 
 const currentPath = Astro.url.pathname;
 const logoHref = homePath(currentPath);
+const logoMark = relativePath("/logo-mark.svg", currentPath);
 ---
 
 <header class="site-header">
   <a class="logo" href={logoHref} aria-label="На главную страницу arendasklada.uz">
-    <span class="logo-mark">AS</span>
+    <img class="logo-mark" src={logoMark} alt="" width="42" height="42" />
     <span>ArendaSklada.uz</span>
   </a>
 

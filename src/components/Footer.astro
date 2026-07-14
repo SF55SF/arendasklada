@@ -1,15 +1,16 @@
 ---
 import { navItems } from '../data/navigation';
-import { homePath, resolveNavHref } from '../lib/paths';
+import { homePath, relativePath, resolveNavHref } from '../lib/paths';
 
 const currentPath = Astro.url.pathname;
+const logoMark = relativePath("/logo-mark.svg", currentPath);
 ---
 
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
       <a class="logo footer-logo" href={homePath(currentPath)}>
-        <span class="logo-mark">AS</span>
+        <img class="logo-mark" src={logoMark} alt="" width="42" height="42" />
         <span>ArendaSklada.uz</span>
       </a>
 

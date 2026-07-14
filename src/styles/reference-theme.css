@@ -5107,3 +5107,39 @@ body:has(.warehouse-object-page),
 .catalog-map-panel{height:auto!important;min-height:520px!important}
 }
 /* ARENDASKLADA_DESKTOP_REFERENCE_LOCK_V24_END */
+
+/* ARENDASKLADA_STATS_RAL_9010_START */
+.market-stats {
+  background: #f1ece1;
+}
+.market-stat {
+  background: #f1ece1;
+}
+/* ARENDASKLADA_STATS_RAL_9010_END */
+
+/* ARENDASKLADA_SITE_RAL_9016_START */
+:root {
+  --reference-background: #f6f6f6;
+}
+
+body,
+main,
+.catalog-workspace,
+.catalog-map-panel,
+.catalog-results-panel,
+.contact-section {
+  background: #f6f6f6;
+}
+/* ARENDASKLADA_SITE_RAL_9016_END */
+
+/* ARENDASKLADA_TROLLEY_LOGO_START */
+.logo-mark {
+  display: block;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent !important;
+  object-fit: contain;
+}
+/* ARENDASKLADA_TROLLEY_LOGO_END */
