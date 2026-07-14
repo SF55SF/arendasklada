@@ -4990,3 +4990,21 @@ body:has(.warehouse-object-page),
 .reference-hero__title-static::before,.reference-hero__title-static::after{text-shadow:0 4px 6px rgba(0,0,0,.14)!important}
 @media(max-width:820px){.reference-hero__title-static{translate:0 -24px!important}}
 /* ARENDASKLADA_HERO_TITLE_CLEARANCE_END */
+
+/* ARENDASKLADA_GREY_CONTACT_FOOTER_START */
+.contact-section{background:#e6e6e2!important;color:#25282d!important}
+.contact-section .eyebrow{color:var(--reference-burgundy,#7f2028)!important}
+.contact-section .two-col>div:first-child h2{color:#25282d!important}
+.contact-section .two-col>div:first-child>p:not(.eyebrow){color:rgba(37,40,45,.76)!important}
+.contact-section .contact-cards a{border:1px solid rgba(37,40,45,.13)!important;background:rgba(255,255,255,.68)!important;color:#25282d!important;box-shadow:0 8px 22px rgba(37,40,45,.07)!important}
+.contact-section .lead-form{border:1px solid rgba(37,40,45,.12)!important;background:#d2d4d2!important;box-shadow:0 18px 42px rgba(37,40,45,.12)!important}
+.contact-section .lead-form label{color:#50555a!important}
+.contact-section .lead-form input,.contact-section .lead-form textarea{border-color:rgba(37,40,45,.16)!important;background:rgba(255,255,255,.94)!important;color:#25282d!important}
+.contact-section .lead-form .button,.contact-section .lead-form button[type=submit]{border-color:#7f2028!important;background:#7f2028!important;color:#fff!important;box-shadow:0 10px 24px rgba(127,32,40,.22)!important}
+.contact-section .lead-form .button:hover,.contact-section .lead-form button[type=submit]:hover{background:#651820!important}
+.site-footer,footer.site-footer{border-top:1px solid rgba(37,40,45,.12)!important;background:#c8cac8!important;color:rgba(37,40,45,.78)!important}
+.site-footer .footer-logo,.site-footer .footer-nav a,.site-footer .footer-contact a,.site-footer .footer-contact span{color:#25282d!important}
+.site-footer .logo-mark{background:#7f2028!important;color:#fff!important}
+.warehouse-card-telegram,.ir-summary-contact{border-color:rgba(255,255,255,.35)!important;background:rgba(127,32,40,.88)!important;color:#fff!important;box-shadow:0 10px 24px rgba(127,32,40,.25)!important}
+.warehouse-card-telegram:hover,.ir-summary-contact:hover{background:rgba(101,24,32,.96)!important;color:#fff!important}
+/* ARENDASKLADA_GREY_CONTACT_FOOTER_END */
