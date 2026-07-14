@@ -5287,3 +5287,34 @@ main,
   }
 }
 /* ARENDASKLADA_DETAIL_MOBILE_PHONE_COLOR_V28_END */
+
+/* ARENDASKLADA_RAL_BACKGROUNDS_V29_START */
+:root {
+  --reference-background: #f6f6f6;
+}
+
+body,
+main,
+.catalog-workspace,
+.catalog-map-panel,
+.catalog-results-panel,
+.contact-section {
+  background: #f6f6f6 !important;
+}
+
+.catalog-search,
+.toolbar-filter summary,
+.toolbar-filter fieldset {
+  background: #f1ece1 !important;
+}
+
+.lead-form {
+  background: #f1ece1 !important;
+}
+
+/* Открытый фильтр сохраняет фирменный тёмный цвет */
+.toolbar-filter[open] summary {
+  background: var(--reference-navy) !important;
+  color: #fff !important;
+}
+/* ARENDASKLADA_RAL_BACKGROUNDS_V29_END */
