@@ -5318,3 +5318,9 @@ main,
   color: #fff !important;
 }
 /* ARENDASKLADA_RAL_BACKGROUNDS_V29_END */
+
+/* ARENDASKLADA_CARD_INFO_RAL9010_V30_START */
+.catalog-results-panel .warehouse-card-content {
+  background: #f1ece1 !important;
+}
+/* ARENDASKLADA_CARD_INFO_RAL9010_V30_END */
