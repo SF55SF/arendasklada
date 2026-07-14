@@ -10,7 +10,7 @@ const yandexMapEmbed=(lat,lon)=>'https://yandex.ru/map-widget/v1/?ll='+lon+'%2C'
 <!doctype html><html lang=ru><head><meta charset=UTF-8><meta name=viewport content=width=device-width,initial-scale=1><title>Admin preview</title></head><body><main class="admin">
 <aside data-object-list><header><b>Объекты</b><button type="button">+</button></header>{items.map((item,index)=><a class=item data-object-item draggable=true data-object-slug={item.data.pageSlug} href={adminObjectUrl(item.data.pageSlug)}><span data-order-number>{index+1}</span><span class=drag-handle aria-hidden=true>⋮⋮</span><div><b>{item.data.title}</b><small>{item.data.area.toLocaleString("ru-RU")} м²</small></div></a>)}</aside>
 <section>
-{current&&<form class=editor data-admin-editor data-object-slug={current.pageSlug}>
+{current&&<form class=editor data-admin-editor data-object-slug={current.pageSlug} data-admin-items={JSON.stringify(items.map((item)=>item.data))}>
 <div class=editor-head><div><small>Редактирование объекта</small><h2>{current.title}</h2></div><button type=submit data-admin-save>Сохранить</button></div>
 <div class=fields>
 <label><span>Название страницы</span><input name=detailTitle value={current.detailTitle}/></label>

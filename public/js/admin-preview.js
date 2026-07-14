@@ -1,6 +1,19 @@
 const form=document.querySelector("[data-admin-editor]");
 let slug=form?.getAttribute("data-object-slug")||"object";
-document.querySelectorAll("[data-object-slug]").forEach((link)=>link.addEventListener("click",()=>{slug=link.getAttribute("data-object-slug")||slug;form?.setAttribute("data-object-slug",slug)}));
+let adminItems=[];
+try{adminItems=JSON.parse(form?.getAttribute("data-admin-items")||"[]")}catch{}
+const adminItemBySlug=new Map(adminItems.map((item)=>[String(item.pageSlug||""),item]));
+const setFormObject=(nextSlug)=>{
+const item=adminItemBySlug.get(nextSlug);
+if(!form||!item)return;
+slug=nextSlug;form.setAttribute("data-object-slug",slug);
+for(const element of Array.from(form.elements)){const name=element.getAttribute("name");if(!name||element.getAttribute("type")==="file")continue;const value=item[name];if(element instanceof HTMLInputElement||element instanceof HTMLSelectElement)element.value=value===undefined||value===null?"":String(value);}
+const heading=form.querySelector(".editor-head h2");if(heading)heading.textContent=String(item.title||item.detailTitle||slug);
+const preview=document.querySelector("[data-object-preview]");if(preview)preview.setAttribute("src","/"+slug+"/");
+const url=new URL(window.location.href);url.searchParams.set("object",slug);window.history.replaceState({},"",url);
+};
+document.querySelectorAll("[data-object-item]").forEach((link)=>link.addEventListener("click",(event)=>{event.preventDefault();setFormObject(link.getAttribute("data-object-slug")||slug)}));
+const requestedSlug=new URL(window.location.href).searchParams.get("object");if(requestedSlug)setFormObject(requestedSlug);
 const ext=(file)=>{const raw=(file.name.split(".").pop()||"jpg").toLowerCase();const ok="abcdefghijklmnopqrstuvwxyz0123456789";return Array.from(raw).filter((char)=>ok.includes(char)).join("")||"jpg"};
 const filename=(kind,index,file)=>slug+"-"+kind+"-"+String(index).padStart(2,"0")+"."+ext(file);
 document.querySelectorAll("[data-auto-upload]").forEach((input)=>input.addEventListener("change",()=>{
