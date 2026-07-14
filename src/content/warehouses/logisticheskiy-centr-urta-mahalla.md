@@ -48,7 +48,7 @@ temperature: '+15 - +25 C'
 temperatureMode: "Естественное"
 leaseType: "Сухая аренда"
 builtYear: 2020
-price: "$ 9 за м²"
+price: "9"
 availableNow: true
 mapX: 38
 mapY: 48
