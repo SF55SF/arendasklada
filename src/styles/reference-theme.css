@@ -5043,3 +5043,14 @@ body:has(.warehouse-object-page),
 .reference-hero h1.reference-hero__title-static{color:#30343a!important;-webkit-text-stroke:1px rgba(255,255,255,.34)!important;text-shadow:-1px -1px 0 rgba(255,255,255,.70),0 0 6px rgba(255,255,255,.42),1px 1px 0 rgba(20,22,26,.30),2px 2px 0 rgba(20,22,26,.24),3px 3px 1px rgba(20,22,26,.18)!important}
 .reference-hero h1.reference-hero__title-static::before,.reference-hero h1.reference-hero__title-static::after{content:none!important;display:none!important}
 /* ARENDASKLADA_RED_PHONE_TITLE_VOLUME_V17_END */
+
+/* ARENDASKLADA_STATS_SINGLE_RAIL_V18_START */
+.market-stats{border-top:0!important;overflow:visible!important}
+.market-stats__rail{position:relative;z-index:12;height:26px}
+.market-stats__rail::before{content:"";position:absolute;top:50%;right:0;left:0;height:4px;background:#8b2029;transform:translateY(-50%)}
+.market-stats__cta{position:absolute;top:50%;right:0;z-index:2;display:flex;min-width:clamp(176px,18.4vw,272px);min-height:53px;align-items:center;justify-content:center;padding:13px 27px 13px 43px;border:2px solid #8b2029;border-right:0;background:#8b2029;color:#fff;font-size:clamp(13px,1.08vw,16px);font-weight:800;line-height:1;text-decoration:none;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%);transform:translateY(-50%);box-sizing:border-box}
+.market-stats__cta:hover{border-color:#6f1820;background:#6f1820;color:#fff}
+.market-stat::before{content:none!important;display:none!important}
+.market-stats__grid{position:relative;z-index:1}
+@media(max-width:720px){.market-stats__rail{height:24px}.market-stats__cta{right:0;min-width:184px;min-height:46px;padding:11px 19px 11px 34px;font-size:13px}}
+/* ARENDASKLADA_STATS_SINGLE_RAIL_V18_END */

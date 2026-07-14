@@ -3,18 +3,28 @@ import { getPublishedWarehouses } from "../lib/warehouses";
 
 const warehouses=await getPublishedWarehouses();
 const validArea=(value)=>Number.isFinite(value)&&value>0?value:null;
+const firstNumber=(text)=>{
+  let token="";
+  let started=false;
+  for(const char of String(text)){
+    const numeric=(char>="0"&&char<="9")||char===".";
+    if(numeric){token+=char;started=true;continue;}
+    if(started)break;
+  }
+  const number=Number(token);
+  return Number.isFinite(number)?number:null;
+};
+
 const parseRate=(value)=>{
   const normalized=String(value??"").replaceAll(",",".");
-  const numbers=normalized.match(new RegExp("\d+(?:\.\d+)?","g"));
-  if(!numbers||!numbers.length)return null;
-  const first=Number(numbers[0]);
-  if(!Number.isFinite(first))return null;
-  const hasRange=normalized.includes("-")||normalized.includes("–")||normalized.includes("—");
-  if(hasRange&&numbers.length>1){
-    const second=Number(numbers[1]);
-    if(Number.isFinite(second))return (first+second)/2;
+  const separator=["–","—","-"].find((char)=>normalized.includes(char));
+  if(separator){
+    const parts=normalized.split(separator);
+    const first=firstNumber(parts[0]);
+    const second=firstNumber(parts.slice(1).join(separator));
+    if(first!==null&&second!==null)return (first+second)/2;
   }
-  return first;
+  return firstNumber(normalized);
 };
 
 const existingVacancy=warehouses.reduce((sum,item)=>{
@@ -55,6 +65,9 @@ const stats=[
 ---
 
 <section class="market-stats" aria-label="Статистика складских объектов">
+  <div class="market-stats__rail" aria-hidden="false">
+    <a class="market-stats__cta" href="#warehouses">Смотреть объекты</a>
+  </div>
   <div class="market-stats__grid">
     {stats.map((stat)=><article class="market-stat">
       <span class="market-stat__kicker">{stat.kicker}</span>
