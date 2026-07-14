@@ -5072,3 +5072,38 @@ body:has(.warehouse-object-page),
 .market-stat__kicker{color:#363a40!important;text-shadow:0 1px 0 rgba(255,255,255,.95)!important}
 .market-stat p{color:#3b3f45!important;text-shadow:0 1px 0 rgba(255,255,255,.95)!important}
 /* ARENDASKLADA_TITLE_STATS_GRAPHITE_VOLUME_V23_END */
+
+/* ARENDASKLADA_DESKTOP_REFERENCE_LOCK_V24_START */
+:root{--as-header-height:72px;--as-stats-height:170px}
+@media(min-width:1200px){
+.reference-hero{height:clamp(560px,calc(100svh - var(--as-header-height) - var(--as-stats-height)),760px)!important;min-height:clamp(560px,calc(100svh - var(--as-header-height) - var(--as-stats-height)),760px)!important;max-height:760px!important}
+.reference-hero+.market-stats{margin-top:0!important}
+.market-stats{height:var(--as-stats-height)!important;min-height:var(--as-stats-height)!important;max-height:var(--as-stats-height)!important;box-sizing:border-box!important}
+.market-stats__grid{height:calc(var(--as-stats-height) - 4px)!important;min-height:0!important}
+.market-stat{height:100%!important;min-height:0!important;box-sizing:border-box!important}
+.reference-hero__button--corner{bottom:0!important;margin:0!important;transform:none!important}
+.catalog-split{grid-template-columns:minmax(0,45%) minmax(0,55%)!important;align-items:start!important}
+.catalog-map-panel{top:var(--as-header-height)!important;height:calc(100svh - var(--as-header-height))!important;min-height:680px!important;box-sizing:border-box!important}
+.catalog-results-panel{min-width:0!important;box-sizing:border-box!important}
+.catalog-results-panel .warehouse-list{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important}
+.catalog-results-panel .warehouse-card{width:100%!important;min-width:0!important}
+.catalog-results-panel .warehouse-card-media,.catalog-results-panel .warehouse-card-content{min-width:0!important}
+}
+@media(min-width:1200px) and (max-width:1599px){
+.catalog-split{grid-template-columns:minmax(0,43%) minmax(0,57%)!important}
+.catalog-results-panel .warehouse-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.market-stat{padding-right:24px!important;padding-left:24px!important}
+}
+@media(min-width:1600px){
+.site-header{min-height:var(--as-header-height)!important;box-sizing:border-box!important}
+.catalog-results-panel{padding:24px 30px 38px!important}
+.catalog-results-panel .warehouse-list{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(max-width:1199px){
+.reference-hero{max-height:none!important}
+.market-stats{height:auto!important;min-height:0!important;max-height:none!important}
+.market-stats__grid{height:auto!important}
+.market-stat{height:auto!important}
+.catalog-map-panel{height:auto!important;min-height:520px!important}
+}
+/* ARENDASKLADA_DESKTOP_REFERENCE_LOCK_V24_END */
