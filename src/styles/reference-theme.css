@@ -5050,3 +5050,17 @@ body:has(.warehouse-object-page),
 .reference-hero__button--corner{right:0!important;bottom:0!important;z-index:10!important;margin:0!important}
 .reference-hero+.market-stats{margin-top:0!important}
 /* ARENDASKLADA_STATS_BOUNDARY_LINE_V19_END */
+
+/* ARENDASKLADA_STATS_WHITE_DARK_V22_START */
+.market-stats{background:#fff!important;color:#25282d!important}
+.market-stats__grid{background:#fff!important}
+.market-stat{border-right:1px solid rgba(37,40,45,.16)!important;background:#fff!important;color:#25282d!important}
+.market-stat:last-child{border-right:0!important}
+.market-stat__kicker{color:#30343a!important;font-size:13px!important;font-weight:800!important}
+.market-stat__value{color:#25282d!important}
+.market-stat__value strong{color:#25282d!important}
+.market-stat__value span{color:#30343a!important;font-size:clamp(15px,1.2vw,20px)!important;font-weight:850!important;line-height:1!important;opacity:1!important}
+.market-stat p{color:#30343a!important;font-size:16px!important;font-weight:700!important}
+.market-stat:nth-child(-n+2){border-bottom-color:rgba(37,40,45,.16)!important}
+@media(max-width:560px){.market-stat{border-bottom:1px solid rgba(37,40,45,.16)!important}.market-stat__kicker{font-size:12px!important}.market-stat p{font-size:15px!important}.market-stat__value span{font-size:17px!important}}
+/* ARENDASKLADA_STATS_WHITE_DARK_V22_END */

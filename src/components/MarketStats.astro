@@ -59,8 +59,8 @@ const formatRate=(value)=>value===null?"—":"$"+value.toLocaleString("ru-RU",{m
 const stats=[
   {kicker:"Действующие склады",value:formatArea(existingVacancy),unit:"м²",label:"Суммарная вакансия"},
   {kicker:"Строящиеся склады",value:formatArea(constructionArea),unit:"м²",label:"Площадь нового предложения"},
-  {kicker:"Класс A",value:formatRate(rateA),unit:rateA===null?"":"/ м² / мес.",label:"Средневзвешенная ставка аренды"},
-  {kicker:"Класс B",value:formatRate(rateB),unit:rateB===null?"":"/ м² / мес.",label:"Средневзвешенная ставка аренды"},
+  {kicker:"Класс A",value:formatRate(rateA),unit:"/ м² / мес.",label:"Средневзвешенная ставка аренды"},
+  {kicker:"Класс B",value:formatRate(rateB),unit:"/ м² / мес.",label:"Средневзвешенная ставка аренды"},
 ];
 ---
 
