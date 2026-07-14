@@ -5035,3 +5035,11 @@ body:has(.warehouse-object-page),
 @media(max-width:1000px){.market-stats__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.market-stat:nth-child(2){border-right:0}.market-stat:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.24)}}
 @media(max-width:560px){.market-stats__grid{grid-template-columns:1fr}.market-stat{min-height:142px;border-right:0;border-bottom:1px solid rgba(255,255,255,.24)}.market-stat:last-child{border-bottom:0}}
 /* ARENDASKLADA_MARKET_STATS_V1_END */
+
+/* ARENDASKLADA_RED_PHONE_TITLE_VOLUME_V17_START */
+.catalog-results-panel .warehouse-card .warehouse-card-telegram,.catalog-results-panel [data-property-card] .warehouse-card-telegram,.warehouse-object-page .ir-summary-contact,.ir-summary-contact{border:1px solid rgba(127,32,40,.42)!important;background:rgba(127,32,40,.84)!important;color:#fff!important;box-shadow:0 8px 20px rgba(127,32,40,.22)!important}
+.catalog-results-panel .warehouse-card .warehouse-card-telegram:hover,.catalog-results-panel [data-property-card] .warehouse-card-telegram:hover,.warehouse-object-page .ir-summary-contact:hover,.ir-summary-contact:hover{background:rgba(101,24,32,.93)!important;color:#fff!important}
+.catalog-results-panel .warehouse-card-telegram svg,.ir-summary-contact svg{fill:currentColor!important;stroke:currentColor!important;color:#fff!important}
+.reference-hero h1.reference-hero__title-static{color:#30343a!important;-webkit-text-stroke:1px rgba(255,255,255,.34)!important;text-shadow:-1px -1px 0 rgba(255,255,255,.70),0 0 6px rgba(255,255,255,.42),1px 1px 0 rgba(20,22,26,.30),2px 2px 0 rgba(20,22,26,.24),3px 3px 1px rgba(20,22,26,.18)!important}
+.reference-hero h1.reference-hero__title-static::before,.reference-hero h1.reference-hero__title-static::after{content:none!important;display:none!important}
+/* ARENDASKLADA_RED_PHONE_TITLE_VOLUME_V17_END */
