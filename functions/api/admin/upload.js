@@ -1,0 +1,12 @@
+const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
+const encode=(bytes)=>{let value="";for(const byte of bytes)value+=String.fromCharCode(byte);return btoa(value);};
+export async function onRequestPost({request,env}){
+if(!env.GITHUB_TOKEN)return json({error:"GITHUB_TOKEN is not configured"},500);
+let data;try{data=await request.json();}catch{return json({error:"Invalid JSON"},400);}
+const slug=String(data.slug||"").trim(),kind=String(data.kind||""),index=Number(data.index||1);if(!/^[a-z0-9-]+$/.test(slug))return json({error:"Invalid slug"},400);if(!["main","plan","gallery"].includes(kind))return json({error:"Invalid image kind"},400);
+const prefix="data:image/jpeg;base64,",url=String(data.dataUrl||"");if(!url.startsWith(prefix)||!Number.isInteger(index))return json({error:"Invalid JPEG"},400);const base64=url.slice(prefix.length);if(!base64||base64.length>8000000)return json({error:"Image is too large"},413);
+let bytes;try{const binary=atob(base64);bytes=Uint8Array.from(binary,char=>char.charCodeAt(0));}catch{return json({error:"Invalid image data"},400);}
+const suffix=kind==="gallery"?"-"+String(index).padStart(2,"0"):"",path="public/images/objects/"+slug+"-"+kind+suffix+".jpg",repo=env.GITHUB_REPO||"SF55SF/arendasklada",branch=env.GITHUB_BRANCH||"main";
+const headers={Accept:"application/vnd.github+json",Authorization:"Bearer "+env.GITHUB_TOKEN,"User-Agent":"arendasklada-admin","X-GitHub-Api-Version":"2022-11-28"};const current=await fetch("https://api.github.com/repos/"+repo+"/contents/"+path+"?ref="+encodeURIComponent(branch),{headers});let sha;if(current.ok)sha=(await current.json()).sha;else if(current.status!==404)return json({error:"GitHub read failed"},current.status);
+const body={message:"Upload "+kind+" image for "+slug+" from admin",content:encode(bytes),branch};if(sha)body.sha=sha;const response=await fetch("https://api.github.com/repos/"+repo+"/contents/"+path,{method:"PUT",headers:{...headers,"content-type":"application/json"},body:JSON.stringify(body)});if(!response.ok)return json({error:"GitHub upload failed",details:await response.text()},response.status);return json({ok:true,path:"/"+path.slice(7)});
+}
