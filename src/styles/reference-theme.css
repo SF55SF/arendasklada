@@ -5204,7 +5204,7 @@ main,
 
 /* Фон каталога, карты и контактов: RAL 9010 */
 :root {
-  --reference-background: #f1ece1;
+  --reference-background: #f4f4f4;
 }
 body,
 main,
@@ -5212,7 +5212,7 @@ main,
 .catalog-map-panel,
 .catalog-results-panel,
 .contact-section {
-  background: #f1ece1 !important;
+  background: #f4f4f4 !important;
 }
 
 @media (min-width: 1200px) {
