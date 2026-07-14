@@ -4,7 +4,7 @@ order: 1
 pageSlug: logisticheskiy-centr-urta-mahalla
 block: Склад, махаллинский сход граждан Урта
 floor: "1"
-area: 600
+area: 6000
 workplaces: 'по запросу'
 ready: "Действующий"
 warehouseLayout: 'Сухая аренда'
@@ -51,7 +51,7 @@ temperature: '+15 - +25 C'
 temperatureMode: "Естественное"
 leaseType: "Сухая аренда"
 builtYear: 2020
-price: "$ 12 за м²"
+price: "$ 10 за м²"
 availableNow: true
 mapX: 38
 mapY: 48
