@@ -33,7 +33,7 @@ detailFeatures:
 - 'Площадь 6000 м²'
 - 'Год постройки 2020'
 planImage: "/images/objects/logisticheskiy-centr-urta-mahalla-plan.jpg"
-mainImage: "/images/objects/object-1-main.svg"
+mainImage: "/images/objects/logisticheskiy-centr-urta-mahalla-main.jpg"
 gallery: ["/images/objects/object-1-main.svg","/images/objects/object-1-plan.svg","/images/objects/object-1-scheme.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
@@ -52,6 +52,6 @@ price: "$ 9 за м²"
 availableNow: true
 mapX: 38
 mapY: 48
-latitude: 41.286
-longitude: 69.155
+latitude: 41.220404
+longitude: 69.139486
 ---
