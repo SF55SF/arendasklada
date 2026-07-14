@@ -6,10 +6,10 @@ block: Склад, махаллинский сход граждан Урта
 floor: "1"
 area: 6000
 workplaces: 'по запросу'
-ready: 'Действующий'
+ready: "Действующий"
 warehouseLayout: 'Сухая аренда'
 title: 'Логистический центр — Урта Махалла'
-detailTitle: 'Логистический центр — Урта Махалла · 6000 м² в Ташкенте'
+detailTitle: "Логистический центр — Урта Махалла · 6000 м² в Ташкенте"
 seoTitle: 'Логистический центр — Урта Махалла — склад 6000 м² в аренду в Ташкенте'
 description: 'Склад оборудован для напольного хранения и сейчас работает без установленных стеллажей.'
 imageAlt: 'Иллюстрация без фотографии: Логистический центр — Урта Махалла'
@@ -42,16 +42,16 @@ presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
 district: 'махаллинский сход граждан Урта'
-address: 'махаллинский сход граждан Урта'
+address: "махаллинский сход граждан Урта"
 propertyType: 'Склад'
-warehouseClass: 'B'
-ceilingHeight: 'по запросу'
-dockDoors: 'по запросу'
+warehouseClass: "B"
+ceilingHeight: "по запросу"
+dockDoors: "по запросу"
 temperature: '+15 - +25 C'
-temperatureMode: 'Естественное'
-leaseType: 'Сухая аренда'
+temperatureMode: "Естественное"
+leaseType: "Сухая аренда"
 builtYear: 2020
-price: '$ 9 за м²'
+price: "$ 10 за м²"
 availableNow: true
 mapX: 38
 mapY: 48
