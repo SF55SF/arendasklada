@@ -52,6 +52,6 @@ price: "$ 9 за м²"
 availableNow: true
 mapX: 38
 mapY: 48
-latitude: 41.286
-longitude: 69.155
+latitude: 41.220404
+longitude: 69.139486
 ---
