@@ -11,8 +11,9 @@ const firstNumber=(text)=>{
     if(numeric){token+=char;started=true;continue;}
     if(started)break;
   }
+  if(!token)return null;
   const number=Number(token);
-  return Number.isFinite(number)?number:null;
+  return Number.isFinite(number)&&number>0?number:null;
 };
 
 const parseRate=(value)=>{
@@ -44,7 +45,7 @@ const weightedRate=(warehouseClass)=>{
     const className=String(item.data.warehouseClass??"").trim().toUpperCase();
     const area=validArea(item.data.area);
     const rate=parseRate(item.data.price);
-    if(!className.startsWith(warehouseClass)||area===null||rate===null)continue;
+    if(!className.startsWith(warehouseClass)||area===null||rate===null||rate<=0)continue;
     weightedSum+=area*rate;
     totalArea+=area;
   }
