@@ -5064,3 +5064,11 @@ body:has(.warehouse-object-page),
 .market-stat:nth-child(-n+2){border-bottom-color:rgba(37,40,45,.16)!important}
 @media(max-width:560px){.market-stat{border-bottom:1px solid rgba(37,40,45,.16)!important}.market-stat__kicker{font-size:12px!important}.market-stat p{font-size:15px!important}.market-stat__value span{font-size:17px!important}}
 /* ARENDASKLADA_STATS_WHITE_DARK_V22_END */
+
+/* ARENDASKLADA_TITLE_STATS_GRAPHITE_VOLUME_V23_START */
+.reference-hero h1.reference-hero__title-static{color:#30343a!important;-webkit-text-stroke:1px rgba(255,255,255,.42)!important;text-shadow:-1px -1px 0 rgba(255,255,255,.82),0 0 7px rgba(255,255,255,.42),1px 1px 0 rgba(29,32,36,.38),2px 2px 0 rgba(29,32,36,.30),3px 3px 0 rgba(29,32,36,.22),4px 4px 2px rgba(20,22,26,.18)!important}
+.market-stat__value strong{color:#30343a!important;text-shadow:-1px -1px 0 rgba(255,255,255,.95),1px 1px 0 rgba(29,32,36,.20),2px 2px 1px rgba(29,32,36,.12)!important}
+.market-stat__value span,.market-stat__currency,.market-stat__unit{color:#30343a!important;text-shadow:-1px -1px 0 rgba(255,255,255,.92),1px 1px 0 rgba(29,32,36,.16)!important}
+.market-stat__kicker{color:#363a40!important;text-shadow:0 1px 0 rgba(255,255,255,.95)!important}
+.market-stat p{color:#3b3f45!important;text-shadow:0 1px 0 rgba(255,255,255,.95)!important}
+/* ARENDASKLADA_TITLE_STATS_GRAPHITE_VOLUME_V23_END */
