@@ -5143,3 +5143,147 @@ main,
   object-fit: contain;
 }
 /* ARENDASKLADA_TROLLEY_LOGO_END */
+
+/* ARENDASKLADA_RADIUS_SYSTEM_V25_START */
+:root {
+  --as-radius-large: 10px;
+  --as-radius-medium: 8px;
+  --as-radius-small: 6px;
+}
+
+.catalog-results-panel .warehouse-card,
+.catalog-static-map,
+.market-stat,
+.lead-form,
+.warehouse-dossier {
+  border-radius: var(--as-radius-large) !important;
+}
+
+.warehouse-card-specs,
+.catalog-map-heading,
+.contact-cards a,
+.warehouse-dossier-info,
+.warehouse-dossier-primary,
+.warehouse-dossier-general,
+.warehouse-dossier-map,
+.warehouse-dossier-media-card {
+  border-radius: var(--as-radius-medium) !important;
+}
+
+.catalog-search,
+.toolbar-filter summary,
+.toolbar-filter fieldset,
+.button,
+.lead-form input,
+.lead-form textarea,
+.warehouse-card-actions .button,
+.warehouse-dossier-actions .button {
+  border-radius: var(--as-radius-small) !important;
+}
+
+/* Круглые функциональные кнопки сохраняем круглыми */
+.warehouse-card-call,
+.mobile-contact-button,
+.hero-yandex-point,
+.hero-point-number {
+  border-radius: 50% !important;
+}
+/* ARENDASKLADA_RADIUS_SYSTEM_V25_END */
+
+/* ARENDASKLADA_SWAP_BACKGROUNDS_V26_START */
+/* Статистика: RAL 9016 */
+.market-stats,
+.market-stat {
+  background: #f6f6f6 !important;
+}
+.market-stats {
+  border-top: 4px solid var(--reference-burgundy) !important;
+  border-bottom: 4px solid var(--reference-burgundy) !important;
+  box-sizing: border-box !important;
+}
+
+/* Фон каталога, карты и контактов: RAL 9010 */
+:root {
+  --reference-background: #f1ece1;
+}
+body,
+main,
+.catalog-workspace,
+.catalog-map-panel,
+.catalog-results-panel,
+.contact-section {
+  background: #f1ece1 !important;
+}
+
+@media (min-width: 1200px) {
+  .market-stats__grid {
+    height: calc(var(--as-stats-height) - 8px) !important;
+  }
+}
+/* ARENDASKLADA_SWAP_BACKGROUNDS_V26_END */
+
+/* ARENDASKLADA_MOBILE_TITLE_PHONE_MARKER_V27_START */
+[data-yandex-map] .yandex-status-dot.is-card-hovered,
+[data-yandex-map] .yandex-status-dot.is-card-hovered-150,
+[data-yandex-map] .yandex-status-dot.is-card-hovered-150-v3,
+[data-yandex-map] .leaflet-status-dot.is-card-hovered,
+[data-yandex-map] .leaflet-status-dot.is-card-hovered-150,
+[data-yandex-map] .leaflet-status-dot.is-card-hovered-150-v3,
+[data-yandex-map] .hero-point-number.is-card-hovered,
+[data-yandex-map] .hero-point-number.is-card-hovered-150,
+[data-yandex-map] .hero-point-number.is-card-hovered-150-v3,
+[data-yandex-map] .hero-yandex-point.is-card-hovered .hero-point-number,
+[data-yandex-map] .hero-yandex-point.is-card-hovered-150 .hero-point-number,
+[data-yandex-map] [data-property-marker].is-card-hovered .hero-point-number,
+[data-yandex-map] [data-property-marker].is-card-hovered-150 .hero-point-number {
+  width: 40px !important;
+  height: 40px !important;
+  margin: -20px 0 0 -20px !important;
+}
+
+@media (max-width: 820px) {
+  .mobile-contact-button {
+    border-color: var(--reference-burgundy) !important;
+    background: var(--reference-burgundy) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(127,32,40,.28) !important;
+  }
+  .mobile-contact-button svg {
+    fill: none !important;
+    stroke: #fff !important;
+  }
+  .mobile-contact-button path {
+    fill: none !important;
+    stroke: #fff !important;
+  }
+  .reference-hero__title-static {
+    max-width: calc(100% - 32px) !important;
+    font-size: clamp(50px,14.3vw,73px) !important;
+    line-height: .9 !important;
+    letter-spacing: -.045em !important;
+  }
+  .reference-hero__title-static span {
+    display: block;
+  }
+}
+/* ARENDASKLADA_MOBILE_TITLE_PHONE_MARKER_V27_END */
+
+/* ARENDASKLADA_DETAIL_MOBILE_PHONE_COLOR_V28_START */
+@media (max-width: 720px) {
+  .ir-page .ir-summary-contact {
+    border: 1px solid var(--reference-burgundy) !important;
+    background: var(--reference-burgundy) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(127,32,40,.28) !important;
+  }
+  .ir-page .ir-summary-contact:hover {
+    background: var(--reference-burgundy-dark) !important;
+    filter: none !important;
+  }
+  .ir-page .ir-summary-contact svg,
+  .ir-page .ir-summary-contact path {
+    fill: currentColor !important;
+    color: #fff !important;
+  }
+}
+/* ARENDASKLADA_DETAIL_MOBILE_PHONE_COLOR_V28_END */
