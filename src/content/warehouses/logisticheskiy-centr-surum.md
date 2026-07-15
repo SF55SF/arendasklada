@@ -33,8 +33,8 @@ detailFeatures:
 - 'Видеонаблюдение'
 - 'Маневровые зоны'
 planImage: "/images/objects/object-3-plan.svg"
-mainImage: "/images/objects/object-1-main.svg"
-gallery: []
+mainImage: "/images/objects/logisticheskiy-centr-surum-main.jpg"
+gallery: ["/images/objects/logisticheskiy-centr-surum-gallery-01.jpg","/images/objects/logisticheskiy-centr-surum-gallery-02.jpg","/images/objects/logisticheskiy-centr-surum-gallery-03.jpg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
