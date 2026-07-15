@@ -34,7 +34,7 @@ detailFeatures:
 - 'Маневровые зоны'
 planImage: "/images/objects/object-3-plan.svg"
 mainImage: "/images/objects/object-1-main.svg"
-gallery: ["/images/objects/object-3-main.svg","/images/objects/object-3-plan.svg"]
+gallery: ["/images/objects/object-3-plan.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
