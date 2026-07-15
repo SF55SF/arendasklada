@@ -32,9 +32,9 @@ detailFeatures:
 - 'Коммерческая и таможенная зоны'
 - 'Ж/д ветка'
 - 'Метро «Машинасозлар» рядом'
-planImage: "/images/objects/object-6-plan.svg"
+planImage: "/images/objects/logisticheskiy-centr-olc-plan.jpg"
 mainImage: "/images/objects/logisticheskiy-centr-olc-main.jpg"
-gallery: []
+gallery: ["/images/objects/logisticheskiy-centr-olc-gallery-01.jpg","/images/objects/logisticheskiy-centr-olc-gallery-02.jpg","/images/objects/logisticheskiy-centr-olc-gallery-03.jpg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
