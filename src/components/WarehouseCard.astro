@@ -41,7 +41,7 @@ const displayReady = readyText.includes('стро') ? 'Строящийся' : '
   data-lease-type={data.leaseType}
   data-order={data.order}
   data-search={search}
-  style="position:relative !important; display:flex !important; flex-direction:column !important; width:100% !important; height:auto !important; min-height:0 !important; aspect-ratio:2 / 3 !important; overflow:hidden !important;"
+  style="position:relative; display:flex; flex-direction:column; width:100%; height:auto; min-height:0; aspect-ratio:2 / 3; overflow:hidden;"
 >
   {hasTelegram && (
     <a
@@ -56,30 +56,30 @@ const displayReady = readyText.includes('стро') ? 'Строящийся' : '
     </a>
   )}
 
-  <a class="warehouse-card-media" href={detailUrl} aria-label={`Открыть ${data.title}`} style="display:block !important; flex:0 0 44% !important; width:100% !important; height:44% !important; min-height:0 !important; max-height:44% !important; overflow:hidden !important;">
-    <img src={mainImage} alt={data.imageAlt} loading={index > 2 ? 'lazy' : 'eager'} style="display:block !important; width:100% !important; height:100% !important; object-fit:cover !important; object-position:center !important;" />
+  <a class="warehouse-card-media" href={detailUrl} aria-label={`Открыть ${data.title}`} style="display:block; flex:0 0 44%; width:100%; height:44%; min-height:0; max-height:44%; overflow:hidden;">
+    <img src={mainImage} alt={data.imageAlt} loading={index > 2 ? 'lazy' : 'eager'} style="display:block; width:100%; height:100%; object-fit:cover; object-position:center;" />
   </a>
 
-  <div class="warehouse-card-content" style="display:flex !important; flex:1 1 56% !important; flex-direction:column !important; justify-content:flex-start !important; width:100% !important; height:56% !important; min-height:0 !important; max-height:56% !important; padding:18px !important; box-sizing:border-box !important; overflow:hidden !important;">
-    <h3 style="font-size:22px !important; line-height:1.05 !important; min-height:0 !important; margin:0 18px 18px !important; width:calc(100% - 36px) !important; box-sizing:border-box !important;"><a href={detailUrl}>{displayTitle}</a></h3>
+  <div class="warehouse-card-content" style="display:flex; flex:1 1 56%; flex-direction:column; justify-content:flex-start; width:100%; height:56%; min-height:0; max-height:56%; padding:18px; box-sizing:border-box; overflow:hidden;">
+    <h3 style="font-size:22px; line-height:1.05; min-height:0; margin:0 18px 18px; width:calc(100% - 36px); box-sizing:border-box;"><a href={detailUrl}>{displayTitle}</a></h3>
 
-    <dl class="warehouse-card-specs warehouse-card-specs--final" style="flex:0 0 auto !important; width:100% !important; margin:0 0 18px !important; padding-left:18px !important; padding-right:18px !important; box-sizing:border-box !important;">
+    <dl class="warehouse-card-specs warehouse-card-specs--final" style="flex:0 0 auto; width:100%; margin:0 0 18px; padding-left:18px; padding-right:18px; box-sizing:border-box;">
       <div>
-        <dt style="font-size:14px !important; line-height:1.15 !important; font-weight:700 !important;">Площадь:</dt>
-        <dd style="font-size:14px !important; line-height:1.15 !important; font-weight:400 !important;">{data.area.toLocaleString('ru-RU')} м²</dd>
+        <dt style="font-size:14px; line-height:1.15; font-weight:700;">Площадь:</dt>
+        <dd style="font-size:14px; line-height:1.15; font-weight:400;">{data.area.toLocaleString('ru-RU')} м²</dd>
       </div>
       <div>
-        <dt style="font-size:14px !important; line-height:1.15 !important; font-weight:700 !important;">Ставка аренды:</dt>
-        <dd style="font-size:14px !important; line-height:1.15 !important; font-weight:400 !important;">{rentRate}</dd>
+        <dt style="font-size:14px; line-height:1.15; font-weight:700;">Ставка аренды:</dt>
+        <dd style="font-size:14px; line-height:1.15; font-weight:400;">{rentRate}</dd>
       </div>
       <div>
-        <dt style="font-size:14px !important; line-height:1.15 !important; font-weight:700 !important;">Готовность:</dt>
-        <dd style="font-size:14px !important; line-height:1.15 !important; font-weight:400 !important;">{displayReady}</dd>
+        <dt style="font-size:14px; line-height:1.15; font-weight:700;">Готовность:</dt>
+        <dd style="font-size:14px; line-height:1.15; font-weight:400;">{displayReady}</dd>
       </div>
     </dl>
 
-    <div class="warehouse-card-actions" style="display:block !important; flex:0 0 auto !important; width:100% !important; margin:auto 0 0 !important; padding:0 !important; box-sizing:border-box !important;">
-      <a class="button button-dark" style="display:flex !important; width:100% !important; min-height:40px !important; padding:9px 12px !important; box-sizing:border-box !important;" href={detailUrl}>Подробнее</a>
+    <div class="warehouse-card-actions" style="display:block; flex:0 0 auto; width:100%; margin:auto 0 0; padding:0; box-sizing:border-box;">
+      <a class="button button-dark" style="display:flex; width:100%; min-height:40px; padding:9px 12px; box-sizing:border-box;" href={detailUrl}>Подробнее</a>
     </div>
   </div>
 </article>
