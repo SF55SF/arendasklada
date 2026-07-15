@@ -4,7 +4,7 @@ order: 9999
 pageSlug: "noviy-sklad"
 block: "HLC"
 floor: "1"
-area: 0
+area: 5
 workplaces: "по запросу"
 ready: "Действующий"
 warehouseLayout: "Сухая аренда"
