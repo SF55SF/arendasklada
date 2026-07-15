@@ -33,7 +33,7 @@ detailFeatures:
 - 'Температура до +25°C'
 - 'Высота 6 м'
 planImage: '/images/objects/object-9-plan.svg'
-mainImage: '/images/objects/object-9-main.svg'
+mainImage: "/images/objects/object-1-main.svg"
 gallery:
 - '/images/objects/object-9-main.svg'
 - '/images/objects/object-9-plan.svg'
