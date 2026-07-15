@@ -33,7 +33,7 @@ detailFeatures:
 - 'Ж/д ветка'
 - 'Метро «Машинасозлар» рядом'
 planImage: '/images/objects/object-6-plan.svg'
-mainImage: '/images/objects/object-6-main.svg'
+mainImage: "/images/objects/object-1-main.svg"
 gallery:
 - '/images/objects/object-6-main.svg'
 - '/images/objects/object-6-plan.svg'
