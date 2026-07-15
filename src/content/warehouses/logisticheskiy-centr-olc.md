@@ -34,7 +34,7 @@ detailFeatures:
 - 'Метро «Машинасозлар» рядом'
 planImage: "/images/objects/object-6-plan.svg"
 mainImage: "/images/objects/logisticheskiy-centr-olc-main.jpg"
-gallery: ["/images/objects/object-6-main.svg","/images/objects/object-6-plan.svg","/images/objects/object-6-scheme.svg"]
+gallery: ["/images/objects/object-6-plan.svg","/images/objects/object-6-scheme.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
