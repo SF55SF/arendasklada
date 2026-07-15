@@ -6,10 +6,10 @@ block: Холодный склад, Мирабадский район
 floor: "1"
 area: 5000
 workplaces: '6 м'
-ready: 'Действующий'
+ready: "Действующий"
 warehouseLayout: 'Стеллажная аренда'
 title: 'Логистический центр — Рисовый'
-detailTitle: 'Логистический центр — Рисовый · 5000 м² в Ташкенте'
+detailTitle: "Логистический центр — Рисовый · 5000 м² в Ташкенте"
 seoTitle: 'Логистический центр — Рисовый — склад 5000 м² в аренду в Ташкенте'
 description: 'Логистический комплекс для хранения товаров с охлаждением. Помещения поддерживают температуру от -20°C до +4°C, высота хранения составляет 6 м, склад оснащен WMS.'
 imageAlt: 'Иллюстрация без фотографии: Логистический центр — Рисовый'
@@ -32,23 +32,23 @@ detailFeatures:
 - 'Высота хранения 6 м'
 - 'WMS'
 - '1 этаж'
-planImage: '/images/objects/object-7-plan.svg'
-mainImage: "/images/objects/object-1-main.svg"
-gallery: []
+planImage: "/images/objects/object-7-plan.svg"
+mainImage: "/images/objects/logisticheskiy-centr-risoviy-main.jpg"
+gallery: ["/images/objects/logisticheskiy-centr-risoviy-gallery-01.jpg","/images/objects/logisticheskiy-centr-risoviy-gallery-02.jpg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
 district: 'Мирабадский район'
-address: 'Мирабадский район'
+address: "Мирабадский район"
 propertyType: 'Холодный склад'
-warehouseClass: 'B'
-ceilingHeight: '6 м'
-dockDoors: 'по запросу'
+warehouseClass: "B"
+ceilingHeight: "6 м"
+dockDoors: "по запросу"
 temperature: '-20°C до +4°C'
-temperatureMode: 'Холодильник'
-leaseType: 'Стеллажная аренда'
+temperatureMode: "Холодильник"
+leaseType: "Стеллажная аренда"
 builtYear: 2000
-price: 'По запросу'
+price: "По запросу"
 availableNow: true
 mapX: 58
 mapY: 57
