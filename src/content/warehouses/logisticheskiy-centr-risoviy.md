@@ -33,8 +33,8 @@ detailFeatures:
 - 'WMS'
 - '1 этаж'
 planImage: "/images/objects/object-7-plan.svg"
-mainImage: "/images/objects/object-1-main.svg"
-gallery: []
+mainImage: "/images/objects/logisticheskiy-centr-risoviy-main.jpg"
+gallery: ["/images/objects/logisticheskiy-centr-risoviy-gallery-01.jpg","/images/objects/logisticheskiy-centr-risoviy-gallery-02.jpg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
