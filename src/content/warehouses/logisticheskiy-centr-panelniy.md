@@ -34,10 +34,7 @@ detailFeatures:
 - 'Высота 6 м'
 planImage: '/images/objects/object-9-plan.svg'
 mainImage: "/images/objects/object-1-main.svg"
-gallery:
-- '/images/objects/object-9-main.svg'
-- '/images/objects/object-9-plan.svg'
-- '/images/objects/object-9-scheme.svg'
+gallery: ["/images/objects/object-9-main.svg","/images/objects/object-9-plan.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
