@@ -6,10 +6,10 @@ block: Склад у ж/д ветки, Яшнабадский район
 floor: "1"
 area: 5000
 workplaces: '6 м'
-ready: 'Действующий'
+ready: "Действующий"
 warehouseLayout: 'Сухая аренда'
 title: 'Логистический центр — Панельный'
-detailTitle: 'Логистический центр — Панельный · 5000 м² в Ташкенте'
+detailTitle: "Логистический центр — Панельный · 5000 м² в Ташкенте"
 seoTitle: 'Логистический центр — Панельный — склад 5000 м² в аренду в Ташкенте'
 description: 'Склад расположен рядом с железнодорожной веткой. Часть складских помещений является таможенными помещениями и оснащена системами поддержания температуры до +25°C.'
 imageAlt: 'Иллюстрация без фотографии: Логистический центр — Панельный'
@@ -32,23 +32,23 @@ detailFeatures:
 - 'Таможенные помещения'
 - 'Температура до +25°C'
 - 'Высота 6 м'
-planImage: '/images/objects/object-9-plan.svg'
-mainImage: "/images/objects/object-1-main.svg"
-gallery: []
+planImage: "/images/objects/object-9-plan.svg"
+mainImage: "/images/objects/logisticheskiy-centr-panelniy-main.jpg"
+gallery: ["/images/objects/logisticheskiy-centr-panelniy-gallery-01.jpg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
 district: 'Яшнабадский район'
-address: 'Яшнабадский район'
+address: "Яшнабадский район"
 propertyType: 'Склад у ж/д ветки'
-warehouseClass: 'B'
-ceilingHeight: '6 м'
-dockDoors: 'по запросу'
+warehouseClass: "B"
+ceilingHeight: "6 м"
+dockDoors: "по запросу"
 temperature: 'до +25°C'
-temperatureMode: '+15 - +25 C'
-leaseType: 'Сухая аренда'
+temperatureMode: "+15 - +25 C"
+leaseType: "Сухая аренда"
 builtYear: 1972
-price: 'По запросу'
+price: "По запросу"
 availableNow: true
 mapX: 70
 mapY: 48
