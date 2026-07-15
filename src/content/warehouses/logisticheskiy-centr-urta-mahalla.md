@@ -33,7 +33,7 @@ detailFeatures:
 - 'Площадь 6000 м²'
 - 'Год постройки 2020'
 planImage: "/images/objects/object-1-plan.svg"
-mainImage: "/images/objects/object-1-main.svg"
+mainImage: "/images/objects/logisticheskiy-centr-urta-mahalla-main.jpg"
 gallery: ["/images/objects/object-1-main.svg","/images/objects/object-1-plan.svg","/images/objects/object-1-scheme.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
@@ -47,7 +47,7 @@ dockDoors: "по запросу"
 temperature: '+15 - +25 C'
 temperatureMode: "Естественное"
 leaseType: "Сухая аренда"
-builtYear: 2020
+builtYear: 2026
 price: "9"
 availableNow: true
 mapX: 38
