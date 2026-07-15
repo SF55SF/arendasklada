@@ -5557,3 +5557,7 @@ main,
 /* ARENDASKLADA_DESKTOP_HERO_CENTER_V55_START */
 @media(min-width:1200px){.reference-hero h1.reference-hero__title-static{translate:0 calc(-1em + 11px)!important}}
 /* ARENDASKLADA_DESKTOP_HERO_CENTER_V55_END */
+
+/* ARENDASKLADA_EXACT_MAP_CARD_V56_START */
+@media(max-width:820px){#warehouses .mobile-map-card-popover__slot.warehouse-list{display:block!important;width:100%!important;height:calc((100svh - 8px)/2)!important;grid-template-columns:none!important;grid-auto-rows:auto!important;overflow:visible!important}#warehouses .mobile-map-card-popover__slot.warehouse-list>.warehouse-card{width:100%!important}#warehouses .mobile-map-card-popover__panel{transform:scale(.7)!important;transform-origin:center!important}}
+/* ARENDASKLADA_EXACT_MAP_CARD_V56_END */
