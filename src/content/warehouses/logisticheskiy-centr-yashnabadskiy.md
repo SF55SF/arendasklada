@@ -48,7 +48,7 @@ temperature: '+15 - +25 C'
 temperatureMode: "+15 - +25 C"
 leaseType: "Стеллажная аренда"
 builtYear: 2024
-price: "12"
+price: "9"
 availableNow: true
 mapX: 68
 mapY: 43
