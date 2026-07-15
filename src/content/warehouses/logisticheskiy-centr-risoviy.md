@@ -34,7 +34,7 @@ detailFeatures:
 - '1 этаж'
 planImage: '/images/objects/object-7-plan.svg'
 mainImage: "/images/objects/object-1-main.svg"
-gallery: ["/images/objects/object-7-plan.svg","/images/objects/object-7-scheme.svg"]
+gallery: ["/images/objects/object-7-scheme.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
