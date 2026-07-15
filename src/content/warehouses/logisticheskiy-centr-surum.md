@@ -48,7 +48,7 @@ temperature: '-18°C до +25°C'
 temperatureMode: "Холодильник"
 leaseType: "Стеллажная аренда"
 builtYear: 2022
-price: "20"
+price: "9"
 availableNow: true
 mapX: 48
 mapY: 72
