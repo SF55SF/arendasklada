@@ -5567,18 +5567,21 @@ main,
 #warehouses .mobile-map-card-popover__panel{transform:none!important;transform-origin:center!important}}
 /* ARENDASKLADA_MOBILE_MAP_CONTROLS_V58_END */
 
-/* ARENDASKLADA_PALETTE_V59_START */
-:root{--reference-navy:#2F4156;--reference-navy-dark:#2F4156;--reference-background:#F5EFEB;--reference-surface:#FFFFFF;--reference-panel:#C8D9E6;--reference-text:#2F4156;--reference-muted:#567C8D;--reference-border:#C8D9E6;--reference-shadow:0 18px 48px rgba(47,65,86,.14)}
-body,main,.catalog-workspace,.catalog-map-panel,.catalog-results-panel,.contact-section{background:#F5EFEB!important}.site-header,.site-footer,footer.site-footer{background:#2F4156!important}
-.catalog-results-head h2,.catalog-results-panel .warehouse-card h3,.warehouse-object-title,.warehouse-object-section-head h2,.contact-section h2,.contact-section h3{color:#2F4156!important}.catalog-summary,.catalog-results-panel .warehouse-card-location,.warehouse-card-specs dt,.warehouse-object-general-grid dt,.contact-section .eyebrow{color:#567C8D!important}
-.catalog-results-panel .warehouse-card,.toolbar-filter summary,.catalog-search,.contact-section .lead-form,.contact-card,.warehouse-object-general,.warehouse-object-general-grid>div{background:#fff!important;border-color:#C8D9E6!important}.contact-section .lead-form input,.contact-section .lead-form textarea{background:#fff!important;border-color:#C8D9E6!important;color:#2F4156!important}
-.catalog-results-panel .warehouse-card-specs,.warehouse-object-general-grid>div{background:rgba(200,217,230,.55)!important}.toolbar-filter[open] summary{background:#2F4156!important;border-color:#2F4156!important;color:#fff!important}
-.market-stats,.market-stats__grid,.market-stat{background:#F5EFEB!important;color:#2F4156!important}.market-stat{border-color:#C8D9E6!important}.market-stat__kicker,.market-stat p{color:#567C8D!important}.market-stat__value,.market-stat__value strong,.market-stat__value span{color:#2F4156!important}
-.reference-hero h1.reference-hero__title-static{color:#2F4156!important}.catalog-map-heading{background:rgba(255,255,255,.94)!important;color:#2F4156!important;border-color:#C8D9E6!important}
-/* ARENDASKLADA_PALETTE_V59_END */
+
 
 /* ARENDASKLADA_MOBILE_MAP_FRAME_CARD_V60_START */
 @media(max-width:820px){#warehouses .catalog-map-panel{height:100svh!important;min-height:100svh!important;padding:5svh 5vw!important;background:var(--reference-background,#F5EFEB)!important;box-sizing:border-box!important}#warehouses .catalog-static-map,#warehouses [data-yandex-map]{width:100%!important;height:100%!important;min-height:0!important;border:2px solid var(--reference-border,#C8D9E6)!important;border-radius:12px!important;box-sizing:border-box!important;overflow:hidden!important}
 #warehouses .catalog-map-heading{top:calc(5svh + 14px)!important;left:calc(5vw + 14px)!important}#warehouses .map-use-label{right:calc(5vw + 14px)!important;bottom:calc(5svh + 14px)!important}#warehouses .map-reset-view{display:none!important}.mobile-map-card-popover{align-items:center!important;justify-items:center!important;padding:12px!important}
 .mobile-map-card-popover__panel{width:calc((100vw - 24px)/2)!important;height:calc((100svh - 8px)/2)!important;max-height:none!important;margin:0!important;padding:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important;transform:none!important}.mobile-map-card-popover__slot.warehouse-list{display:block!important;width:100%!important;height:100%!important}.mobile-map-card-popover__slot.warehouse-list>.warehouse-card{width:100%!important;height:100%!important}}
 /* ARENDASKLADA_MOBILE_MAP_FRAME_CARD_V60_END */
+
+/* ARENDASKLADA_PALETTE_V61_START */
+:root{--reference-navy:#28374A;--reference-navy-dark:#202C3B;--reference-background:#D3C7AD;--reference-surface:#F7F2E8;--reference-panel:#6B6751;--reference-text:#28374A;--reference-muted:#6B6751;--reference-border:#B9AD94;--reference-shadow:0 18px 48px rgba(40,55,74,.16)}
+body,main,.catalog-workspace,.catalog-map-panel,.catalog-results-panel,.contact-section{background:#D3C7AD!important}.site-header,.site-footer,footer.site-footer{background:#28374A!important}
+.catalog-results-head h2,.catalog-results-panel .warehouse-card h3,.warehouse-object-title,.warehouse-object-section-head h2,.contact-section h2,.contact-section h3{color:#28374A!important}.catalog-summary,.warehouse-card-location,.warehouse-card-specs dt,.warehouse-object-general-grid dt{color:#6B6751!important}
+.eyebrow,.market-stat__kicker,.contact-section .eyebrow{color:#754437!important}.catalog-results-panel .warehouse-card,.toolbar-filter summary,.catalog-search,.contact-section .lead-form,.contact-card,.warehouse-object-general,.warehouse-object-general-grid>div{background:#F7F2E8!important;border-color:#B9AD94!important}
+.contact-section .lead-form input,.contact-section .lead-form textarea{background:#fff!important;border-color:#B9AD94!important;color:#28374A!important}.catalog-results-panel .warehouse-card-specs,.warehouse-object-general-grid>div{background:rgba(107,103,81,.14)!important}
+.toolbar-filter summary:hover{background:#E5DDCA!important}.toolbar-filter[open] summary{background:#28374A!important;border-color:#28374A!important;color:#fff!important}.market-stats,.market-stats__grid,.market-stat{background:#F7F2E8!important;color:#28374A!important}
+.market-stat{border-color:#B9AD94!important}.market-stat p{color:#6B6751!important}.market-stat__value,.market-stat__value strong,.market-stat__value span{color:#28374A!important}.catalog-map-heading{background:rgba(247,242,232,.96)!important;color:#28374A!important;border-color:#B9AD94!important}
+.reference-hero h1.reference-hero__title-static{color:#28374A!important}.reference-hero__overlay{background:linear-gradient(90deg,rgba(40,55,74,.5) 0%,rgba(40,55,74,.12) 55%,rgba(40,55,74,.04) 100%)!important}
+/* ARENDASKLADA_PALETTE_V61_END */
