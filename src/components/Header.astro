@@ -5,6 +5,7 @@ import { homePath, relativePath, resolveNavHref } from '../lib/paths';
 const currentPath = Astro.url.pathname;
 const logoHref = homePath(currentPath);
 const logoMark = relativePath("/logo-mark.svg", currentPath);
+const telegramContactIcon = relativePath("/telegram-contact.svg", currentPath);
 ---
 
 <header class="site-header">
@@ -29,17 +30,17 @@ const logoMark = relativePath("/logo-mark.svg", currentPath);
   </div>
 
   <div class="mobile-header-actions">
-    <button
+    <!-- ARENDASKLADA_TELEGRAM_HEADER_START -->
+    <a
       class="mobile-contact-button"
-      type="button"
-      aria-label="Показать контакты"
-      aria-expanded="false"
-      aria-controls="mobile-contact-popover"
+      href="https://t.me/sanjar_saymatov_cmwp"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Написать в Telegram"
     >
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M6.7 3.8c.4-.4 1-.5 1.5-.2l2.1 1.2c.5.3.7.9.5 1.4l-.9 2c-.2.5-.1 1 .2 1.4l1.8 1.9 1.9 1.8c.4.3.9.4 1.4.2l2-.9c.5-.2 1.1 0 1.4.5l1.2 2.1c.3.5.2 1.1-.2 1.5l-1 1c-.8.8-2 1.1-3.1.8-2.6-.7-5.1-2.2-7.4-4.5S4.3 9.2 3.6 6.6c-.3-1.1 0-2.3.8-3.1l1-1Z" />
-      </svg>
-    </button>
+      <img src={telegramContactIcon} alt="" width="34" height="34" />
+    </a>
+    <!-- ARENDASKLADA_TELEGRAM_HEADER_END -->
 
     <button
       class="menu-button"
@@ -54,13 +55,4 @@ const logoMark = relativePath("/logo-mark.svg", currentPath);
     </button>
   </div>
 
-  <div id="mobile-contact-popover" class="mobile-contact-popover" aria-label="Быстрые контакты">
-    <strong>Связаться с нами</strong>
-    <!-- ARENDASKLADA_MARKER_CONTACT_PHONE: replace phone when final contact is ready. -->
-    <a href="tel:+998505906059">+998 50 590 60 59</a>
-    <!-- ARENDASKLADA_MARKER_CONTACT_EMAIL: replace email when mailbox is connected. -->
-    <a href="mailto:sanjar.saimatov@cmwp.uz">sanjar.saimatov@cmwp.uz</a>
-    <!-- ARENDASKLADA_MARKER_TELEGRAM: replace Telegram link. -->
-    <a href="https://t.me/sanjar_saymatov_cmwp" target="_blank" rel="noopener noreferrer">Telegram</a>
-  </div>
 </header>

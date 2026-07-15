@@ -5306,3 +5306,90 @@ main,
   background: #f1ece1 !important;
 }
 /* ARENDASKLADA_SOFT_MAIN_BACKGROUND_V31_END */
+
+/* ARENDASKLADA_TELEGRAM_HEADER_ICON_START */
+.mobile-contact-button {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-decoration: none;
+}
+
+.mobile-contact-button img {
+  display: block;
+  width: 34px;
+  height: 34px;
+}
+
+.mobile-contact-button:hover,
+.mobile-contact-button:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+}
+/* ARENDASKLADA_TELEGRAM_HEADER_ICON_END */
+
+/* ARENDASKLADA_HOME_VIEWPORT_FIT_V32_START */
+@media (min-width: 1200px) {
+  :root {
+    --as-home-header-height: 72px;
+    --as-home-stats-height: clamp(112px, 18svh, 170px);
+  }
+
+  .reference-hero {
+    height: clamp(320px, calc(100svh - var(--as-home-header-height) - var(--as-home-stats-height)), 760px) !important;
+    min-height: clamp(320px, calc(100svh - var(--as-home-header-height) - var(--as-home-stats-height)), 760px) !important;
+    max-height: 760px !important;
+  }
+
+  .reference-hero h1.reference-hero__title-static {
+    top: clamp(44px, 14svh, 118px) !important;
+    right: clamp(28px, 10vw, 168px) !important;
+    font-size: clamp(48px, min(6.7vw, 11svh), 104px) !important;
+    line-height: .94 !important;
+    translate: 0 0 !important;
+  }
+
+  .reference-hero__button--corner {
+    min-width: clamp(176px, 18.4vw, 272px) !important;
+    min-height: clamp(44px, 6svh, 53px) !important;
+    padding: clamp(10px, 1.5svh, 13px) 27px clamp(10px, 1.5svh, 13px) 43px !important;
+    font-size: clamp(13px, min(1.08vw, 2svh), 16px) !important;
+  }
+
+  .market-stats {
+    height: var(--as-home-stats-height) !important;
+    min-height: var(--as-home-stats-height) !important;
+    max-height: var(--as-home-stats-height) !important;
+  }
+
+  .market-stats__grid {
+    height: calc(var(--as-home-stats-height) - 8px) !important;
+    min-height: 0 !important;
+  }
+
+  .market-stat {
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: clamp(13px, 2.8svh, 27px) clamp(18px, 3vw, 58px) clamp(12px, 2.5svh, 25px) !important;
+  }
+
+  .market-stat__kicker {
+    margin-bottom: clamp(5px, 1.1svh, 11px) !important;
+    font-size: clamp(10px, 1.45svh, 13px) !important;
+  }
+
+  .market-stat__value strong {
+    font-size: clamp(30px, min(3vw, 6.2svh), 58px) !important;
+  }
+
+  .market-stat__value span {
+    font-size: clamp(12px, min(1.2vw, 2.2svh), 20px) !important;
+  }
+
+  .market-stat p {
+    margin-top: clamp(5px, 1.2svh, 12px) !important;
+    font-size: clamp(12px, 1.8svh, 16px) !important;
+    line-height: 1.2 !important;
+  }
+}
+/* ARENDASKLADA_HOME_VIEWPORT_FIT_V32_END */

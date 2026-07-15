@@ -19,7 +19,6 @@ const favicon48 = relativePath('/favicon-48x48.png', currentPath);
 const favicon192 = relativePath('/favicon-192x192.png', currentPath);
 const appleTouchIcon = relativePath('/apple-touch-icon.png', currentPath);
 const faviconIco = relativePath('/favicon.ico', currentPath);
-const faviconSvg = relativePath('/favicon.svg', currentPath);
 const manifest = relativePath('/site.webmanifest', currentPath);
 
 const warehouses = await getPublishedWarehouses();
@@ -115,38 +114,13 @@ const structuredData = {
       rel="stylesheet"
     />
 
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="48x48"
-      href={favicon48}
-    />
-
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href={favicon192}
-    />
-
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href={appleTouchIcon}
-    />
-
-    <link
-      rel="shortcut icon"
-      href={faviconIco}
-    />
-
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href={faviconSvg}
-    />
-
+    <!-- ARENDASKLADA_FAVICON_SEARCH_START -->
+    <link rel="icon" href={faviconIco} sizes="any" />
+    <link rel="icon" type="image/png" sizes="48x48" href={favicon48} />
+    <link rel="icon" type="image/png" sizes="192x192" href={favicon192} />
+    <link rel="apple-touch-icon" sizes="180x180" href={appleTouchIcon} />
     <link rel="manifest" href={manifest} />
+    <!-- ARENDASKLADA_FAVICON_SEARCH_END -->
 
     <script
       type="application/ld+json"

@@ -15,6 +15,7 @@ export async function getStaticPaths() {
 const { warehouse } = Astro.props as { warehouse: CollectionEntry<'warehouses'> };
 const data = warehouse.data;
 const currentPath = Astro.url.pathname;
+const telegramContactIcon = relativePath("/telegram-contact.svg", currentPath);
 const canonical = absoluteUrl(`/${data.pageSlug}/`);
 const title = data.title.replace(/^Логистический центр\s*[—-]\s*/i, '');
 const mainImage = relativePath(data.mainImage, currentPath);
@@ -84,9 +85,7 @@ const photos = gallery.filter((image) => image && image !== mainImage).slice(0, 
             <a class="ir-cta" href={homeAnchor('contacts', currentPath)}>Получить предложение</a>
             <!-- DETAIL_TELEGRAM_CONTACT_START -->
             <a class="ir-summary-contact" href="https://t.me/sanjar_saymatov_cmwp" target="_blank" rel="noopener noreferrer" aria-label="Связаться в Telegram">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M6.7 3.8c.4-.4 1-.5 1.5-.2l2.1 1.2c.5.3.7.9.5 1.4l-.9 2c-.2.5-.1 1 .2 1.4l1.8 1.9 1.9 1.8c.4.3.9.4 1.4.2l2-.9c.5-.2 1.1 0 1.4.5l1.2 2.1c.3.5.2 1.1-.2 1.5l-1 1c-.8.8-2 1.1-3.1.8-2.6-.7-5.1-2.2-7.4-4.5S4.3 9.2 3.6 6.6c-.3-1.1 0-2.3.8-3.1l1-1Z" />
-              </svg>
+              <img src={telegramContactIcon} alt="" width="52" height="52" />
             </a>
             <!-- DETAIL_TELEGRAM_CONTACT_END -->
           </aside>
@@ -246,13 +245,13 @@ html:has(.ir-page),body:has(.ir-page){background:#fff!important;color:#111!impor
 @media (max-width:1050px){.ir-lead,.ir-grid{grid-template-columns:1fr!important}.ir-main,.ir-main img{min-height:360px!important}}
 @media (max-width:720px){.ir-wrap{width:min(100% - 24px,1440px)!important}.ir-hero{padding:22px 0 34px!important}.ir-title h1{font-size:44px!important}.ir-main,.ir-main img{min-height:280px!important}.ir-summary{padding:22px 18px!important}.ir-grid{gap:18px!important}.ir-map iframe{min-height:320px!important}.ir-gallery>div{grid-template-columns:1fr!important}.ir-gallery button,.ir-gallery img{min-height:220px!important}}
 /* DETAIL_TELEGRAM_CONTACT_STYLES_START */
-.ir-summary-contact{display:grid;place-items:center;width:64px;height:64px;margin:28px auto 0;border-radius:50%;background:#ffc400;color:#111;text-decoration:none;transition:transform .18s ease,filter .18s ease}
+.ir-summary-contact{display:grid;place-items:center;width:64px;height:64px;margin:28px auto 0;border-radius:50%;background:transparent;color:#111;text-decoration:none;transition:transform .18s ease,filter .18s ease}
 .ir-summary-contact:hover{transform:translateY(-2px);filter:brightness(.96)}
 .ir-summary-contact:focus-visible{outline:3px solid #111;outline-offset:4px}
-.ir-summary-contact svg{width:28px;height:28px;fill:currentColor}
+.ir-summary-contact img{display:block;width:52px;height:52px}
 .ir-hero{padding-bottom:0!important}
 .ir-body{padding-top:30px!important}
-@media(max-width:720px){.ir-summary-contact{width:58px;height:58px;margin-top:22px}.ir-body{padding-top:30px!important}}
+@media(max-width:720px){.ir-summary-contact{width:58px;height:58px;margin-top:22px}.ir-summary-contact img{width:48px;height:48px}.ir-body{padding-top:30px!important}}
 /* DETAIL_TELEGRAM_CONTACT_STYLES_END */
 </style>
 <!-- DETAIL_MODERN_V21_END -->
