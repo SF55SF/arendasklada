@@ -5597,3 +5597,7 @@ body,main,.catalog-workspace,.catalog-map-panel,.catalog-results-panel,.contact-
 /* ARENDASKLADA_STATS_RED_LINES_V64_START */
 .market-stats{border-top:4px solid var(--reference-burgundy)!important;border-bottom:4px solid var(--reference-burgundy)!important}
 /* ARENDASKLADA_STATS_RED_LINES_V64_END */
+
+/* ARENDASKLADA_FOOTER_ALIGN_V65_START */
+@media(min-width:821px){.site-footer .site-footer__top,.site-footer .footer-top,.site-footer .site-footer__inner,.site-footer .footer__inner,.site-footer .footer-inner,.site-footer>.container{align-items:center!important}.site-footer .site-footer__bottom,.site-footer .footer-bottom{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;column-gap:24px!important}.site-footer .site-footer__inner>*,.site-footer .footer__inner>*,.site-footer .footer-inner>*,.site-footer>.container>*{align-self:center!important}.site-footer nav,.site-footer .site-footer__nav,.site-footer .footer-nav{display:flex!important;align-items:center!important;justify-content:center!important}.site-footer .site-footer__contacts,.site-footer .footer-contacts,.site-footer .site-footer__meta{display:flex!important;flex-direction:column!important;justify-content:center!important}.site-footer p,.site-footer .site-footer__note,.site-footer .footer-note,.site-footer .site-footer__copy,.site-footer .footer-copy{margin-top:0!important;margin-bottom:0!important}}
+/* ARENDASKLADA_FOOTER_ALIGN_V65_END */
