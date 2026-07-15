@@ -32,7 +32,7 @@ detailFeatures:
 - 'Охлаждение и отопление'
 - 'Антипылевые полы'
 - 'BREEAM'
-planImage: "/images/objects/object-2-plan.svg"
+planImage: "/images/objects/object-1-plan.svg"
 mainImage: "/images/objects/logisticheskiy-centr-yashnabadskiy-main.jpg"
 gallery: ["/images/objects/object-2-main.svg","/images/objects/object-2-plan.svg","/images/objects/object-2-scheme.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
