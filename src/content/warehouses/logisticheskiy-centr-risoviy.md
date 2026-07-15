@@ -33,7 +33,7 @@ detailFeatures:
 - 'WMS'
 - '1 этаж'
 planImage: '/images/objects/object-7-plan.svg'
-mainImage: '/images/objects/object-7-main.svg'
+mainImage: "/images/objects/object-1-main.svg"
 gallery:
 - '/images/objects/object-7-main.svg'
 - '/images/objects/object-7-plan.svg'
