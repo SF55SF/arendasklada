@@ -4,7 +4,7 @@ order: 3
 pageSlug: logisticheskiy-centr-surum
 block: Температурный склад, Янгихаётский район
 floor: "1"
-area: 7000
+area: 6000
 workplaces: '6 м'
 ready: "Действующий"
 warehouseLayout: 'Стеллажная аренда'
@@ -48,7 +48,7 @@ temperature: '-18°C до +25°C'
 temperatureMode: "Холодильник"
 leaseType: "Стеллажная аренда"
 builtYear: 2022
-price: "9"
+price: "12"
 availableNow: true
 mapX: 48
 mapY: 72
