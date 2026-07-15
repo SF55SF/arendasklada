@@ -1776,3 +1776,7 @@ const mapFlyoutState = { source: null, node: null, timer: 0 };
 /* ARENDASKLADA_DETAIL_MOBILE_MAP_V52_START */
 (()=>{const mobile=()=>matchMedia('(max-width:820px)').matches;const setup=()=>{if(!mobile())return;document.querySelectorAll('[data-detail-ctrl-map]').forEach((frame)=>{if(!(frame instanceof HTMLElement)||frame.dataset.mobileMapReady==='1')return;frame.dataset.mobileMapReady='1';frame.querySelectorAll('.detail-map-wheel-shield,.detail-map-ctrl-hint').forEach((node)=>node.remove());const button=document.createElement('button');button.type='button';button.className='detail-map-use-toggle';button.textContent='Управлять картой';button.addEventListener('click',()=>{const active=frame.classList.toggle('is-map-active');button.textContent=active?'Прокручивать страницу':'Управлять картой'});frame.append(button)})};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',setup,{once:true}):setup()})();
 /* ARENDASKLADA_DETAIL_MOBILE_MAP_V52_END */
+
+/* ARENDASKLADA_MOBILE_MAP_RESET_V58_START */
+addEventListener('click',e=>{const b=e.target instanceof Element?e.target.closest('.map-reset-view'):null;if(!b)return;const m=b.closest('.catalog-map-panel')?.querySelector('[data-yandex-map]'),s=m?.__arendaYandexMap;if(s?.map){const x=s.objectManager?.getBounds?.();if(x)s.map.setBounds(x,{checkZoomRange:true,zoomMargin:[70,70,110,70]})}else if(s?.leafletMap){const x=(s.leafletMarkers||[]).map(v=>v.marker.getLatLng());if(x.length)s.leafletMap.fitBounds(x,{padding:[46,46],maxZoom:13})}});
+/* ARENDASKLADA_MOBILE_MAP_RESET_V58_END */
