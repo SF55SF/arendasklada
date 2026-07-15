@@ -35,7 +35,7 @@ detailFeatures:
 - 'Полный цикл 3PL'
 planImage: '/images/objects/object-5-plan.svg'
 mainImage: "/images/objects/object-1-main.svg"
-gallery: ["/images/objects/object-5-main.svg","/images/objects/object-5-plan.svg"]
+gallery: []
 presentationFile: '/files/placeholder-presentation-1.pdf'
 region: 'Ташкент'
 city: 'Ташкент'
