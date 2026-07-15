@@ -33,7 +33,7 @@ detailFeatures:
 - 'Высота 6 м'
 - '1 этаж'
 planImage: '/images/objects/object-4-plan.svg'
-mainImage: '/images/objects/object-4-main.svg'
+mainImage: "/images/objects/object-1-main.svg"
 gallery:
 - '/images/objects/object-4-main.svg'
 - '/images/objects/object-4-plan.svg'
