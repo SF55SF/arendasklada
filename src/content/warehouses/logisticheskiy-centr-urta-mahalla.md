@@ -32,7 +32,7 @@ detailFeatures:
 - '1 этаж'
 - 'Площадь 6000 м²'
 - 'Год постройки 2020'
-planImage: "/images/objects/logisticheskiy-centr-urta-mahalla-plan.jpg"
+planImage: "/images/objects/object-1-plan.svg"
 mainImage: "/images/objects/logisticheskiy-centr-urta-mahalla-main.jpg"
 gallery: ["/images/objects/object-1-main.svg","/images/objects/object-1-plan.svg","/images/objects/object-1-scheme.svg"]
 presentationFile: '/files/placeholder-presentation-1.pdf'
