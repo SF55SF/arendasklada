@@ -52,6 +52,6 @@ price: "9"
 availableNow: true
 mapX: 38
 mapY: 48
-latitude: 41.220404
-longitude: 69.139486
+latitude: 41.202203
+longitude: 69.15039
 ---
