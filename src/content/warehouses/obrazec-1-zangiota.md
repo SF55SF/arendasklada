@@ -18,7 +18,7 @@ features: ["20 000 м²","Зангиота","Действующий"]
 detailFeatures: ["Площадь: 20 000 м²","Расположение: Зангиота","Готовность: Действующий","Ставка аренды: По запросу"]
 planImage: "/images/objects/object-1-plan.svg"
 mainImage: "/images/objects/object-1-main.svg"
-gallery: ["/images/objects/object-5-main.svg"]
+gallery: []
 presentationFile: "/files/placeholder-presentation-1.pdf"
 region: "Ташкентская область"
 city: "Зангиота"
