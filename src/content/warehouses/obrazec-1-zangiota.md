@@ -17,7 +17,7 @@ intro: "Складской объект Образец-1 площадью 20 00
 features: ["20 000 м²","Зангиота","Действующий"]
 detailFeatures: ["Площадь: 20 000 м²","Расположение: Зангиота","Готовность: Действующий","Ставка аренды: По запросу"]
 planImage: "/images/objects/object-5-plan.svg"
-mainImage: "/images/objects/object-5-main.svg"
+mainImage: "/images/objects/object-1-main.svg"
 gallery: ["/images/objects/object-5-main.svg"]
 presentationFile: "/files/placeholder-presentation-1.pdf"
 region: "Ташкентская область"
